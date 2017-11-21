@@ -1,0 +1,15 @@
+@import "../../../assets/css/base.scss";
+
+.zmiti-toast-main-ui {
+	background: rgba(0, 0, 0, .5);
+	@include pos(f);
+	top: 50%;
+	left: 50%;
+	@include transform(translate3d(-50%, 0, 0));
+	padding: 10px;
+	text-align: center;
+	color: #fff;
+	width: 50%;
+	@include br(10px);
+	z-index: 99999;
+}
