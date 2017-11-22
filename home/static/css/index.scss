@@ -81,6 +81,13 @@ input, textarea {
 .hr15{
   height: 15px;  
 }
+.wrapper {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+}
 .lv-container{
   position: relative;
   .lv-banner{
@@ -88,7 +95,9 @@ input, textarea {
   }
   .lv-pane{
     margin: -15px 0 0 0;
-    padding: 0 0 57px 0;
+  }
+  .lv-pane-index{
+    overflow: hidden;    
     .lv-pane-index-form{
       background-color: #ffffff;
       position: relative;

@@ -8,7 +8,7 @@ import {
 
 import $ from 'jquery';
 
-
+import IScroll from 'iscroll';
 
 class ZmitiHomeApp extends React.Component {
     constructor(args) {
@@ -21,107 +21,104 @@ class ZmitiHomeApp extends React.Component {
         }
     }
 
-    componentWillMount() {
-
-    }
-
-    componentDidMount() {
-        var s = this;
-        s.getStore();
-    }
-
-
-
     render() {
 
 
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="lv-banner">
-                    <img src="./assets/images/u4.jpg"/>
-                </div>             
-                <div className="lv-pane">
-                    <div className="lv-pane-index-form">
-                        <div className="lv-pane-index-formitem">
-                            <div className="lv-form-label">地区：
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-57}}>
+                    <div className="scroller">
+                        <div className="lv-banner">
+                            <img src="./assets/images/u4.jpg"/>
+                        </div>             
+                        <div className="lv-pane">
+                            <div className="lv-pane-index">
+                                <div className="lv-pane-inner">
+                                    <div className="lv-pane-index-form">
+                                        <div className="lv-pane-index-formitem">
+                                            <div className="lv-form-label">地区：
+                                            </div>
+                                            <div className="lv-form-input">
+                                                <select name="cityid" id="input_city"
+                                                    onChange={this.getcity.bind(this)}
+                                                >
+                                                    <option value={0}>-选择-</option>
+                                                </select>
+                                            </div>
+                                            <div className="clearfix"></div>
+                                        </div>
+                                        <div className="lv-pane-index-formitem">
+                                            <div className="lv-form-label">门店：
+                                            </div>
+                                            <div className="lv-form-input">
+                                                <select name="storeid" id="input_store"
+                                                    onChange={this.getstoreid.bind(this)}
+                                                >
+                                                    <option value={0}>-选择-</option>
+                                                </select>
+                                            </div>
+                                            <div className="clearfix"></div>
+                                        </div>
+                                        <div className="lv-pane-index-formitem">
+                                            <div className="lv-form-label">车型：
+                                            </div>
+                                            <div className="lv-form-input">
+                                                <select name="cartypeid" id="typeid"
+                                                    onChange={this.getcartypeid.bind(this)}
+                                                >
+                                                    <option value={0}>全部</option>
+                                                    <option value={1} >通勤车</option>
+                                                    <option value={2} >旅游车</option>
+                                                    <option value={3} >商务车</option>
+                                                    <option value={4} >公交客车</option>
+                                                </select>
+                                            </div>
+                                            <div className="clearfix"></div>
+                                        </div>
+                                        <div className="lv-pane-index-formitem">
+                                            <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
+                                        </div>
+                                    </div>
+                                    <div className="hr10"></div>
+                                    <div className="lv-pane-index-li">
+                                        <div className="lv-pane-index-li-inner">
+                                            <span className="lv-borderleft">车型浏览</span>
+                                            <span className="lv-icon-arrow"></span>
+                                        </div>
+                                    </div>
+                                    <div className="lv-pane-index-li">
+                                        <div className="lv-pane-index-li-inner">
+                                            <span className="lv-borderleft">全国门店/充电桩</span>
+                                            <span className="lv-icon-arrow"></span>
+                                        </div>
+                                    </div>
+                                    <div className="lv-h3">绿行天下，全国领先租车平台</div>
+                                    <div className="lv-pane-index-column">
+                                        <div className="lv-pane-index-column-icon">
+                                            <div className="lv-item-icon">
+                                                <img src="./assets/images/u39.jpg"/>
+                                                <div>节能环保</div>
+                                            </div>
+                                            <div className="lv-item-icon">
+                                                <img src="./assets/images/u44.jpg"/>
+                                                <div>价格低廉</div>
+                                            </div>
+                                            <div className="lv-item-icon">
+                                                <img src="./assets/images/u39.jpg"/>
+                                                <div>服务高效</div>
+                                            </div>
+                                            <div className="lv-item-icon">
+                                                <img src="./assets/images/u44.jpg"/>
+                                                <div>快捷方便</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="lv-pane-index-title"><span>关于我们</span>
+                                        <div className="lv-pane-index-title-borbot"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="lv-form-input">
-                                <select name="cityid" id="input_city"
-                                    onChange={this.getcity.bind(this)}
-                                >
-                                    <option value={0}>-选择-</option>
-                                </select>
-                            </div>
-                            <div className="clearfix"></div>
                         </div>
-                        <div className="lv-pane-index-formitem">
-                            <div className="lv-form-label">门店：
-                            </div>
-                            <div className="lv-form-input">
-                                <select name="storeid" id="input_store"
-                                    onChange={this.getstoreid.bind(this)}
-                                >
-                                    <option value={0}>-选择-</option>
-                                </select>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                        <div className="lv-pane-index-formitem">
-                            <div className="lv-form-label">车型：
-                            </div>
-                            <div className="lv-form-input">
-                                <select name="cartypeid" id="typeid"
-                                    onChange={this.getcartypeid.bind(this)}
-                                >
-                                    <option value={0}>全部</option>
-                                    <option value={1} >通勤车</option>
-                                    <option value={2} >旅游车</option>
-                                    <option value={3} >商务车</option>
-                                    <option value={4} >公交客车</option>
-                                </select>
-                            </div>
-                            <div className="clearfix"></div>
-                        </div>
-                        <div className="lv-pane-index-formitem">
-                            <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
-                        </div>
-                    </div>
-                    <div className="hr10"></div>
-                    <div className="lv-pane-index-li">
-                        <div className="lv-pane-index-li-inner">
-                            <span className="lv-borderleft">车型浏览</span>
-                            <span className="lv-icon-arrow"></span>
-                        </div>
-                    </div>
-                    <div className="lv-pane-index-li">
-                        <div className="lv-pane-index-li-inner">
-                            <span className="lv-borderleft">全国门店/充电桩</span>
-                            <span className="lv-icon-arrow"></span>
-                        </div>
-                    </div>
-                    <div className="lv-h3">绿行天下，全国领先租车平台</div>
-                    <div className="lv-pane-index-column">
-                        <div className="lv-pane-index-column-icon">
-                            <div className="lv-item-icon">
-                                <img src="./assets/images/u39.jpg"/>
-                                <div>节能环保</div>
-                            </div>
-                            <div className="lv-item-icon">
-                                <img src="./assets/images/u44.jpg"/>
-                                <div>价格低廉</div>
-                            </div>
-                            <div className="lv-item-icon">
-                                <img src="./assets/images/u39.jpg"/>
-                                <div>服务高效</div>
-                            </div>
-                            <div className="lv-item-icon">
-                                <img src="./assets/images/u44.jpg"/>
-                                <div>快捷方便</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="lv-pane-index-title"><span>关于我们</span>
-                        <div className="lv-pane-index-title-borbot"></div>
                     </div>
                 </div>
 
@@ -210,6 +207,26 @@ class ZmitiHomeApp extends React.Component {
         console.log(params,'params');
     }
 
+
+    componentWillMount() {
+
+    }
+
+    componentDidMount() {
+        this.scroll = new IScroll(this.refs['wrapper'],{
+            scrollbars:true,
+            mouseWheel: true,
+            interactiveScrollbars: true,
+            shrinkScrollbars: 'scale',
+            fadeScrollbars: true
+        });
+
+        setTimeout(()=>{
+            this.scroll.refresh();
+        },1000)
+        this.getStore();
+
+    }
 
 }
 
