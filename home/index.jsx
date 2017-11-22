@@ -16,7 +16,7 @@ class ZmitiHomeApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             cityid:'',//城市
-            storeid:'',//门店
+            storeid:0,//门店
             cartypeid:'',//车型
         }
     }
@@ -47,7 +47,9 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
-                                        <div className="lv-pane-index-formitem">
+                                        {
+                                           /*
+                                           <div className="lv-pane-index-formitem">
                                             <div className="lv-form-label">门店：
                                             </div>
                                             <div className="lv-form-input">
@@ -59,6 +61,9 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
+                                           */ 
+                                        }
+                                        
                                         <div className="lv-pane-index-formitem">
                                             <div className="lv-form-label">车型：
                                             </div>
@@ -161,8 +166,8 @@ class ZmitiHomeApp extends React.Component {
             });
             $("#input_city").change(function(){
                 var val_city=$(this).val();
-                var ipt_store = "<option value='0'>-选择-</option>";  
-                $.each(pdata,function(i,item){ 
+                var ipt_store = "<option value='0'>-选择-</option>"; 
+                /*$.each(pdata,function(i,item){ 
                     $.each(item.provincelist,function(v,city){
                         if(val_city==city.city_id){
                             $.each(city.citylist,function(k,area){
@@ -173,7 +178,7 @@ class ZmitiHomeApp extends React.Component {
                             })                   
                         }               
                     })
-                })
+                })*/
             })
         
         })
