@@ -1,0 +1,243 @@
+html, body, div, p, ul, li, ol, dl, dt, dd, header, footer, video, h1, h2, h3, h4, canvas, section, figure {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+html, body {
+  height: 100%;
+}
+body{
+  line-height: 1.75;
+}
+
+img {
+  border: none;
+  vertical-align: top;
+  width: 100%;
+  height: 100%;
+}
+
+input, textarea {
+  outline: none;
+}
+
+@mixin position($v:absolute) {
+  position: $v;
+}
+
+@mixin opacity($v:0) {
+  opacity: $v;
+}
+
+@mixin displayFlex($val:column){
+  display: flex;
+  display: -webkit-flex;
+  flex-flow: $val;
+}
+@mixin boxsizing($v:border-box){
+  box-sizing:$v;
+  -webkit-box-sizing:$v;
+}
+@mixin radius($v:5px){
+  border-radius: $v;
+  -webkit-border-radius: $v;
+}
+@mixin flexitem($v:4) { 
+  -webkit-flex-grow: $v; 
+  flex-grow: $v; 
+}
+@mixin border(){
+  border-color:rgba(229, 229, 229, 1);  
+  border-style: solid;
+}
+@mixin flexwrap(){
+  -webkit-flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
+}
+.clearfix{
+  clear: both;
+  line-height: 0;
+  height: 0;
+  font-size: 0;
+}
+.hr10,.hr15{
+  line-height: 0;
+  font-size: 0;
+  overflow: hidden;
+  clear: both;
+}
+.hr10{
+  height: 10px;  
+}
+.hr15{
+  height: 15px;  
+}
+.lv-container{
+  position: relative;
+  .lv-banner{
+    position: relative;
+  }
+  .lv-pane{
+    margin: -15px 0 0 0;
+    padding: 0 0 57px 0;
+    .lv-pane-index-form{
+      background-color: #ffffff;
+      position: relative;
+      zoom:1;
+      margin:0 15px;
+      padding:15px;
+      box-shadow: 2px 2px 1px rgba(229, 229, 229, 1);
+      border-width:1px;
+      @include border();
+      @include radius();
+    }
+  }
+
+}
+.lv-menus{
+  border-top: 1px #cccccc solid;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  background: #ffffff;
+  z-index: 1000;
+  ul{
+    display:flex;
+    li{
+      flex:1;
+      text-align: center;
+      padding-top: 8px;
+      img{
+        width:26px;
+        height:22px;
+      }
+    }
+    .lv-menus-cur{
+      color: #1AAD19;
+    }
+    .lv-menus-font{
+      height:24px;
+      line-height: 24px;
+      font-size: 32px;
+      font-size:15px;
+    }
+  }
+}
+.lv-pane-btn01{
+  background-color: #1AAD19;
+  border:none;
+  color: #ffffff;
+  text-align: center;
+  line-height: 2.5;
+  cursor: pointer;
+  @include radius(3px);
+}
+.lv-pane-index-formitem{
+  margin-bottom: 10px;
+  .lv-form-label{
+    display: inline-block;
+    color: #666666;
+    margin-right: 5px;
+  }
+  .lv-form-input{
+    display: inline-block;
+    select{
+      width:100%;
+      display: block;
+    }
+  }
+}
+.lv-borderleft{
+  border-left:2px #1AAD19 solid;
+  padding-left: 5px;
+}
+.lv-icon-arrow{
+  position: relative;
+  top:4px;
+}
+.lv-icon-arrow:after, .lv-icon-arrow:before {
+  border: 6px solid transparent;
+  border-left: 6px solid #fff;
+  width: 0;
+  height: 0;
+  position: absolute;
+  top: 0;
+  right: -12px;
+  content: ' '
+}
+
+.lv-icon-arrow:before {
+  border-left-color: #666666;
+  right: -13px;
+}
+.lv-pane-index-li{
+  color: #666666;
+  border-bottom: 1px #cccccc solid;
+  padding:10px 0 5px 0;
+  .lv-pane-index-li-inner{
+    position: relative;
+    margin:0 10px;
+    .lv-icon-arrow{
+      display: block;
+      width: 10px;
+      position: absolute;    
+      top:6px;
+      right: 10px;
+    }
+  }
+}
+.lv-h3{
+  font-size: 0.45rem;
+  font-weight: 600;
+  text-align: center;
+  color: #333333;
+  line-height: 2.5;
+}
+.lv-pane-index-column-icon{
+  color: #333333;
+  @include flexwrap();
+  .lv-item-icon{
+    width:2.5rem;
+    text-align: center;
+    img{
+      width: 60%;
+      height: auto;
+      margin: 0 auto;
+    }
+  }
+}
+.lv-pane-index-title{
+  text-align: center;
+  color: #C9C9C9;  
+  position: relative;
+  height:1rem;
+  line-height: 1rem;
+  span{
+    background: #ffffff;
+    padding:0 15px;
+    position: relative;
+    z-index: 2;
+    display: inline-block;
+  }
+  @include boxsizing();
+  .lv-pane-index-title-borbot{
+    position: absolute;
+    z-index: 1;
+    width: 80%;
+    left:10%;
+    top:0.5rem;
+    height: 0;
+    line-height: 0;
+    font-size: 0;
+    border-bottom: 1px #C9C9C9 solid;
+  }
+}
