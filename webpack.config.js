@@ -7,7 +7,7 @@ var config = {
     },
     output: {
         //publicPath: './static/js',
-        path: './static/js',
+        path: './assets/js',
         filename: "[name].js",
         chunkFilename: "[name].js"
     },

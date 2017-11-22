@@ -3,15 +3,11 @@ var webpack = require('webpack');
 var config = {
   entry: {
     'index': "./index.jsx",
-    'admin': './admin/index.jsx',
-    vendor: ['react', 'react-dom', './static/editor/froala_editor.min.js', './static/editor/align.min.js', './static/editor/colors.min.js'],
-    vendor1: ['jquery', 'iscroll'],
-    vendor2: ['echarts/lib/echarts', 'echarts/lib/chart/map'],
-
+    vendor: ['react', 'react-dom', 'jquery', 'iscroll'],
   },
   output: {
     //publicPath: './static/js',
-    path: './static/js',
+    path: './assets/js',
     filename: "[name].js",
     chunkFilename: "[name].js"
   },
@@ -32,7 +28,7 @@ var config = {
        name:"vendor",  
     }),*/
     new webpack.optimize.CommonsChunkPlugin({
-      name: ['vendor', 'vendor1', 'vendor2'],
+      name: ['vendor'],
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
