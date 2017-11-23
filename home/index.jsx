@@ -162,11 +162,11 @@ class ZmitiHomeApp extends React.Component {
                                             <div>价格低廉</div>
                                         </div>
                                         <div className="lv-item-icon">
-                                            <img src="./assets/images/u39.jpg"/>
+                                            <img src="./assets/images/index-icon1.png"/>
                                             <div>服务高效</div>
                                         </div>
                                         <div className="lv-item-icon">
-                                            <img src="./assets/images/u44.jpg"/>
+                                            <img src="./assets/images/index-icon2.png"/>
                                             <div>快捷方便</div>
                                         </div>
                                     </div>
