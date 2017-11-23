@@ -1,15 +1,13 @@
+import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
-
-
-import {
-    ZmitiPubApp
-} from '../components/public/pub.jsx'
-
+import {createForm} from 'rc-form';
+import {ZmitiPubApp} from '../components/public/pub.jsx';
+import {ZmitiPicker} from '../components/public/picker.jsx';
 import $ from 'jquery';
-
 import IScroll from 'iscroll';
-
+import { Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import { provinceLite as province } from 'antd-mobile-demo-data';
 class ZmitiHomeApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -18,12 +16,124 @@ class ZmitiHomeApp extends React.Component {
             cityid:'',//城市
             storeid:0,//门店
             cartypeid:'',//车型
+            data: [],
+		    cols: 1,
+		    pickerValue: [],
+		    asyncValue: [],
+		    sValue: ['138'],//地区
+		    tValue: ['tongqin'],//车型
+		    citydata:[
+			  [
+			    {
+			      label: '石家庄',
+			      value: '138',
+			    },
+			    {
+			      label: '武汉',
+			      value: '180',
+			    },
+			    {
+			      label: '南京',
+			      value: '220',
+			    },
+			    {
+			      label: '成都',
+			      value: '322',
+			    },
+			    {
+			      label: '贵阳',
+			      value: '111',
+			    },
+			    {
+			      label: '广州',
+			      value: '76',
+			    },
+			    {
+			      label: '海口',
+			      value: '120',
+			    },
+			    {
+			      label: '长沙',
+			      value: '197',
+			    },
+			    {
+			      label: '太原',
+			      value: '300',
+			    },
+			  ]
+			],
+			cartypedata:[
+			  [
+			    {
+			      label: '通勤车',
+			      value: 'tongqin',
+			    },
+			    {
+			      label: '旅游车',
+			      value: 'lvyou',
+			    },
+			    {
+			      label: '商务车',
+			      value: 'shangwu',
+			    },
+			    {
+			      label: '公交客车',
+			      value: 'gongjiao',
+			    },
+			  ]
+			],
+		    visible: false,
         }
     }
-
+    onClick () {
+	    setTimeout(() => {
+	      this.setState({
+	        data: province,
+	      });
+	    }, 120);
+	};
+	onPickerChange(val){
+	    console.log(val);
+	    let colNum = 1;
+	    const d = [...this.state.data];
+	    const asyncValue = [...val];
+	    if (val[0] === 'zj') {
+	      d.forEach((i) => {
+	        if (i.value === 'zj') {
+	          colNum = 2;
+	          if (!i.children) {
+	            i.children = [{
+	              value: 'zj-nb',
+	              label: '宁波',
+	            }, {
+	              value: 'zj-hz',
+	              label: '杭州',
+	            }];
+	            asyncValue.push('zj-nb');
+	          } else if (val[1] === 'zj-hz') {
+	            i.children.forEach((j) => {
+	              if (j.value === 'zj-hz') {
+	                j.children = [{
+	                  value: 'zj-hz-xh',
+	                  label: '西湖区',
+	                }];
+	                asyncValue.push('zj-hz-xh');
+	              }
+	            });
+	            colNum = 3;
+	          }
+	        }
+	      });
+	    } else {
+	      colNum = 1;
+	    }
+	    this.setState({
+	      data: d,
+	      cols: colNum,
+	      asyncValue,
+	    });
+	};
     render() {
-
-
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-57}}>
@@ -35,7 +145,10 @@ class ZmitiHomeApp extends React.Component {
                             <div className="lv-pane-index">
                                 <div className="lv-pane-inner">
                                     <div className="lv-pane-index-form">
-                                        <div className="lv-pane-index-formitem">
+                                                                                
+                                        {
+                                           /*
+                                           <div className="lv-pane-index-formitem">
                                             <div className="lv-form-label">地区：
                                             </div>
                                             <div className="lv-form-input">
@@ -47,8 +160,6 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
-                                        {
-                                           /*
                                            <div className="lv-pane-index-formitem">
                                             <div className="lv-form-label">门店：
                                             </div>
@@ -61,9 +172,6 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
-                                           */ 
-                                        }
-                                        
                                         <div className="lv-pane-index-formitem">
                                             <div className="lv-form-label">车型：
                                             </div>
@@ -80,6 +188,36 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                             <div className="clearfix"></div>
                                         </div>
+                                           */ 
+                                        }                                        
+                                        
+                                        <div>                                        	
+	                                    	<List style={{ backgroundColor: 'white' }} className="picker-list">
+	                                    		<Picker
+										          data={this.state.citydata}
+										          title="选择地区"
+										          cascade={false}
+										          extra="请选择"
+										          value={this.state.sValue}
+										          onChange={this.selectcity.bind(this)}
+										          onOk={v => this.setState({ sValue: v })}
+										        >
+										          <List.Item arrow="horizontal">地区</List.Item>
+										        </Picker>
+
+	                                    		<Picker
+										          data={this.state.cartypedata}
+										          title="选择车型"
+										          cascade={false}
+										          extra="请选择"
+										          value={this.state.tValue}
+										          onChange={this.selectcartype.bind(this)}
+										          onOk={v => this.setState({ tValue: v })}
+										        >
+										          <List.Item arrow="horizontal">车型</List.Item>
+										        </Picker>
+									        </List>
+										</div>
                                         <div className="lv-pane-index-formitem">
                                             <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
                                         </div>
@@ -118,6 +256,7 @@ class ZmitiHomeApp extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+                                     
                                     <div className="lv-pane-index-title"><span>关于我们</span>
                                         <div className="lv-pane-index-title-borbot"></div>
                                     </div>
@@ -126,7 +265,7 @@ class ZmitiHomeApp extends React.Component {
                         </div>
                     </div>
                 </div>
-
+                               
                 <div className="lv-menus">
                     <ul>
                         <li>
@@ -150,7 +289,18 @@ class ZmitiHomeApp extends React.Component {
             </div>
         )
     }
-
+    selectcity(val){
+    	console.log(val,'城市');
+    	this.setState({
+    		sValue:val,
+    	})
+    }
+    selectcartype(val){
+    	console.log(val,'车型');
+    	this.setState({
+    		tValue:val,
+    	})
+    }
     getStore(){
         var citylist = new Array();
         var arealist = new Array();

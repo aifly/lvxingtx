@@ -250,3 +250,6 @@ input, textarea {
     border-bottom: 1px #C9C9C9 solid;
   }
 }
+html:not([data-scale]) .am-list-body::before{
+  height: 0;
+}
