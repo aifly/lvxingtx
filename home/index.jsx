@@ -3,7 +3,6 @@ import './static/css/index.css';
 import React from 'react';
 import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
-import {ZmitiPicker} from '../components/public/picker.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
 import { Button,Picker, List, WhiteSpace } from 'antd-mobile';
@@ -21,7 +20,7 @@ class ZmitiHomeApp extends React.Component {
 		    pickerValue: [],
 		    asyncValue: [],
 		    sValue: ['138'],//地区
-		    tValue: ['tongqin'],//车型
+		    tValue: ['0'],//车型
 		    citydata:[
 			  [
 			    {
@@ -65,74 +64,30 @@ class ZmitiHomeApp extends React.Component {
 			cartypedata:[
 			  [
 			    {
+			      label: '全部',
+			      value: '0',
+			    },{
 			      label: '通勤车',
-			      value: 'tongqin',
+			      value: '1',
 			    },
 			    {
 			      label: '旅游车',
-			      value: 'lvyou',
+			      value: '2',
 			    },
 			    {
 			      label: '商务车',
-			      value: 'shangwu',
+			      value: '3',
 			    },
 			    {
 			      label: '公交客车',
-			      value: 'gongjiao',
+			      value: '4',
 			    },
 			  ]
 			],
 		    visible: false,
         }
-    }
-    onClick () {
-	    setTimeout(() => {
-	      this.setState({
-	        data: province,
-	      });
-	    }, 120);
-	};
-	onPickerChange(val){
-	    console.log(val);
-	    let colNum = 1;
-	    const d = [...this.state.data];
-	    const asyncValue = [...val];
-	    if (val[0] === 'zj') {
-	      d.forEach((i) => {
-	        if (i.value === 'zj') {
-	          colNum = 2;
-	          if (!i.children) {
-	            i.children = [{
-	              value: 'zj-nb',
-	              label: '宁波',
-	            }, {
-	              value: 'zj-hz',
-	              label: '杭州',
-	            }];
-	            asyncValue.push('zj-nb');
-	          } else if (val[1] === 'zj-hz') {
-	            i.children.forEach((j) => {
-	              if (j.value === 'zj-hz') {
-	                j.children = [{
-	                  value: 'zj-hz-xh',
-	                  label: '西湖区',
-	                }];
-	                asyncValue.push('zj-hz-xh');
-	              }
-	            });
-	            colNum = 3;
-	          }
-	        }
-	      });
-	    } else {
-	      colNum = 1;
-	    }
-	    this.setState({
-	      data: d,
-	      cols: colNum,
-	      asyncValue,
-	    });
-	};
+    }    
+	
     render() {
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
@@ -144,52 +99,7 @@ class ZmitiHomeApp extends React.Component {
                         <div className="lv-pane">
                             <div className="lv-pane-index">
                                 <div className="lv-pane-inner">
-                                    <div className="lv-pane-index-form">
-                                                                                
-                                        {
-                                           /*
-                                           <div className="lv-pane-index-formitem">
-                                            <div className="lv-form-label">地区：
-                                            </div>
-                                            <div className="lv-form-input">
-                                                <select name="cityid" id="input_city"
-                                                    onChange={this.getcity.bind(this)}
-                                                >
-                                                    <option value={0}>-选择-</option>
-                                                </select>
-                                            </div>
-                                            <div className="clearfix"></div>
-                                        </div>
-                                           <div className="lv-pane-index-formitem">
-                                            <div className="lv-form-label">门店：
-                                            </div>
-                                            <div className="lv-form-input">
-                                                <select name="storeid" id="input_store"
-                                                    onChange={this.getstoreid.bind(this)}
-                                                >
-                                                    <option value={0}>-选择-</option>
-                                                </select>
-                                            </div>
-                                            <div className="clearfix"></div>
-                                        </div>
-                                        <div className="lv-pane-index-formitem">
-                                            <div className="lv-form-label">车型：
-                                            </div>
-                                            <div className="lv-form-input">
-                                                <select name="cartypeid" id="typeid"
-                                                    onChange={this.getcartypeid.bind(this)}
-                                                >
-                                                    <option value={0}>全部</option>
-                                                    <option value={1} >通勤车</option>
-                                                    <option value={2} >旅游车</option>
-                                                    <option value={3} >商务车</option>
-                                                    <option value={4} >公交客车</option>
-                                                </select>
-                                            </div>
-                                            <div className="clearfix"></div>
-                                        </div>
-                                           */ 
-                                        }                                        
+                                    <div className="lv-pane-index-form">                
                                         
                                         <div>                                        	
 	                                    	<List style={{ backgroundColor: 'white' }} className="picker-list">
@@ -334,6 +244,7 @@ class ZmitiHomeApp extends React.Component {
         })
 
     }
+    /*
     getcity(e){
         var s = this;
         s.state.cityid=e.target.value;
@@ -352,12 +263,13 @@ class ZmitiHomeApp extends React.Component {
         console.log(s.state.cartypeid,'s.state.cartypeid');
         s.forceUpdate();
     }
-    gosearch(){
+    */
+    gosearch(){//去选车
         var s = this;
         var params={
-            cityid:s.state.cityid,
-            storeid:s.state.storeid,
-            cartypeid:s.state.cartypeid,
+            cityid:s.state.sValue.toString(),//城市
+            storeid:s.state.storeid,//门店
+            cartypeid:s.state.tValue.toString(),//车型
         };
         console.log(params,'params');
     }
