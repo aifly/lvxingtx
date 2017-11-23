@@ -154,7 +154,7 @@ class ZmitiCarlistApp extends React.Component {
                         renderRow={row}
                         renderSeparator={separator}
                         style={{
-                          height: this.state.height,
+                          height: this.state.height-84,
                           overflow: 'auto',
                         }}
                         pageSize={4}
