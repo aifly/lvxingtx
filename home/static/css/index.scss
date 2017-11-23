@@ -81,6 +81,10 @@ input, textarea {
 .hr15{
   height: 15px;  
 }
+.pad-tb10{
+  padding-top:10px;
+  padding-bottom:10px;
+}
 .wrapper {
     position: absolute;
     z-index: 1;
@@ -92,16 +96,23 @@ input, textarea {
   position: relative;
   .lv-banner{
     position: relative;
-  }
-  .lv-pane{
-    margin: -15px 0 0 0;
+    z-index: 1;
   }
   .lv-pane-index{
-    overflow: hidden;    
-    .lv-pane-index-form{
-      background-color: #ffffff;
+    position: relative;
+    z-index:2;
+    zoom:1;
+    top:-15px;
+    overflow: hidden; 
+    padding-top: 15px;
+    .lv-pane-index-inner{
       position: relative;
-      zoom:1;
+      background-color: #ffffff; 
+    }  
+    .lv-pane-index-form{
+      position: relative;
+      top:-15px;
+      background-color: #ffffff;
       margin:0 15px;
       padding:15px;
       box-shadow: 2px 2px 1px rgba(229, 229, 229, 1);
@@ -211,6 +222,9 @@ input, textarea {
   color: #333333;
   line-height: 2.5;
 }
+.lv-pane-index-column{
+  background-color: #ffffff;
+}
 .lv-pane-index-column-icon{
   color: #333333;
   @include flexwrap();
@@ -227,28 +241,28 @@ input, textarea {
 .lv-pane-index-title{
   text-align: center;
   color: #C9C9C9;  
-  position: relative;
-  height:1rem;
-  line-height: 1rem;
-  span{
-    background: #ffffff;
-    padding:0 15px;
-    position: relative;
-    z-index: 2;
-    display: inline-block;
-  }
   @include boxsizing();
-  .lv-pane-index-title-borbot{
-    position: absolute;
-    z-index: 1;
-    width: 80%;
-    left:10%;
-    top:0.5rem;
-    height: 0;
-    line-height: 0;
-    font-size: 0;
-    border-bottom: 1px #C9C9C9 solid;
+  .am-button-ghost{
+    color: #1AAD19;
   }
+}
+.antm-button-small {
+    font-size: 13px;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px;
+    display: inline-block;
+    border:1PX solid #1AAD19;
+    outline: 0 none;
+    color: #1AAD19;
+    border-radius: 15px;
+    text-overflow: ellipsis;
+    word-break: break-word;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+html:not([data-scale]) .am-button-ghost::before{
+  border: 1PX solid #1AAD19;
 }
 html:not([data-scale]) .am-list-body::before{
   height: 0;

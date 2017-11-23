@@ -98,7 +98,7 @@ class ZmitiHomeApp extends React.Component {
                         </div>             
                         <div className="lv-pane">
                             <div className="lv-pane-index">
-                                <div className="lv-pane-inner">
+                                <div className="lv-pane-index-inner">
                                     <div className="lv-pane-index-form">                
                                         
                                         <div>                                        	
@@ -132,45 +132,52 @@ class ZmitiHomeApp extends React.Component {
                                             <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
                                         </div>
                                     </div>
-                                    <div className="hr10"></div>
-                                    <div className="lv-pane-index-li">
-                                        <div className="lv-pane-index-li-inner">
-                                            <span className="lv-borderleft">车型浏览</span>
-                                            <span className="lv-icon-arrow"></span>
-                                        </div>
-                                    </div>
-                                    <div className="lv-pane-index-li">
-                                        <div className="lv-pane-index-li-inner">
-                                            <span className="lv-borderleft">全国门店/充电桩</span>
-                                            <span className="lv-icon-arrow"></span>
-                                        </div>
-                                    </div>
-                                    <div className="lv-h3">绿行天下，全国领先租车平台</div>
+
                                     <div className="lv-pane-index-column">
-                                        <div className="lv-pane-index-column-icon">
-                                            <div className="lv-item-icon">
-                                                <img src="./assets/images/u39.jpg"/>
-                                                <div>节能环保</div>
-                                            </div>
-                                            <div className="lv-item-icon">
-                                                <img src="./assets/images/u44.jpg"/>
-                                                <div>价格低廉</div>
-                                            </div>
-                                            <div className="lv-item-icon">
-                                                <img src="./assets/images/u39.jpg"/>
-                                                <div>服务高效</div>
-                                            </div>
-                                            <div className="lv-item-icon">
-                                                <img src="./assets/images/u44.jpg"/>
-                                                <div>快捷方便</div>
-                                            </div>
+	                                    <div className="lv-pane-index-li">
+	                                        <div className="lv-pane-index-li-inner">
+	                                            <span className="lv-borderleft">车型浏览</span>
+	                                            <span className="lv-icon-arrow"></span>
+	                                        </div>
+	                                    </div>
+	                                    <div className="lv-pane-index-li">
+	                                        <div className="lv-pane-index-li-inner">
+	                                            <span className="lv-borderleft">全国门店/充电桩</span>
+	                                            <span className="lv-icon-arrow"></span>
+	                                        </div>
+	                                    </div>
+                                    </div>
+                                                                         
+                                    
+                                </div>
+                                <div className="hr10"></div>
+                                <div className="lv-pane-index-column pad-tb10">
+                                    <div className="lv-pane-index-column-icon">
+                                        <div className="lv-item-icon">
+                                            <img src="./assets/images/u39.jpg"/>
+                                            <div>节能环保</div>
+                                        </div>
+                                        <div className="lv-item-icon">
+                                            <img src="./assets/images/u44.jpg"/>
+                                            <div>价格低廉</div>
+                                        </div>
+                                        <div className="lv-item-icon">
+                                            <img src="./assets/images/u39.jpg"/>
+                                            <div>服务高效</div>
+                                        </div>
+                                        <div className="lv-item-icon">
+                                            <img src="./assets/images/u44.jpg"/>
+                                            <div>快捷方便</div>
                                         </div>
                                     </div>
-                                     
-                                    <div className="lv-pane-index-title"><span>关于我们</span>
-                                        <div className="lv-pane-index-title-borbot"></div>
+                                    <div className="hr10"></div>
+                                    <div className="lv-pane-index-title">                                        
+                                        <a className="antm-button-small" aria-disabled="false">
+                                        	<span>关于我们</span>
+                                        </a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
