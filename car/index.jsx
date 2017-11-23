@@ -32,8 +32,8 @@ const data = [
     des: '6118EV2纯电动客车11米舒驰',
   },
 ];
-const NUM_SECTIONS = 5;
-const NUM_ROWS_PER_SECTION = 5;
+const NUM_SECTIONS = 5;//N组后加载
+const NUM_ROWS_PER_SECTION = 3;//每组个数
 let pageIndex = 0;
 
 const dataBlobs = {};
