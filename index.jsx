@@ -11,6 +11,7 @@ import {
 } from 'react-router';
 import ZmitiHomeApp from './home/index.jsx';
 import ZmitiBusApp from './bus/index.jsx';
+import ZmitiCarlistApp from './car/index.jsx';
 
 
 import $ from 'jquery';
@@ -27,6 +28,9 @@ class App extends React.Component {
 			}, {
 				path: '/bus/(id)',
 				app: ZmitiBusApp
+			}, {
+				path: '/car/(id)',
+				app: ZmitiCarlistApp
 			}
 
 		];

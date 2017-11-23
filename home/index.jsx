@@ -136,7 +136,7 @@ class ZmitiHomeApp extends React.Component {
                                     <div className="lv-pane-index-column">
 	                                    <div className="lv-pane-index-li">
 	                                        <div className="lv-pane-index-li-inner">
-	                                            <span className="lv-borderleft">车型浏览</span>
+	                                            <span className="lv-borderleft"><a href="./#/car/">车型浏览</a></span>
 	                                            <span className="lv-icon-arrow"></span>
 	                                        </div>
 	                                    </div>
