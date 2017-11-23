@@ -42,6 +42,16 @@
       height: auto;
       display: block;
     }
+    .am-segment-item{
+      color: #9ea4aa;
+      border:none;
+    }
+    .am-segment-item-selected{
+      color: #22ac38;
+      border-bottom: 1px #22ac38 solid;
+      background:none;
+      @include radius(0);
+    }
   }
   .lv-car-item{
     padding:0 10px;
