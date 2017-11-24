@@ -3,6 +3,7 @@ import './static/css/index.css';
 import React from 'react';
 import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
+import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
 import { Button,Picker, List, WhiteSpace } from 'antd-mobile';
@@ -89,6 +90,9 @@ class ZmitiHomeApp extends React.Component {
     }    
 	
     render() {
+        let tabbarProps ={
+            selectedTab: 'blueTab',
+        }
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-57}}>
@@ -183,25 +187,8 @@ class ZmitiHomeApp extends React.Component {
                     </div>
                 </div>
                                
-                <div className="lv-menus">
-                    <ul>
-                        <li>
-                            <img src="./assets/images/u61.png"/>
-                            <div className="lv-menus-font lv-menus-cur">首页</div>
-                        </li>
-                        <li>
-                            <img src="./assets/images/u66.png"/>
-                            <div className="lv-menus-font">车源</div>
-                        </li>
-                        <li>
-                            <img src="./assets/images/u73.png"/>
-                            <div className="lv-menus-font">门店</div>
-                        </li>
-                        <li>
-                            <img src="./assets/images/u76.png"/>
-                            <div className="lv-menus-font">需求</div>
-                        </li>
-                    </ul>
+                <div className="lv-menu-bar">
+                    <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
                 </div>
             </div>
         )

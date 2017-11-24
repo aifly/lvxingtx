@@ -8,13 +8,13 @@ import IScroll from 'iscroll';
 import {TabBar,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
-class ZmitiStoreApp extends React.Component {
+class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
-            selectedTab: 'greenTab',
+            selectedTab: 'yellowTab',
             hidden: false,
             fullScreen: true,
         }
@@ -31,7 +31,7 @@ class ZmitiStoreApp extends React.Component {
                         <div className="lv-pane">
                             <div className="lv-pane-store">
                                 <div className="lv-pane-store-inner">
-                                  7777
+                                  <img src="./assets/images/order.png"/>
                                     
                                 </div>
                                
@@ -154,4 +154,4 @@ class ZmitiStoreApp extends React.Component {
 
 }
 
-export default ZmitiPubApp(ZmitiStoreApp);
+export default ZmitiPubApp(ZmitiOrderApp);
