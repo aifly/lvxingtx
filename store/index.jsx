@@ -5,7 +5,7 @@ import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {TabBar,Flex, Button,Picker, List, WhiteSpace,Drawer,NavBar, Icon } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
 class ZmitiStoreApp extends React.Component {
@@ -14,16 +14,37 @@ class ZmitiStoreApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
+            dataLeftMenu:[
+              '石家庄',
+              '武汉',
+              '南京',
+              '成都',
+              '贵阳',
+              '广州',
+              '海口',
+              '长沙',
+              '太原',
+            ],
+            open: true,//默认关闭左侧菜单
             selectedTab: 'greenTab',
             hidden: false,
             fullScreen: true,
+        }
+        this.onOpenChange = (...args) => {
+          console.log(args);
+          this.setState({ open: !this.state.open });
         }
     }    
     pagelinks(pageText) {
         window.location=pageText;
     }
     render() {
-
+        const sidebar = (<List>
+          {this.state.dataLeftMenu.map((item, index) => {
+            return (<List.Item key={index}
+            >{item}</List.Item>);
+          })}
+        </List>);
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
@@ -31,7 +52,18 @@ class ZmitiStoreApp extends React.Component {
                         <div className="lv-pane">
                             <div className="lv-pane-store">
                                 <div className="lv-pane-store-inner">
-                                  7777
+      <NavBar icon={<Icon type="ellipsis" />} onLeftClick={this.onOpenChange}>Basic</NavBar>
+      <Drawer
+        className="my-drawer"
+        style={{ minHeight: document.documentElement.clientHeight }}
+        enableDragHandle
+        contentStyle={{ color: '#A6A6A6', textAlign: 'center', paddingTop: 42 }}
+        sidebar={sidebar}
+        open={this.state.open}
+        onOpenChange={this.onOpenChange}
+      >
+        Click upper-left corner
+      </Drawer>
                                     
                                 </div>
                                
