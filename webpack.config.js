@@ -14,7 +14,9 @@ var config = {
     devServer: {
         inline: true,
         port: 4011,
-        hot: true
+        hot: true,
+		host: "192.168.0.5",
+		progress: true
     },
     externals: {
         //'react':'React',

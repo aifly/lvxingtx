@@ -50,9 +50,21 @@
     padding: 0;
   }
 }
+.lv-pane-store-inner{
+  position: relative;
+}
 .lv-menu-bar{
   position: fixed;
   width: 100%;
   left:0;
   bottom: 0;
+}
+.lv-pane-store-menu{
+  width:80px;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+.lv-pane-store-con{
+  padding: 0 0 0 90px;
 }
