@@ -65,7 +65,7 @@ class ZmitiStoreApp extends React.Component {
                 </div>
                 <TabBar
                   unselectedTintColor="#949494"
-                  tintColor="#33A3F4"
+                  tintColor="#22ac38"
                   barTintColor="white"
                   hidden={this.state.hidden}
                 >
@@ -75,13 +75,13 @@ class ZmitiStoreApp extends React.Component {
                     icon={<div style={{
                       width: '22px',
                       height: '22px',
-                      background: 'url(https://zos.alipayobjects.com/rmsportal/sifuoDUQdAFKAVcFGROC.svg) center center /  21px 21px no-repeat' }}
+                      background: 'url(./assets/images/menu-ico-1.png) center center /  21px 21px no-repeat' }}
                     />
                     }
                     selectedIcon={<div style={{
                       width: '22px',
                       height: '22px',
-                      background: 'url(https://zos.alipayobjects.com/rmsportal/iSrlOTqrKddqbOmlvUfq.svg) center center /  21px 21px no-repeat' }}
+                      background: 'url(./assets/images/menu-ico-c1.png) center center /  21px 21px no-repeat' }}
                     />
                     }
                     selected={this.state.selectedTab === 'blueTab'}
@@ -100,14 +100,14 @@ class ZmitiStoreApp extends React.Component {
                       <div style={{
                         width: '22px',
                         height: '22px',
-                        background: 'url(https://gw.alipayobjects.com/zos/rmsportal/BTSsmHkPsQSPTktcXyTV.svg) center center /  21px 21px no-repeat' }}
+                        background: 'url(./assets/images/menu-ico-2.png) center center /  21px 21px no-repeat' }}
                       />
                     }
                     selectedIcon={
                       <div style={{
                         width: '22px',
                         height: '22px',
-                        background: 'url(https://gw.alipayobjects.com/zos/rmsportal/ekLecvKBnRazVLXbWOnE.svg) center center /  21px 21px no-repeat' }}
+                        background: 'url(./assets/images/menu-ico-c2.png) center center /  21px 21px no-repeat' }}
                       />
                     }
                     title="车源"
@@ -128,14 +128,14 @@ class ZmitiStoreApp extends React.Component {
                       <div style={{
                         width: '22px',
                         height: '22px',
-                        background: 'url(https://zos.alipayobjects.com/rmsportal/psUFoAMjkCcjqtUCNPxB.svg) center center /  21px 21px no-repeat' }}
+                        background: 'url(./assets/images/menu-ico-3.png) center center /  21px 21px no-repeat' }}
                       />
                     }
                     selectedIcon={
                       <div style={{
                         width: '22px',
                         height: '22px',
-                        background: 'url(https://zos.alipayobjects.com/rmsportal/IIRLrXXrFAhXVdhMWgUI.svg) center center /  21px 21px no-repeat' }}
+                        background: 'url(./assets/images/menu-ico-c3.png) center center /  21px 21px no-repeat' }}
                       />
                     }
                     title="门店"
@@ -151,8 +151,8 @@ class ZmitiStoreApp extends React.Component {
                   </TabBar.Item>
 
                   <TabBar.Item
-                    icon={{ uri: 'https://zos.alipayobjects.com/rmsportal/asJMfBrNqpMMlVpeInPQ.svg' }}
-                    selectedIcon={{ uri: 'https://zos.alipayobjects.com/rmsportal/gjpzzcrPMkhfEqgbYvmN.svg' }}
+                    icon={{ uri: './assets/images/menu-ico-4.png' }}
+                    selectedIcon={{ uri: './assets/images/menu-ico-c4.png' }}
                     title="需求"
                     key="my"
                     selected={this.state.selectedTab === 'yellowTab'}
