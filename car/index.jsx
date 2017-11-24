@@ -18,17 +18,17 @@ function MyBody(props) {
 const data = [
   {
     img: './assets/images/car-01.png',
-    title: '舒驰YTK6118EV2纯电动客车11米舒驰',
+    title: '1舒驰YTK6118EV2纯电动客车11米舒驰',
     des: 'YTK6118EV2纯电动客车11米舒驰',
   },
   {
     img: './assets/images/car-01.png',
-    title: '纯电动客车11米舒驰',
+    title: '2纯电动客车11米舒驰',
     des: '舒驰YTK6118EV2纯电动客车11米舒驰',
   },
   {
     img: './assets/images/car-01.png',
-    title: 'YTK6118EV2纯电动客车11米舒驰',
+    title: '3YTK6118EV2纯电动客车11米舒驰',
     des: '6118EV2纯电动客车11米舒驰',
   },
 ];
@@ -75,22 +75,21 @@ class ZmitiCarlistApp extends React.Component {
             isLoading: true,
             height: document.documentElement.clientHeight * 3 / 4,
         };
-        this.onEndReached = (event) => {
-            if (this.state.isLoading && !this.state.hasMore) {
-              return;
-            }
-            console.log('reach end', event);
-            this.setState({ isLoading: true });
-            setTimeout(() => {
-              genData(++pageIndex);
-              this.setState({
-                dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
-                isLoading: false,
-              });
-            }, 1000);
-        }
     }    
-	
+	onEndReached(event){
+        if (this.state.isLoading && !this.state.hasMore) {
+          return;
+        }
+        console.log('reach end', event);
+        this.setState({ isLoading: true });
+        setTimeout(() => {
+          genData(++pageIndex);
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
+            isLoading: false,
+          });
+        }, 1000);
+    }
     render() {
         const separator = (sectionID, rowID) => (
           <div
@@ -112,13 +111,13 @@ class ZmitiCarlistApp extends React.Component {
           return (
             <div key={rowID} className="lv-car-item">              
               <div className="lv-car-item-inner">
-                <img src={obj.img} alt="" />
+                <a href="/#/carview/"><img src={obj.img} alt="" /></a>
                 <div className="lv-car-item-inner-con">
-                  <div  className="lv-car-subtitle">{obj.title}</div>
+                  <div  className="lv-car-subtitle"><a href="/#/carview/">{obj.title}</a></div>
                     <div className="lv-car-info">
                         <Flex>
                             <Flex.Item>品牌：舒驰</Flex.Item>
-                            <Flex.Item>类型：通勤车车</Flex.Item>
+                            <Flex.Item>类型：通勤车</Flex.Item>
                         </Flex>
                         <Flex>
                             <Flex.Item>续航：260KM</Flex.Item>
@@ -126,6 +125,7 @@ class ZmitiCarlistApp extends React.Component {
                         </Flex>
                     </div>
                 </div>
+                <div className="clearfix"></div>
               </div>
             </div>
           );
@@ -146,7 +146,7 @@ class ZmitiCarlistApp extends React.Component {
                         ref={el => this.lv = el}
                         dataSource={this.state.dataSource}
                         renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                          {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                          {this.state.isLoading ? '加载中...' : '加载完成'}
                         </div>)}
                         renderSectionHeader={sectionData => (
                           <div>{`Task ${sectionData.split(' ')[1]}`}</div>
@@ -161,7 +161,7 @@ class ZmitiCarlistApp extends React.Component {
                         pageSize={4}
                         onScroll={() => { console.log('scroll'); }}
                         scrollRenderAheadDistance={500}
-                        onEndReached={this.onEndReached}
+                        onEndReached={this.onEndReached.bind(this)}
                         onEndReachedThreshold={10}
                     />
                 </div>              
