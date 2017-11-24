@@ -13,7 +13,7 @@ import ZmitiHomeApp from './home/index.jsx';
 import ZmitiBusApp from './bus/index.jsx';
 import ZmitiCarlistApp from './car/index.jsx';
 import ZmitiCarviewApp from './car/view.jsx';
-
+import ZmitiStoreApp from './store/index.jsx';
 import $ from 'jquery';
 
 class App extends React.Component {
@@ -34,6 +34,9 @@ class App extends React.Component {
 			}, {
 				path: '/carview',
 				app: ZmitiCarviewApp
+			}, {
+				path: '/store',
+				app: ZmitiStoreApp
 			}
 
 		];

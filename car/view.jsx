@@ -14,13 +14,16 @@ class ZmitiCarviewApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
-            data: ['', '', ''],
+            data: [
+                './assets/images/58abb79645954.jpg',
+                './assets/images/58ae580bbe166.jpg', 
+                './assets/images/58ae580c2b2aa.jpg',
+            ],
             initialHeight: 176,
         }
     }    
     
     render() {
-        const hProp = this.state.initialHeight ? { height: this.state.initialHeight } : {};
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
@@ -35,11 +38,11 @@ class ZmitiCarviewApp extends React.Component {
                               beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
                               afterChange={index => console.log('slide to', index)}
                             >
-                              {this.state.data.map(ii => (
-                                <a href="http://www.baidu.com" key={ii} style={hProp}>
+                              {this.state.data.map((item,index) => (
+                                <a href="javascript:void(0)" key={index}>
                                   <img
-                                    src={`./assets/images/car-04.png`}
-                                    alt=""
+                                    src={item}
+                                    alt={index}
                                     onLoad={() => {
                                       window.dispatchEvent(new Event('resize'));
                                       this.setState({
@@ -140,11 +143,6 @@ class ZmitiCarviewApp extends React.Component {
         setTimeout(()=>{
             this.scroll.refresh();
         },1000);
-        setTimeout(() => {
-          this.setState({
-            data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-          });
-        }, 100);
 
     }
 
