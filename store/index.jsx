@@ -351,6 +351,7 @@ class ZmitiStoreApp extends React.Component {
     	}
     	this.forceUpdate();
 	}
+	//回调
 	onstoreValueChange (value) {
 	    //console.log(value);
 	}
