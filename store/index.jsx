@@ -107,10 +107,12 @@ class ZmitiStoreApp extends React.Component {
             	'cityname':'太原',
             	'cityid':180,
             }],
+            valuetypea:'curr',//默认选中门店
+            valuetypeb:'',
             open: true,//默认关闭左侧菜单
             selectedTab: 'greenTab',
             hidden: false,
-            fullScreen: true,
+            fullScreen: false,
         }
         this.onOpenChange = (...args) => {
           console.log(args);
@@ -141,10 +143,8 @@ class ZmitiStoreApp extends React.Component {
 	      <div
 	        key={`${sectionID}-${rowID}`}
 	        style={{
-	          backgroundColor: '#F5F5F9',
-	          height: 8,
+	          height: 10,
 	          borderTop: '1px solid #ECECED',
-	          borderBottom: '1px solid #ECECED',
 	        }}
 	      />
 	    );
@@ -183,7 +183,26 @@ class ZmitiStoreApp extends React.Component {
         </List>);
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
+            	<div className="lv-store-header">
+            		<div className="lv-store-channel-title">
+            		附件<br/>门店/充电桩
+            		</div>
+            		<div className="lv-pane-store-tabs">
+            			<div className="lv-pane-store-tabs-inner">
+            				<div className={"lv-ico-store-imga lv-ico-store-imga"+this.state.valuetypea}></div>
+            				<div className={"lv-ico-store-imgb lv-ico-store-imgb"+this.state.valuetypeb}></div>
+                		<SegmentedControl
+                			className="lv-ico-store"
+				        	values={['门店','电桩']}
+				        	tintColor={'#1AAD19'}
+				        	style={{height:36}}
+				        	onChange={this.onstoreChange.bind(this)}
+				        	onValueChange={this.onstoreValueChange.bind(this)}
+				        />
+				        </div>
+                	</div>
+            	</div>
+                <div className="wrapper lv-page-store" ref="wrapper" style={{height:this.state.mainHeight-110}}>
                     <div className="scroller">            
                         <div className="lv-pane">
                             <div className="lv-pane-store">
@@ -194,23 +213,12 @@ class ZmitiStoreApp extends React.Component {
                                 		</div>
                                 	</div>
                                     <div className="lv-pane-store-con">
-                                    	<div className="lv-pane-store-tabs">
-                                    		<SegmentedControl
-									        	values={
-									        		['门店',
-									        	 '充电桩']
-									        	}
-									        	tintColor={'#1AAD19'}
-									        	onChange={this.onstoreChange.bind(this)}
-									        	onValueChange={this.onstoreValueChange.bind(this)}
-									        />
-                                    	</div>
+                                    	
                                     	<div className="lv-pane-store-listpane">
                                     		<div className="lv-pane-store-listpane-inner">
 										      <ListView
 										        ref={el => this.lv = el}
-										        dataSource={this.state.dataSource}
-										        renderHeader={() => <span>header</span>}
+										        dataSource={this.state.dataSource}										        
 										        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
 										          {this.state.isLoading ? 'Loading...' : 'Loaded'}
 										        </div>)}
@@ -221,7 +229,7 @@ class ZmitiStoreApp extends React.Component {
 										        renderRow={row}
 										        renderSeparator={separator}
 										        style={{
-										          height: this.state.height,
+										          height: this.state.height-110,
 										          overflow: 'auto',
 										        }}
 										        pageSize={4}
@@ -333,8 +341,12 @@ class ZmitiStoreApp extends React.Component {
 	/*选择门店-充电桩*/
     onstoreChange(e){
     	if(e.nativeEvent.selectedSegmentIndex==0){
+    		this.state.valuetypea="curr";
+    		this.state.valuetypeb="";
     		console.log(e.nativeEvent.selectedSegmentIndex,'门店');
     	}else if(e.nativeEvent.selectedSegmentIndex==1){
+    		this.state.valuetypea="";
+    		this.state.valuetypeb="curr";
     		console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
     	}
     	this.forceUpdate();
