@@ -1,12 +1,11 @@
 import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
-import {createForm} from 'rc-form';
+import createForm from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
-import { provinceLite as province } from 'antd-mobile-demo-data';
+import {TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
@@ -14,6 +13,9 @@ class ZmitiOrderApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
+            username:'',
+            usermobile:'',
+            content: '',
             selectedTab: 'yellowTab',
             hidden: false,
             fullScreen: true,
@@ -23,16 +25,56 @@ class ZmitiOrderApp extends React.Component {
         window.location=pageText;
     }
     render() {
-
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
                     <div className="scroller">            
                         <div className="lv-pane">
-                            <div className="lv-pane-store">
-                                <div className="lv-pane-store-inner">
-                                  <img src="./assets/images/order.png"/>
-                                    
+                            <div className="lv-pane-order">
+                                <div className="lv-pane-order-inner">
+                                  <NavBar
+                                    mode="light"
+                                  >用车需求提交</NavBar>
+                                  <div className="hr10"></div>
+
+                                  <form>
+                                    <List>
+                                      <InputItem                                        
+                                        onChange={(value)=>{this.state.username=value;this.forceUpdate();}}
+                                        value={this.state.username}                                       
+                                        placeholder="请输入您的姓名"
+                                      >您的姓名</InputItem>
+                                      <InputItem 
+                                        onChange={(value)=>{this.state.usermobile=value;this.forceUpdate();}}
+                                        value={this.state.usermobile}
+                                        placeholder="请输入您的电话"
+                                      >
+                                        您的电话
+                                      </InputItem>
+                                      <InputItem placeholder="请输入">
+                                        需求车型
+                                      </InputItem>
+                                      <InputItem placeholder="请输入">
+                                        用车地址
+                                      </InputItem>
+
+                                      
+                                    </List>
+                                    <List renderHeader={() => '需求内容'}>
+                                      <TextareaItem                                        
+                                        onChange={(value)=>{this.state.content=value;this.forceUpdate();}}
+                                        value={this.state.content}
+                                        placeholder="请输入需求内容..."
+                                        autoHeight
+                                        labelNumber={5}
+                                      />
+                                    </List>
+                                  </form>
+                                  <div className="lv-order-btn"> 
+                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.onSubmit.bind(this)}>确认</div></div>
+                                  </div>
+                                  <div className="lv-order-telephone">咨询电话 010-8047152
+                                  </div>
                                 </div>
                                
                             </div>
@@ -151,7 +193,11 @@ class ZmitiOrderApp extends React.Component {
         },1000);
 
     }
+    onSubmit(){
+      var s = this;
+    }
 
 }
+
 
 export default ZmitiPubApp(ZmitiOrderApp);

@@ -270,3 +270,9 @@ html:not([data-scale]) .am-button-ghost::before{
 html:not([data-scale]) .am-list-body::before{
   height: 0;
 }
+.lv-menu-bar{
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  z-index: 10;
+}

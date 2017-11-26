@@ -1,2 +1,26 @@
-.lv-pane-store{position:relative}.lv-menu-bar{position:fixed;width:100%;left:0;bottom:0}
+.lv-pane-order {
+  position: relative; }
+  .lv-pane-order .lv-order-text {
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0 2px; }
+    .lv-pane-order .lv-order-text textarea {
+      resize: none;
+      width: 100%;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box; }
+  .lv-pane-order .am-list-header {
+    background-color: #ffffff;
+    color: #000;
+    font-size: 17px;
+    padding-bottom: 0; }
+
+.lv-order-btn {
+  padding: 40px;
+  font-size: 18px; }
+
+.lv-order-telephone {
+  text-align: center;
+  color: #b4b9bd; }
+
 /*# sourceMappingURL=index.css.map */

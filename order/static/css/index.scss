@@ -33,12 +33,31 @@
   flex-wrap: wrap;
 }
 
-.lv-pane-store{
+.lv-pane-order{
   position: relative;
+  
+  .lv-order-text{
+    @include boxsizing();
+    padding:0 2px;
+    textarea{
+      resize:none;
+      width: 100%;
+      @include boxsizing();
+    }
+  }
+  .am-list-header{
+    background-color: #ffffff;
+    color: #000;
+    font-size: 17px;
+    padding-bottom: 0;
+  }
+  
 }
-.lv-menu-bar{
-  position: fixed;
-  width: 100%;
-  left:0;
-  bottom: 0;
+.lv-order-btn{
+  padding: 40px;
+  font-size: 18px;
+}
+.lv-order-telephone{
+  text-align: center;
+  color: #b4b9bd;
 }
