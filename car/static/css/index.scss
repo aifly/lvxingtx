@@ -185,3 +185,77 @@
     }
   }
 }
+.lv-pane-orderview{
+  .lv-pane-orderview-inner{
+    background-color: #ffffff;
+  }
+  .lv-pane-orderview-column1{
+    .am-list-item{
+      padding-right: 15px;
+    }
+    .am-list-item .am-list-line{
+      padding-right: 0;
+    }
+    .am-list-item .am-list-thumb:first-child{
+      margin-right: 8px;
+    }
+    .am-list-item img {
+        width: 120px;
+        height: 60px;
+    }
+  }
+  
+  .lv-pane-orderview-arritem{
+    position: relative;
+    padding-left: 85px;
+    margin-bottom: 8px;
+    .lv-pane-orderview-arr-l{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 80px;
+    }
+  }
+  .lv-pane-orderview-arritem2{
+    position: relative;
+    padding-left: 115px;
+    margin-bottom: 8px;
+    .lv-pane-orderview-arr-l{
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 110px;
+    }
+  }
+  .lv-pane-orderview-arr-l{
+    color: #9ea4aa;
+  }
+  .lv-pane-orderview-arr-r{
+    color: #5b6873;
+    background-color: #f1f3f6;
+    padding: 0 0 0 5px;
+  }
+  .lv-pane-orderview-arritem:last-child{
+    margin-bottom: 0;
+  }
+}
+.lv-pane-orderview-submit{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  .lv-pane-orderview-submit-l{
+    color: #b3bec6;
+    font-size: 12px;
+    width: 58%;
+    text-align: center;
+    display: inline-block;
+  }
+  .lv-pane-orderview-submit-r{
+    background-color: #38b44c;
+    color: #ffffff;
+    font-size: 18px;
+    width: 38%;
+    text-align: center;
+    display: inline-block;
+  }
+}
