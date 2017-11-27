@@ -25,6 +25,9 @@ class ZmitiCarorderApp extends React.Component {
         super(...args);
         this.state = {
             mainHeight: document.documentElement.clientHeight,
+            cityid:'',//城市
+            storeid:0,//门店
+            cartypeid:0,//车型
             visible: false,
             username:'',
             usermobile:'',
@@ -115,7 +118,13 @@ class ZmitiCarorderApp extends React.Component {
         })
     }
     onSubmit(){
-      var s = this;
+        var s = this;
+        var params={
+            cityid:s.state.sValue.toString(),//城市
+            storeid:s.state.tValue.toString(),//门店
+            cartypeid:s.state.cartypeid,//车型
+        };
+        console.log(params,'params');
     }
     render() {
         return (
