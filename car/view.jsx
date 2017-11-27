@@ -22,11 +22,13 @@ class ZmitiCarviewApp extends React.Component {
             initialHeight: 176,
         }
     }    
-    
+    orderview(){//提交订单
+        window.location="./#/carorder/";
+    }
     render() {
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-77}}>
                     <div className="scroller">
                         <div className="lv-carview-banner">
                             <Carousel
@@ -110,14 +112,14 @@ class ZmitiCarviewApp extends React.Component {
                                         </List>
                                     </div>
                                 </div>
-                                <div className="lv-carview-btn">
-                                    <Button>我要订车</Button>
-                                </div>                                
+                                                                
                             </div>
                         </div>
                     </div>
                 </div>
-                               
+                <div className="lv-carview-btn">
+                    <Button onClick={this.orderview.bind(this)}>我要订车</Button>
+                </div>            
 
             </div>
         )
