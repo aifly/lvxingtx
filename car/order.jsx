@@ -7,19 +7,6 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
-import { district, provinceLite as province } from 'antd-mobile-demo-data';
-// 如果不是使用 List.Item 作为 children
-const CustomChildren = props => (
-  <div
-    onClick={props.onClick}
-    style={{ backgroundColor: '#fff', paddingLeft: 15 }}
-  >
-    <div className="test" style={{ display: 'flex', height: '45px', lineHeight: '45px' }}>
-      <div style={{ flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{props.children}</div>
-      <div style={{ textAlign: 'right', color: '#888', marginRight: 15 }}>{props.extra}</div>
-    </div>
-  </div>
-);
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
