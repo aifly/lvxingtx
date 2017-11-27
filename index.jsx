@@ -10,11 +10,11 @@ import {
 	browserHistory
 } from 'react-router';
 import ZmitiHomeApp from './home/index.jsx';
-import ZmitiBusApp from './bus/index.jsx';
 import ZmitiCarlistApp from './car/index.jsx';
 import ZmitiCarviewApp from './car/view.jsx';
 import ZmitiStoreApp from './store/index.jsx';
 import ZmitiOrderApp from './order/index.jsx';
+import ZmitiCarorderApp from './car/order.jsx';
 import $ from 'jquery';
 
 class App extends React.Component {
@@ -27,8 +27,8 @@ class App extends React.Component {
 				path: '/',
 				app: ZmitiHomeApp
 			}, {
-				path: '/bus/(id)',
-				app: ZmitiBusApp
+				path: '/carorder/(id)',
+				app: ZmitiCarorderApp
 			}, {
 				path: '/car/(id)',
 				app: ZmitiCarlistApp
