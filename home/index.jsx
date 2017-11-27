@@ -274,6 +274,7 @@ class ZmitiHomeApp extends React.Component {
     }
 
     componentDidMount() {
+        /*
         this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
@@ -285,6 +286,7 @@ class ZmitiHomeApp extends React.Component {
         setTimeout(()=>{
             this.scroll.refresh();
         },1000)
+        */
         this.getStore();
 
     }

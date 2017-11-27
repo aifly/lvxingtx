@@ -190,6 +190,9 @@
     background-color: #ffffff;
   }
   .lv-pane-orderview-column1{
+    .lv-pane-orderview-h2{
+      color: #5b6873;
+    }
     .am-list-item{
       padding-right: 15px;
     }
@@ -207,33 +210,37 @@
   
   .lv-pane-orderview-arritem{
     position: relative;
-    padding-left: 85px;
+    padding-left: 70px;
     margin-bottom: 8px;
+    
     .lv-pane-orderview-arr-l{
       position: absolute;
       left: 0;
       top: 0;
-      width: 80px;
+      width: 70px;
     }
   }
   .lv-pane-orderview-arritem2{
     position: relative;
-    padding-left: 115px;
+    padding-left: 100px;
     margin-bottom: 8px;
+    
     .lv-pane-orderview-arr-l{
       position: absolute;
       left: 0;
       top: 0;
-      width: 110px;
+      width: 100px;
     }
   }
   .lv-pane-orderview-arr-l{
     color: #9ea4aa;
+    font-size: 14px;
   }
   .lv-pane-orderview-arr-r{
     color: #5b6873;
     background-color: #f1f3f6;
     padding: 0 0 0 5px;
+    font-size: 12px;
   }
   .lv-pane-orderview-arritem:last-child{
     margin-bottom: 0;
@@ -243,19 +250,30 @@
   position: absolute;
   bottom: 0;
   width: 100%;
+  background-color: #ffffff;
   .lv-pane-orderview-submit-l{
     color: #b3bec6;
     font-size: 12px;
     width: 58%;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
-    display: inline-block;
+    display: block;
+    float: left;
   }
   .lv-pane-orderview-submit-r{
     background-color: #38b44c;
     color: #ffffff;
     font-size: 18px;
-    width: 38%;
+    width: 40%;
+    height: 45px;
+    line-height: 45px;
     text-align: center;
-    display: inline-block;
+    display: block;
+    float: right;
   }
+}
+.lv-pane-orderview-column2{
+  .am-list-item .am-list-line .am-list-content{color: #5b6873;}
+  .am-list-item .am-input-label{color: #5b6873;}
 }
