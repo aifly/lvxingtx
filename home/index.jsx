@@ -6,7 +6,7 @@ import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import { Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import { Button,Picker,Flex, List, WhiteSpace } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 class ZmitiHomeApp extends React.Component {
     constructor(args) {
@@ -17,9 +17,6 @@ class ZmitiHomeApp extends React.Component {
             storeid:0,//门店
             cartypeid:'',//车型
             data: [],
-		    cols: 1,
-		    pickerValue: [],
-		    asyncValue: [],
 		    sValue: ['138'],//地区
 		    tValue: ['0'],//车型
 		    citydata:[
@@ -138,18 +135,12 @@ class ZmitiHomeApp extends React.Component {
                                     </div>
 
                                     <div className="lv-pane-index-column">
-	                                    <div className="lv-pane-index-li">
-	                                        <div className="lv-pane-index-li-inner">
-	                                            <span className="lv-borderleft"><a href="./#/car/">车型浏览</a></span>
-	                                            <span className="lv-icon-arrow"></span>
-	                                        </div>
-	                                    </div>
-	                                    <div className="lv-pane-index-li">
-	                                        <div className="lv-pane-index-li-inner">
-	                                            <span className="lv-borderleft">全国门店/充电桩</span>
-	                                            <span className="lv-icon-arrow"></span>
-	                                        </div>
-	                                    </div>
+                                        <div className="lv-pane-index-list-01">
+                                            <List>
+                                                <List.Item arrow="horizontal" onClick={() => {window.location='./#/car/'}}><span className="lv-borderleft">车型浏览</span></List.Item>
+                                                <List.Item arrow="horizontal" onClick={() => {window.location='./#/store/'}}><span className="lv-borderleft">全国门店/充电桩</span></List.Item>
+                                            </List>
+                                        </div>
                                     </div>
                                                                          
                                     
@@ -157,21 +148,25 @@ class ZmitiHomeApp extends React.Component {
                                 <div className="hr10"></div>
                                 <div className="lv-pane-index-column pad-tb10">
                                     <div className="lv-pane-index-column-icon">
-                                        <div className="lv-item-icon">
-                                            <img src="./assets/images/u39.jpg"/>
-                                            <div>节能环保</div>
-                                        </div>
-                                        <div className="lv-item-icon">
-                                            <img src="./assets/images/u44.jpg"/>
-                                            <div>价格低廉</div>
-                                        </div>
-                                        <div className="lv-item-icon">
-                                            <img src="./assets/images/index-icon1.png"/>
-                                            <div>服务高效</div>
-                                        </div>
-                                        <div className="lv-item-icon">
-                                            <img src="./assets/images/index-icon2.png"/>
-                                            <div>快捷方便</div>
+                                        <div className="flex-container">
+                                            <Flex>
+                                              <Flex.Item>
+                                                <div className="lv-item-icon"><img src="./assets/images/u39.jpg"/></div>
+                                                <div>节能环保</div>
+                                              </Flex.Item>
+                                              <Flex.Item>
+                                                <div className="lv-item-icon"><img src="./assets/images/u44.jpg"/></div>
+                                                <div>价格低廉</div>
+                                              </Flex.Item>
+                                              <Flex.Item>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-icon1.png"/></div>
+                                                <div>服务高效</div>
+                                              </Flex.Item>
+                                              <Flex.Item>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-icon2.png"/></div>
+                                                <div>快捷方便</div>
+                                              </Flex.Item>
+                                            </Flex>
                                         </div>
                                     </div>
                                     <div className="hr10"></div>
