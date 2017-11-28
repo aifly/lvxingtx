@@ -188,7 +188,7 @@ class ZmitiStoreApp extends React.Component {
             <div className="lv-container" style={{height:this.state.mainHeight}}>
             	<div className="lv-store-header">
             		<div className="lv-store-channel-title">
-            		附件<br/>门店/充电桩
+            		附近<br/>门店/充电桩
             		</div>
             		<div className="lv-pane-store-tabs">
             			<div className="lv-pane-store-tabs-inner">
