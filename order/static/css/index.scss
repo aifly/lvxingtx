@@ -51,10 +51,14 @@
     font-size: 17px;
     padding-bottom: 0;
   }
+  .am-textarea-control textarea{
+    height: 60px;
+    overflow-y:auto; 
+  }
   
 }
 .lv-order-btn{
-  padding: 40px;
+  padding: 40px 40px 10px 40px;
   font-size: 18px;
 }
 .lv-order-telephone{

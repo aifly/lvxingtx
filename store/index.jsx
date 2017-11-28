@@ -176,7 +176,8 @@ class ZmitiStoreApp extends React.Component {
         const sidebar = (<List className="my-list">
           {this.state.dataLeftMenu.map((item, index) => {
             return (<List.Item key={index}
-            	onClick={() => {console.log(item.cityid,'cityid')}}
+            	onClick={() => {console.log(item.cityid,'cityid');}}
+              
             >{item.cityname}
             </List.Item>);
           })}

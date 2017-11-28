@@ -65,6 +65,9 @@
       background:none;
     }
   }
+  .am-list-item .am-list-line .am-list-content{
+    text-overflow:inherit;
+  }
 }
 .lv-pane-store-con{
   padding: 0 0 0 90px;

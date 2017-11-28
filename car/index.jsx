@@ -142,7 +142,6 @@ class ZmitiCarlistApp extends React.Component {
                         <SegmentedControl
                           values={['全部', '通勤车', '旅游车', '商务车', '物流车']}
                           onChange={this.navOnChange.bind(this)}
-                          style={{color:'#22ac38'}}
                           onValueChange={this.navOnValueChange.bind(this)}
                         />
                     </div>

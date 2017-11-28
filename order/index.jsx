@@ -1,7 +1,7 @@
 import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
-import createForm from 'rc-form';
+import { createForm } from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
@@ -17,6 +17,30 @@ class ZmitiOrderApp extends React.Component {
             usermobile:'',
             content: '',
             selectedTab: 'yellowTab',
+            tValue: ['0'],//车型
+            cartypedata:[
+              [
+                {
+                  label: '全部',
+                  value: '0',
+                },{
+                  label: '通勤车',
+                  value: '1',
+                },
+                {
+                  label: '旅游车',
+                  value: '2',
+                },
+                {
+                  label: '商务车',
+                  value: '3',
+                },
+                {
+                  label: '公交客车',
+                  value: '4',
+                },
+              ]
+            ],
             hidden: false,
             fullScreen: true,
         }
@@ -24,7 +48,14 @@ class ZmitiOrderApp extends React.Component {
     pagelinks(pageText) {
         window.location=pageText;
     }
+    selectcartype(val){
+      console.log(val,'车型');
+      this.setState({
+        tValue:val,
+      })
+    }
     render() {
+
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
@@ -44,28 +75,37 @@ class ZmitiOrderApp extends React.Component {
                                         value={this.state.username}                                       
                                         placeholder="请输入您的姓名"
                                       >您的姓名</InputItem>
+
                                       <InputItem 
+                                        type="phone"
                                         onChange={(value)=>{this.state.usermobile=value;this.forceUpdate();}}
                                         value={this.state.usermobile}
-                                        placeholder="请输入您的电话"
+                                        placeholder="请输入11位手机号码"
                                       >
                                         您的电话
-                                      </InputItem>
-                                      <InputItem placeholder="请输入">
-                                        需求车型
-                                      </InputItem>
+                                      </InputItem>                                       
+                                      
+                                      <Picker
+                                        data={this.state.cartypedata}
+                                        title="选择车型"
+                                        cascade={false}
+                                        extra="请选择"
+                                        value={this.state.tValue}
+                                        onChange={this.selectcartype.bind(this)}
+                                        onOk={v => this.setState({ tValue: v })}
+                                      >
+                                        <List.Item arrow="horizontal">需求车型</List.Item>
+                                      </Picker>
                                       <InputItem placeholder="请输入">
                                         用车地址
                                       </InputItem>
 
                                       
-                                    </List>
-                                    <List renderHeader={() => '需求内容'}>
+                                      <List.Item data-seed="logId">需求内容</List.Item>
                                       <TextareaItem                                        
                                         onChange={(value)=>{this.state.content=value;this.forceUpdate();}}
                                         value={this.state.content}
                                         placeholder="请输入需求内容..."
-                                        autoHeight
                                         labelNumber={5}
                                       />
                                     </List>
