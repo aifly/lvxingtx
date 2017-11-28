@@ -110,8 +110,6 @@ class ZmitiStoreApp extends React.Component {
             }],
             valuetypea:'curr',//默认选中门店
             valuetypeb:'',
-            open: true,//默认关闭左侧菜单
-            selectedTab: 'greenTab',
             hidden: false,
             fullScreen: false,
         }

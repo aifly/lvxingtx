@@ -3,6 +3,7 @@ import './static/css/index.css';
 import React from 'react';
 import { createForm } from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
+import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
@@ -16,7 +17,6 @@ class ZmitiOrderApp extends React.Component {
             username:'',
             usermobile:'',
             content: '',
-            selectedTab: 'yellowTab',
             tValue: ['0'],//车型
             cartypedata:[
               [
@@ -55,7 +55,9 @@ class ZmitiOrderApp extends React.Component {
       })
     }
     render() {
-
+        let tabbarProps ={
+            selectedTab: 'yellowTab',
+        }
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
@@ -122,92 +124,7 @@ class ZmitiOrderApp extends React.Component {
                     </div>
                 </div>
                 <div className="lv-menu-bar">
-                  <TabBar
-                    unselectedTintColor="#949494"
-                    tintColor="#22ac38"
-                    barTintColor="white"
-                    hidden={this.state.hidden}
-                  >
-                    <TabBar.Item
-                      title="首页"
-                      key="home"
-                      icon={<div style={{
-                        width: '22px',
-                        height: '22px',
-                        background: 'url(./assets/images/menu-ico-1.png) center center /  21px 21px no-repeat' }}
-                      />
-                      }
-                      selectedIcon={<div style={{
-                        width: '22px',
-                        height: '22px',
-                        background: 'url(./assets/images/menu-ico-c1.png) center center /  21px 21px no-repeat' }}
-                      />
-                      }
-                      selected={this.state.selectedTab === 'blueTab'}
-                      onPress={this.pagelinks.bind(this,'./#/')}
-                      data-seed="logId"
-                    >
-
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                      icon={
-                        <div style={{
-                          width: '22px',
-                          height: '22px',
-                          background: 'url(./assets/images/menu-ico-2.png) center center /  21px 21px no-repeat' }}
-                        />
-                      }
-                      selectedIcon={
-                        <div style={{
-                          width: '22px',
-                          height: '22px',
-                          background: 'url(./assets/images/menu-ico-c2.png) center center /  21px 21px no-repeat' }}
-                        />
-                      }
-                      title="车源"
-                      key="car"
-                      selected={this.state.selectedTab === 'redTab'}
-                      onPress={this.pagelinks.bind(this,'./#/car/')}
-                      data-seed="logId1"
-                    >
-
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                      icon={
-                        <div style={{
-                          width: '22px',
-                          height: '22px',
-                          background: 'url(./assets/images/menu-ico-3.png) center center /  21px 21px no-repeat' }}
-                        />
-                      }
-                      selectedIcon={
-                        <div style={{
-                          width: '22px',
-                          height: '22px',
-                          background: 'url(./assets/images/menu-ico-c3.png) center center /  21px 21px no-repeat' }}
-                        />
-                      }
-                      title="门店"
-                      key="store"
-                      selected={this.state.selectedTab === 'greenTab'}
-                      onPress={this.pagelinks.bind(this,'./#/store/')}
-                    >
-
-                    </TabBar.Item>
-
-                    <TabBar.Item
-                      icon={{ uri: './assets/images/menu-ico-4.png' }}
-                      selectedIcon={{ uri: './assets/images/menu-ico-c4.png' }}
-                      title="需求"
-                      key="order"
-                      selected={this.state.selectedTab === 'yellowTab'}
-                      onPress={this.pagelinks.bind(this,'./#/order/')}
-                    >
-
-                    </TabBar.Item>
-                  </TabBar>
+                  <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
                 </div>
             </div>
         )
