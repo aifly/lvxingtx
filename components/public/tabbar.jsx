@@ -6,7 +6,6 @@ export default class Zmitimenubar extends Component {
 		super(props);
 
 		this.state = {
-		    selectedTab: '',
 		    hidden: false,
 		    fullScreen: false,
 		};
@@ -47,7 +46,7 @@ export default class Zmitimenubar extends Component {
 	                      background: 'url(./assets/images/menu-ico-c1.png) center center /  21px 21px no-repeat' }}
 	                    />
 	                    }
-	                    selected={this.state.selectedTab === 'blueTab'}
+	                    selected={this.props.selectedTab === 'blueTab'}
 	                    onPress={this.pagelinks.bind(this,'./#/')}
 	                    data-seed="logId"
 	                  >
@@ -71,7 +70,7 @@ export default class Zmitimenubar extends Component {
 	                    }
 	                    title="车源"
 	                    key="car"
-	                    selected={this.state.selectedTab === 'redTab'}
+	                    selected={this.props.selectedTab === 'redTab'}
 	                    onPress={this.pagelinks.bind(this,'./#/car/')}
 	                    data-seed="logId1"
 	                  >
@@ -95,7 +94,7 @@ export default class Zmitimenubar extends Component {
 	                    }
 	                    title="门店"
 	                    key="store"
-	                    selected={this.state.selectedTab === 'greenTab'}
+	                    selected={this.props.selectedTab === 'greenTab'}
 	                    onPress={this.pagelinks.bind(this,'./#/store/')}
 	                  >
 
@@ -106,7 +105,7 @@ export default class Zmitimenubar extends Component {
 	                    selectedIcon={{ uri: './assets/images/menu-ico-c4.png' }}
 	                    title="需求"
 	                    key="order"
-	                    selected={this.state.selectedTab === 'yellowTab'}
+	                    selected={this.props.selectedTab === 'yellowTab'}
 	                    onPress={this.pagelinks.bind(this,'./#/order/')}
 	                  >
 
