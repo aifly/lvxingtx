@@ -33,7 +33,7 @@ const data = [
     des: '6118EV2纯电动客车11米舒驰',
   },
 ];
-const NUM_SECTIONS = 5;//N组后加载
+const NUM_SECTIONS = 5;//第*组后加载
 const NUM_ROWS_PER_SECTION = 3;//每组个数
 let pageIndex = 0;
 
@@ -78,7 +78,7 @@ class ZmitiCarlistApp extends React.Component {
             selectedTab: 'redTab',
         };
     }    
-	onEndReached(event){
+    onEndReached(event){
         if (this.state.isLoading && !this.state.hasMore) {
           return;
         }
