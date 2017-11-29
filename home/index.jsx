@@ -187,6 +187,7 @@ class ZmitiHomeApp extends React.Component {
         })
 
     }
+    //获取车型
     getdatasource(){
     	var s = this;
 

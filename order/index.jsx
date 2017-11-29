@@ -6,8 +6,9 @@ import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {Result,TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
+const H5API='http://api.ev-bluesky.com/v2/';
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -18,29 +19,13 @@ class ZmitiOrderApp extends React.Component {
             usermobile:'',
             content: '',
             tValue: ['0'],//车型
-            cartypedata:[
-              [
+            cartypedata:[[
                 {
                   label: '全部',
                   value: '0',
-                },{
-                  label: '通勤车',
-                  value: '1',
-                },
-                {
-                  label: '旅游车',
-                  value: '2',
-                },
-                {
-                  label: '商务车',
-                  value: '3',
-                },
-                {
-                  label: '公交客车',
-                  value: '4',
-                },
-              ]
-            ],
+                }
+            ]],
+            display:'none',//提交后显示
             hidden: false,
             fullScreen: true,
         }
@@ -54,6 +39,26 @@ class ZmitiOrderApp extends React.Component {
         tValue:val,
       })
     }
+
+    //获取车型
+    getdatasource(){
+      var s = this;    
+      $.ajax({
+        url:H5API+'h5/getcitylist',
+        type:'post',
+        success(data){
+          //console.log(data,'getdata');               
+          $.each(data.cartypedata,function(index,item){
+              var ii=index+1;
+              s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
+          })
+          s.forceUpdate();
+
+        }
+      })
+      s.forceUpdate();
+    }
+
     render() {
         let tabbarProps ={
             selectedTab: 'yellowTab',
@@ -117,6 +122,13 @@ class ZmitiOrderApp extends React.Component {
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
+                                  <div style={{display:this.state.display}}>
+                                    <Result
+                                      img={<Icon type="check-circle" className="spe" style={{ fill: '#1F90E6' }} />}
+                                      title="提交成功"
+                                      message="所提交内容已成功完成验证"
+                                    />
+                                  </div>
                                 </div>
                                
                             </div>
@@ -152,6 +164,7 @@ class ZmitiOrderApp extends React.Component {
             this.scroll.refresh();
         },1000);
         */
+        this.getdatasource();
 
     }
     onSubmit(){
