@@ -31,9 +31,9 @@ const data = [
     img: './assets/images/car-01.png',
     title: '3YTK6118EV2纯电动客车11米舒驰',
     des: '6118EV2纯电动客车11米舒驰',
-  },
+  }
 ];
-const NUM_SECTIONS = 5;//第*组后加载
+const NUM_SECTIONS = 3;//第*组后加载
 const NUM_ROWS_PER_SECTION = 3;//每组个数
 let pageIndex = 0;
 
@@ -285,9 +285,10 @@ class ZmitiCarlistApp extends React.Component {
             isLoading: false,
             height: hei,
           });
+
         }, 1000);
         
-
+        
     }
 
 }

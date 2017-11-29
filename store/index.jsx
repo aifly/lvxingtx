@@ -282,7 +282,7 @@ class ZmitiStoreApp extends React.Component {
     }
 
     componentDidMount() {
-        this.scroll = new IScroll(this.refs['wrapper'],{
+        /*this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
@@ -292,7 +292,7 @@ class ZmitiStoreApp extends React.Component {
 
         setTimeout(()=>{
             this.scroll.refresh();
-        },1000);
+        },1000);*/
 	    const hei = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
 	    // simulate initial Ajax
 	    setTimeout(() => {

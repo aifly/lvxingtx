@@ -125,7 +125,7 @@ class ZmitiHomeApp extends React.Component {
                                     </div>
                                     <div className="hr10"></div>
                                     <div className="lv-pane-index-title">                                        
-                                        <a className="antm-button-small" aria-disabled="false">
+                                        <a href="./#/about/" className="antm-button-small" aria-disabled="false">
                                         	<span>关于我们</span>
                                         </a>
                                     </div>
