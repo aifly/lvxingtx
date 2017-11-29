@@ -8,80 +8,33 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import { Button,Picker,Flex, List, WhiteSpace } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
+const H5API='http://api.ev-bluesky.com/v2/';
 class ZmitiHomeApp extends React.Component {
     constructor(args) {
         super(...args);
         this.state = {
             mainHeight: document.documentElement.clientHeight,
+            cols: 1,
             cityid:'',//城市
             storeid:0,//门店
             cartypeid:'',//车型
             data: [],
-		    sValue: ['138'],//地区
+		    sValue: ['0'],//地区
 		    tValue: ['0'],//车型
 		    citydata:[
 			  [
 			    {
-			      label: '石家庄',
-			      value: '138',
-			    },
-			    {
-			      label: '武汉',
-			      value: '180',
-			    },
-			    {
-			      label: '南京',
-			      value: '220',
-			    },
-			    {
-			      label: '成都',
-			      value: '322',
-			    },
-			    {
-			      label: '贵阳',
-			      value: '111',
-			    },
-			    {
-			      label: '广州',
-			      value: '76',
-			    },
-			    {
-			      label: '海口',
-			      value: '120',
-			    },
-			    {
-			      label: '长沙',
-			      value: '197',
-			    },
-			    {
-			      label: '太原',
-			      value: '300',
+			      label: '全部',
+			      value: '0',
 			    },
 			  ]
 			],
-			cartypedata:[
-			  [
+			cartypedata:[[
 			    {
 			      label: '全部',
 			      value: '0',
-			    },{
-			      label: '通勤车',
-			      value: '1',
-			    },
-			    {
-			      label: '旅游车',
-			      value: '2',
-			    },
-			    {
-			      label: '商务车',
-			      value: '3',
-			    },
-			    {
-			      label: '公交客车',
-			      value: '4',
-			    },
-			  ]
-			],
+			    }
+			]],
 		    visible: false,
         }
     }    
@@ -118,6 +71,7 @@ class ZmitiHomeApp extends React.Component {
 
 	                                    		<Picker
 										          data={this.state.cartypedata}
+                                                  cols={1}
 										          title="选择车型"
 										          cascade={false}
 										          extra="请选择"
@@ -233,6 +187,31 @@ class ZmitiHomeApp extends React.Component {
         })
 
     }
+    getdatasource(){
+    	var s = this;
+
+		
+    	$.ajax({
+    		url:H5API+'h5/getcitylist',
+    		type:'post',
+    		success(data){
+    			//console.log(data,'getdata');               
+                $.each(data.cartypedata,function(index,item){
+                    var ii=index+1;
+                    s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
+                })
+                
+                $.each(data.citydata,function(index,item){
+                    var mm=index+1;
+                    s.state.citydata[0][mm]={'label':item.label , 'value':String(item.value)};
+                })
+                //console.log(s.state.citydata,'s.state.citydata');
+                s.forceUpdate();
+
+    		}
+    	})
+    	s.forceUpdate();
+    }
     /*
     getcity(e){
         var s = this;
@@ -269,6 +248,7 @@ class ZmitiHomeApp extends React.Component {
     }
 
     componentDidMount() {
+    	var s = this;
         /*
         this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
@@ -282,7 +262,8 @@ class ZmitiHomeApp extends React.Component {
             this.scroll.refresh();
         },1000)
         */
-        this.getStore();
+        s.getdatasource();
+        s.forceUpdate();
 
     }
 
