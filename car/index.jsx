@@ -7,6 +7,7 @@ import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
+const H5API='http://api.ev-bluesky.com/v2/';
 function MyBody(props) {
   return (
     <div className="am-list-body my-body">
@@ -113,9 +114,9 @@ class ZmitiCarlistApp extends React.Component {
           return (
             <div key={rowID} className="lv-car-item">              
               <div className="lv-car-item-inner">
-                <a href="/#/carview/"><img src={obj.img} alt="" /></a>
+                <a href="./#/carview/"><img src={obj.img} alt="" /></a>
                 <div className="lv-car-item-inner-con">
-                  <div  className="lv-car-subtitle"><a href="/#/carview/">{obj.title}</a></div>
+                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.title}</a></div>
                     <div className="lv-car-info">
                         <Flex>
                             <Flex.Item>品牌：舒驰</Flex.Item>
@@ -287,8 +288,37 @@ class ZmitiCarlistApp extends React.Component {
           });
 
         }, 1000);
-        
-        
+        this.getdatasource();
+
+    }
+    //获取数据
+    getdatasource(){
+      var s = this;
+
+    
+      $.ajax({
+        url:H5API+'h5/getcarlist',
+        type:'post',
+        data:{
+          page:0,
+          pagenum:10,
+          cartypeid:0,
+        },
+        success(data){
+          console.log(data,'getdata'); 
+          var carlist=data.carlist;             
+                /*$.each(data.cartypedata,function(index,item){
+                    var ii=index+1;
+                    s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
+                })*/
+                
+                
+                //console.log(s.state.citydata,'s.state.citydata');
+                s.forceUpdate();
+
+        }
+      })
+      s.forceUpdate();
     }
 
 }
