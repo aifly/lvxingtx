@@ -5,8 +5,7 @@ import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {Carousel,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
-import { provinceLite as province } from 'antd-mobile-demo-data';
+import {NavBar, Icon,Carousel,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 class ZmitiCarviewApp extends React.Component {
     constructor(args) {
@@ -28,7 +27,14 @@ class ZmitiCarviewApp extends React.Component {
     render() {
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-77}}>
+                <div className="lv-top-navbar">
+                    <NavBar
+                      mode="light"
+                      icon={<Icon type="left" />}
+                      onLeftClick={this.goback.bind(this)}
+                    >车源详情</NavBar>
+                </div>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-122}}>
                     <div className="scroller">
                         <div className="lv-carview-banner">
                             <Carousel
@@ -126,7 +132,9 @@ class ZmitiCarviewApp extends React.Component {
     }
 
 
-
+    goback(){
+        history.go(-1);
+    }
 
 
     componentWillMount() {
