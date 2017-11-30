@@ -18,6 +18,8 @@ class ZmitiOrderApp extends React.Component {
             modal1: false,
             username:'',
             usermobile:'',
+            typeid:0,
+            cityname:'',
             content: '',
             tValue: ['0'],//车型
             cartypedata:[[
@@ -80,7 +82,25 @@ class ZmitiOrderApp extends React.Component {
     onSubmit(e){
       var s = this;
       e.preventDefault(); 
-      s.showModal();//打开弹窗
+      $.ajax({
+        url:H5API+'h5/saveuserneed',
+        type:'post',
+        data:{
+          username:s.state.username,
+          usermobile:s.state.usermobile,
+          typeid:String(s.state.tValue),
+          cityname:s.state.cityname,
+          content: s.state.content,
+        },
+        success(result){
+          
+          if(result.getmsg==='提交用车需求成功'){
+            //console.log(result,'提交后显示');
+            s.showModal();//打开弹窗
+          }
+        }
+      })
+      
     }
 
     render() {
@@ -127,7 +147,10 @@ class ZmitiOrderApp extends React.Component {
                                       >
                                         <List.Item arrow="horizontal">需求车型</List.Item>
                                       </Picker>
-                                      <InputItem placeholder="请输入">
+                                      <InputItem placeholder="请输入"
+                                        onChange={(value)=>{this.state.cityname=value;this.forceUpdate();}}
+                                        value={this.state.cityname}
+                                      >
                                         用车地址
                                       </InputItem>
 
