@@ -8,23 +8,7 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
-const data = [
-  {
-    img: './assets/images/car-01.png',
-    title: '1舒驰YTK6118EV2纯电动客车11米舒驰',
-    des: 'YTK6118EV2纯电动客车11米舒驰',
-  },
-  {
-    img: './assets/images/car-01.png',
-    title: '2纯电动客车11米舒驰',
-    des: '舒驰YTK6118EV2纯电动客车11米舒驰',
-  },
-  {
-    img: './assets/images/car-01.png',
-    title: '舒驰YTK6118EV2纯电动客车11米舒驰',
-    des: '6118EV2纯电动客车11米舒驰',
-  },
-];
+const WebSite='http://www.ev-bluesky.com/';
 const NUM_ROWS = 20;
 let pageIndex = 0;
 
@@ -46,6 +30,20 @@ class ZmitiCarlistApp extends React.Component {
             mainHeight: document.documentElement.clientHeight,
             dataSource,
             isLoading: true,
+            data: [
+              {
+                path: './assets/images/car-01.png',
+                carname: '7舒驰YTK6118EV2纯电动客车11米舒驰',
+              },
+              {
+                path: './assets/images/car-01.png',
+                carname: '8纯电动客车11米舒驰',
+              },
+              {
+                path: './assets/images/car-01.png',
+                carname: '9舒驰YTK6118EV2纯电动客车11米舒驰',
+              },
+            ],
         };
     }    
 
@@ -66,23 +64,23 @@ class ZmitiCarlistApp extends React.Component {
             }}
           />
         );
-        let index = data.length - 1;
+        let index = this.state.data.length - 1;
         const row = (rowData, sectionID, rowID) => {
           if (index < 0) {
-            index = data.length - 1;
+            index = this.state.data.length - 1;
           }
-          const obj = data[index--];
+          const obj = this.state.data[index--];
           return (
             <div key={rowID} className="lv-car-item">
               <div className="lv-car-item-inner">
-                <a href="./#/carview/"><img src={obj.img} alt={obj.title}/></a>
+                <a href="./#/carview/"><img src={WebSite+obj.path} alt={obj.carname}/></a>
                 <div className="lv-car-item-inner-con">
-                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.title}</a></div>                  
+                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.carname}</a></div>                  
                   <div className="lv-car-info">
                     <div style={{ display: 'none'}}><span>{rowID}</span></div>
                     <Flex>
-                        <Flex.Item>品牌：舒驰</Flex.Item>
-                        <Flex.Item>类型：通勤车</Flex.Item>
+                        <Flex.Item>品牌：{obj.brandname}</Flex.Item>
+                        <Flex.Item>类型：{obj.typename}</Flex.Item>
                     </Flex>
                     <Flex>
                         <Flex.Item>续航：260KM</Flex.Item>
@@ -184,10 +182,10 @@ class ZmitiCarlistApp extends React.Component {
           pagenum:10,
           cartypeid:0,
         },
-        success(data){
-          if(data.getret===1004){          
-            console.log(data,'getdata'); 
-            var carlist=data.carlist;             
+        success(result){
+          if(result.getret===1004){          
+            console.log(result,'getdata'); 
+            s.state.data=result.carlist;             
             /*$.each(data.cartypedata,function(index,item){
                 var ii=index+1;
                 s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
