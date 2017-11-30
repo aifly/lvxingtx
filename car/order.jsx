@@ -113,11 +113,19 @@ class ZmitiCarorderApp extends React.Component {
         };
         console.log(params,'params');
     }
+    goback(){
+        history.go(-1);
+    }
     render() {
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <NavBar mode="light">确认订单</NavBar>
-                <div className="hr10"></div>
+                <div className="lv-top-navbar">
+                  <NavBar
+                        mode="light"
+                        icon={<Icon type="left" />}
+                        onLeftClick={this.goback.bind(this)}
+                  >确认订单</NavBar>
+                </div>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-100}}>
                     <div className="scroller">            
                         <div className="lv-pane">                          

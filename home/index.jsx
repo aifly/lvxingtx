@@ -6,7 +6,7 @@ import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import { Button,Picker,Flex, List, WhiteSpace } from 'antd-mobile';
+import {Carousel, Button,Picker,Flex, List, WhiteSpace } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const H5API='http://api.ev-bluesky.com/v2/';
 class ZmitiHomeApp extends React.Component {
@@ -35,6 +35,11 @@ class ZmitiHomeApp extends React.Component {
 			      value: '0',
 			    }
 			]],
+            dataImgs: [
+                './assets/images/u4.jpg',
+                './assets/images/banner2.jpg', 
+                './assets/images/banner3.jpg',
+            ],
 		    visible: false,
         }
     }    
@@ -48,7 +53,30 @@ class ZmitiHomeApp extends React.Component {
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-57}}>
                     <div className="scroller">
                         <div className="lv-banner">
-                            <img src="./assets/images/u4.jpg"/>
+                            <Carousel
+                              className="my-carousel"
+                              autoplay={false}
+                              infinite
+                              selectedIndex={1}
+                              swipeSpeed={35}
+                              beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+                              afterChange={index => console.log('slide to', index)}
+                            >
+                              {this.state.dataImgs.map((item,index) => (
+                                <a href="javascript:void(0)" key={index}>
+                                  <img
+                                    src={item}
+                                    alt={index}
+                                    onLoad={() => {
+                                      window.dispatchEvent(new Event('resize'));
+                                      this.setState({
+                                        initialHeight: null,
+                                      });
+                                    }}
+                                  />
+                                </a>
+                              ))}
+                            </Carousel>
                         </div>             
                         <div className="lv-pane">
                             <div className="lv-pane-index">
