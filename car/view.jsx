@@ -17,11 +17,7 @@ class ZmitiCarviewApp extends React.Component {
             visible: false,
             carid:'',//车辆id
             dataSource:[],
-            dataImgs: [
-                './assets/images/58abb79645954.jpg',
-                './assets/images/58ae580bbe166.jpg', 
-                './assets/images/58ae580c2b2aa.jpg',
-            ],
+            dataImgs: [],
             initialHeight: 176,
             detial:[{
                 carid:'',
@@ -193,11 +189,16 @@ class ZmitiCarviewApp extends React.Component {
               carid:carid,
             },
             success(result){
-              if(result.getret===1004){     
-                s.setState({
-                  detial:result.detial,
+              if(result.getret===1004){
+                var dataImgs=result.detial.path;
+                $.each(dataImgs,function(index,item){
+                    s.state.dataImgs.push(WebSite+item);
+                    //console.log(item,'picindex');
                 })
-                console.log(result.detial,'detial');
+                s.setState({
+                  detial:result.detial,                  
+                })
+                //console.log(result.detial,'detial');
                 s.forceUpdate();
               }
 
