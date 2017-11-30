@@ -56,9 +56,9 @@
 
 .lv-pane-store-menu{
   width:80px;
-  position: absolute;
+  position: fixed;
   left: 0;
-  top: 0;
+  top: 60px;
   .am-list-body{
     background:none;
     .am-list-item{
@@ -71,7 +71,10 @@
 }
 .lv-pane-store-con{
   padding: 0 0 0 90px;
-  .lv-pane-store-listpane-inner{
+}
+.lv-pane-store-listpane-inner{
+  background-color: #ffffff;
+  .am-list-view-scrollview{
     background-color: #ffffff;
   }
   .am-list-item{
@@ -80,12 +83,14 @@
   }
 }
 .lv-page-store{
+  position: absolute;
+  width: 100%;
   top:60px;
 }
 .lv-store-header{
   height:60px;
   background-color: #ffffff;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;

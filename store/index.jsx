@@ -10,14 +10,7 @@ import IScroll from 'iscroll';
 import {SegmentedControl,TabBar,Flex, Button,ListView, List, WhiteSpace,Drawer,NavBar, Icon } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
-function MyBody(props) {
-  return (
-    <div className="am-list-body my-body">
-      <span style={{ display: 'none' }}>you can custom body wrap element</span>
-      {props.children}
-    </div>
-  );
-}
+
 const data = [
   {
     title: '河北江富新能源汽车销售有限公司新能源汽车',
@@ -38,48 +31,29 @@ const data = [
     address:'河北石家庄桥西区裕华路66号金正海悦天地E座1019',
   },
 ];
-const NUM_SECTIONS = 5;
-const NUM_ROWS_PER_SECTION = 5;
+const NUM_ROWS = 20;
 let pageIndex = 0;
 
-const dataBlobs = {};
-let sectionIDs = [];
-let rowIDs = [];
 function genData(pIndex = 0) {
-  for (let i = 0; i < NUM_SECTIONS; i++) {
-    const ii = (pIndex * NUM_SECTIONS) + i;
-    const sectionName = `Section ${ii}`;
-    sectionIDs.push(sectionName);
-    dataBlobs[sectionName] = sectionName;
-    rowIDs[ii] = [];
-
-    for (let jj = 0; jj < NUM_ROWS_PER_SECTION; jj++) {
-      const rowName = `S${ii}, R${jj}`;
-      rowIDs[ii].push(rowName);
-      dataBlobs[rowName] = rowName;
-    }
+  const dataBlob = {};
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const ii = (pIndex * NUM_ROWS) + i;
+    dataBlob[`${ii}`] = `row - ${ii}`;
   }
-  sectionIDs = [...sectionIDs];
-  rowIDs = [...rowIDs];
+  return dataBlob;
 }
+
 class ZmitiStoreApp extends React.Component {
     constructor(args) {
         super(...args);
-	    const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
-	    const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
-
-	    const dataSource = new ListView.DataSource({
-	      getRowData,
-	      getSectionHeaderData: getSectionData,
-	      rowHasChanged: (row1, row2) => row1 !== row2,
-	      sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
-	    });
+        const dataSource = new ListView.DataSource({
+          rowHasChanged: (row1, row2) => row1 !== row2,
+        });
         this.state = {
             mainHeight: document.documentElement.clientHeight,
+            dataSource,
+            isLoading: true,
             visible: false,
-		      dataSource,
-		      isLoading: true,
-		      height: document.documentElement.clientHeight * 3 / 4,
             dataLeftMenu:[{
             	'cityname':'石家庄',
             	'cityid':180,
@@ -113,68 +87,15 @@ class ZmitiStoreApp extends React.Component {
             hidden: false,
             fullScreen: false,
         }
-        this.onOpenChange = (...args) => {
-          console.log(args);
-          this.setState({ open: !this.state.open });
-        }
-        this.onEndReached = (event) => {
-		    // load new data
-		    // hasMore: from backend data, indicates whether it is the last page, here is false
-		    if (this.state.isLoading && !this.state.hasMore) {
-		      return;
-		    }
-		    console.log('reach end', event);
-		    this.setState({ isLoading: true });
-		    setTimeout(() => {
-		      genData(++pageIndex);
-		      this.setState({
-		        dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
-		        isLoading: false,
-		      });
-		    }, 1000);
-		  }
+
     }    
     pagelinks(pageText) {
         window.location=pageText;
     }
     render() {
-      let tabbarProps ={
+        let tabbarProps ={
           selectedTab: 'greenTab',
-      }
-	    const separator = (sectionID, rowID) => (
-	      <div
-	        key={`${sectionID}-${rowID}`}
-	        style={{
-	          height: 10,
-	          borderTop: '1px solid #ECECED',
-	        }}
-	      />
-	    );
-	    let index = data.length - 1;
-	    const row = (rowData, sectionID, rowID) => {
-	      if (index < 0) {
-	        index = data.length - 1;
-	      }
-	      const obj = data[index--];
-	      return (
-	        <div key={rowID} style={{ padding: '0 15px' }}>
-	          <div
-	            style={{
-	              lineHeight: '1.2',
-	              color: '#000',
-	              fontSize: 18,
-	            }}
-	          >{obj.title}</div>
-	          <div style={{ display: '-webkit-box', display: 'flex', padding: '15px 0' }}>	            
-	            <div style={{ lineHeight: 1.2,color:'#888'}}>
-	              <div>营业时间：{obj.opentime}--{rowID}</div>
-	              <div>联系电话：{obj.telephone}</div>
-	              <div>门店地址：{obj.address}</div>
-	            </div>
-	          </div>
-	        </div>
-	      );
-	    };
+        }	    
         const sidebar = (<List className="my-list">
           {this.state.dataLeftMenu.map((item, index) => {
             return (<List.Item key={index}
@@ -184,6 +105,40 @@ class ZmitiStoreApp extends React.Component {
             </List.Item>);
           })}
         </List>);
+        const separator = (sectionID, rowID) => (
+          <div
+            key={`${sectionID}-${rowID}`}
+            style={{
+              height: 10,
+              borderTop: '1px solid #ECECED',
+            }}
+          />
+        );
+        let index = data.length - 1;
+        const row = (rowData, sectionID, rowID) => {
+          if (index < 0) {
+            index = data.length - 1;
+          }
+          const obj = data[index--];
+          return (
+            <div key={rowID} style={{ padding: '0 15px' }}>
+              <div
+                style={{
+                  lineHeight: '1.2',
+                  color: '#000',
+                  fontSize: 15,
+                }}
+              >{obj.title}</div>
+              <div style={{ display: '-webkit-box', display: 'flex', padding: '15px 0' }}>              
+                <div style={{ lineHeight: 1.2,fontSize:'14px',color:'#888'}}>
+                  <div>营业时间：{obj.opentime}--{rowID}</div>
+                  <div>联系电话：{obj.telephone}</div>
+                  <div>门店地址：{obj.address}</div>
+                </div>
+              </div>
+            </div>
+          );
+        };
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
             	<div className="lv-store-header">
@@ -194,61 +149,44 @@ class ZmitiStoreApp extends React.Component {
             			<div className="lv-pane-store-tabs-inner">
             				<div className={"lv-ico-store-imga lv-ico-store-imga"+this.state.valuetypea}></div>
             				<div className={"lv-ico-store-imgb lv-ico-store-imgb"+this.state.valuetypeb}></div>
-                		<SegmentedControl
-                			className="lv-ico-store"
-				        	values={['门店','电桩']}
-				        	tintColor={'#1AAD19'}
-				        	style={{height:36}}
-				        	onChange={this.onstoreChange.bind(this)}
-				        	onValueChange={this.onstoreValueChange.bind(this)}
-				        />
+                    		<SegmentedControl
+                    			className="lv-ico-store"
+    				        	values={['门店','电桩']}
+    				        	tintColor={'#1AAD19'}
+    				        	style={{height:36}}
+    				        	onChange={this.onstoreChange.bind(this)}
+    				        	onValueChange={this.onstoreValueChange.bind(this)}
+    				        />
 				        </div>
                 	</div>
             	</div>
-                <div className="wrapper lv-page-store" ref="wrapper" style={{height:this.state.mainHeight-110}}>
-                    <div className="scroller">            
-                        <div className="lv-pane">
-                            <div className="lv-pane-store">
-                                <div className="lv-pane-store-inner">
-                                	<div className="lv-pane-store-menu">
-                                		<div className="lv-pane-store-menu-inner">											
-											{sidebar}
-                                		</div>
-                                	</div>
-                                    <div className="lv-pane-store-con">
-                                    	
-                                    	<div className="lv-pane-store-listpane">
-                                    		<div className="lv-pane-store-listpane-inner">
-										      <ListView
-										        ref={el => this.lv = el}
-										        dataSource={this.state.dataSource}										        
-										        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-										          {this.state.isLoading ? 'Loading...' : 'Loaded'}
-										        </div>)}
-										        renderSectionHeader={sectionData => (
-										          <div>{`Task ${sectionData.split(' ')[1]}`}</div>
-										        )}
-										        renderBodyComponent={() => <MyBody />}
-										        renderRow={row}
-										        renderSeparator={separator}
-										        style={{
-										          height: this.state.height-110,
-										          overflow: 'auto',
-										        }}
-										        pageSize={4}
-										        onScroll={() => { console.log('scroll'); }}
-										        scrollRenderAheadDistance={500}
-										        onEndReached={this.onEndReached}
-										        onEndReachedThreshold={10}
-										      />
-                                    		</div>
-                                    	</div>
-                                    </div>
-                                </div>
-                               
-                            </div>
+                <div className=" lv-page-store" >
+                    <div className="lv-pane-store-menu">
+                        <div className="lv-pane-store-menu-inner">                                          
+                            {sidebar}
                         </div>
                     </div>
+                    <div className="lv-pane-store-con">
+                        <div className="lv-pane-store-listpane-inner">
+                            <ListView
+                                ref={el => this.lv = el}
+                                dataSource={this.state.dataSource}
+                                renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                                  {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                                </div>)}
+                                renderRow={row}
+                                renderSeparator={separator}
+                                className="am-list"
+                                pageSize={4}
+                                useBodyScroll
+                                onScroll={() => { console.log('scroll'); }}
+                                scrollRenderAheadDistance={500}
+                                onEndReached={this.onEndReached.bind(this)}
+                                onEndReachedThreshold={10}
+                            />
+                        </div>
+                    </div>
+                    
                 </div>
                 <div className="lv-menu-bar">
                   <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
@@ -276,35 +214,49 @@ class ZmitiStoreApp extends React.Component {
 	    //console.log(value);
 	}
 
-
+    //ListView
+    onEndReached (event) {
+        // load new data
+        // hasMore: from backend data, indicates whether it is the last page, here is false
+        if (this.state.isLoading && !this.state.hasMore) {
+          return;
+        }
+        console.log('reach end', event);
+        this.setState({ isLoading: true });
+        setTimeout(() => {
+          this.rData = { ...this.rData, ...genData(++pageIndex) };
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.rData),
+            isLoading: false,
+          });
+        }, 1000);
+    }
     componentWillMount() {
 
     }
 
     componentDidMount() {
-        /*this.scroll = new IScroll(this.refs['wrapper'],{
-            scrollbars:true,
-            mouseWheel: true,
-            interactiveScrollbars: true,
-            shrinkScrollbars: 'scale',
-            fadeScrollbars: true
-        });
+        // you can scroll to the specified position
+        // setTimeout(() => this.lv.scrollTo(0, 120), 800);
 
-        setTimeout(()=>{
-            this.scroll.refresh();
-        },1000);*/
-	    const hei = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
-	    // simulate initial Ajax
-	    setTimeout(() => {
-	      genData();
-	      this.setState({
-	        dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
-	        isLoading: false,
-	        height: hei,
-	      });
-	    }, 600);
+        // simulate initial Ajax
+        setTimeout(() => {
+          this.rData = genData();
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.rData),
+            isLoading: false,
+          });
+        }, 600);
+
     }
-    
+    // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
+    // componentWillReceiveProps(nextProps) {
+    //   if (nextProps.dataSource !== this.props.dataSource) {
+    //     this.setState({
+    //       dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource),
+    //     });
+    //   }
+    // }    
 
 }
 
