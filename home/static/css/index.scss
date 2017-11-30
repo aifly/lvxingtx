@@ -313,3 +313,16 @@ html:not([data-scale]) .am-list-body::after{
 .lv-am-list-footer{
   text-align: center;
 }
+.am-modal-header{
+  border-bottom: 1px #dddddd solid;
+}
+.lv-dialog-text{
+  .am-result .am-result-message{
+    font-size: 15px;
+    height: 50px;
+    overflow: scroll;
+  }
+}
+html:not([data-scale]) .lv-dialog-text .am-result::after{
+  height: 0px;
+}

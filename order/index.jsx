@@ -6,7 +6,7 @@ import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {Result,TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {Result,TabBar,Flex,Modal,InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 class ZmitiOrderApp extends React.Component {
@@ -15,6 +15,7 @@ class ZmitiOrderApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
+            modal1: false,
             username:'',
             usermobile:'',
             content: '',
@@ -28,6 +29,18 @@ class ZmitiOrderApp extends React.Component {
             display:'none',//提交后显示
             hidden: false,
             fullScreen: true,
+        }
+        this.showModal = key => (e) => {
+          e.preventDefault(); // 修复 Android 上点击穿透
+          this.setState({
+            [key]: true,
+          });
+        }
+        this.onClose = key => () => {
+          this.setState({
+            [key]: false,
+          });
+          window.location="./";
         }
     }    
     pagelinks(pageText) {
@@ -57,6 +70,10 @@ class ZmitiOrderApp extends React.Component {
         }
       })
       s.forceUpdate();
+    }
+    //提交
+    onSubmit(){
+      var s = this;
     }
 
     render() {
@@ -118,7 +135,7 @@ class ZmitiOrderApp extends React.Component {
                                     </List>
                                   </form>
                                   <div className="lv-order-btn"> 
-                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.onSubmit.bind(this)}>确认</div></div>
+                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.showModal('modal1')}>确认</div></div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
@@ -138,6 +155,21 @@ class ZmitiOrderApp extends React.Component {
                 <div className="lv-menu-bar">
                   <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
                 </div>
+                <Modal
+                  visible={this.state.modal1}
+                  transparent
+                  maskClosable={false}
+                  onClose={this.onClose('modal1')}
+                  title="提交成功"
+                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+                  wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                >
+                  <div className="lv-dialog-text">
+                    <Result                      
+                      message="所提交内容已成功完成验证"
+                    />
+                  </div>
+                </Modal>
             </div>
         )
     }
@@ -167,9 +199,7 @@ class ZmitiOrderApp extends React.Component {
         this.getdatasource();
 
     }
-    onSubmit(){
-      var s = this;
-    }
+    
 
 }
 
