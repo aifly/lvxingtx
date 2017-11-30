@@ -45,43 +45,53 @@
     opacity: 1;
   }
 }
+.lv-car-nav{
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  background-color: #f5f5f9;
+  img{
+    width:100%;
+    height: auto;
+    display: block;
+  }
+  .am-segment{
+    min-height: 40px;
+  }
+  .am-segment-item{
+    color: #9ea4aa;
+    border:none;
+  }
+  .am-segment-item-selected{
+    color: #22ac38;
+    border-bottom: 1px #22ac38 solid;
+    background:none;
+    @include radius(0);
+  }
+}
 .lv-pane-carlist{
   position: relative; 
-  .lv-car-nav{
-    img{
-      width:100%;
-      height: auto;
-      display: block;
-    }
-    .am-segment{
-      min-height: 40px;
-    }
-    .am-segment-item{
-      color: #9ea4aa;
-      border:none;
-    }
-    .am-segment-item-selected{
-      color: #22ac38;
-      border-bottom: 1px #22ac38 solid;
-      background:none;
-      @include radius(0);
-    }
-  }
+  padding: 40px 0 0 0;
   .lv-car-item{
     padding:0 10px;
     .lv-car-item-inner{
       position: relative;
-      padding: 15px 0;
+      padding: 20px 0;
       zoom:1;
-      min-height: 64px;
+      min-height: 70px;
       .lv-car-item-inner-con{
-        padding:0 0 0 122px;
+        padding:0 0 0 125px;
+        .am-flexbox .am-flexbox-item{
+          margin-left: 2px;
+        }
       }
     }
   }
   .lv-car-subtitle{
     line-height: 1.2;
     margin-bottom: 3px;
+    font-size:14px;
     a{
       color: #000;
     }
@@ -93,12 +103,12 @@
   }
   .list-view-section-body{
     img{
-      width:119px;
-      height: 64px;
+      width:122px;
+      height: 70px;
       display: block;
       position: absolute;
       left: 0;
-      top: 15px;
+      top: 20px;
     }
   }
   .sticky-list .sticky-container .am-list-item { padding-left: 0; }

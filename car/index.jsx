@@ -21,7 +21,7 @@ const data = [
   },
   {
     img: './assets/images/car-01.png',
-    title: '3YTK6118EV2纯电动客车11米舒驰',
+    title: '舒驰YTK6118EV2纯电动客车11米舒驰',
     des: '6118EV2纯电动客车11米舒驰',
   },
 ];
@@ -96,14 +96,15 @@ class ZmitiCarlistApp extends React.Component {
         };
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
+                <div className="lv-car-nav">
+                    <SegmentedControl
+                      values={['全部', '通勤车', '旅游车', '商务车', '物流车']}
+                      onChange={this.navOnChange.bind(this)}
+                      onValueChange={this.navOnValueChange.bind(this)}
+                    />
+                </div>
                 <div className="lv-pane-carlist">
-                    <div className="lv-car-nav">
-                        <SegmentedControl
-                          values={['全部', '通勤车', '旅游车', '商务车', '物流车']}
-                          onChange={this.navOnChange.bind(this)}
-                          onValueChange={this.navOnValueChange.bind(this)}
-                        />
-                    </div>
+                    
                     <ListView
                       ref={el => this.lv = el}
                       dataSource={this.state.dataSource}
