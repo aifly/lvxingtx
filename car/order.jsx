@@ -5,13 +5,14 @@ import createForm from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex, InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {TabBar,Flex, InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
         this.state = {
             mainHeight: document.documentElement.clientHeight,
+            modal1: false,
             cityid:'',//城市
             storeid:0,//门店
             cartypeid:0,//车型
@@ -87,6 +88,18 @@ class ZmitiCarorderApp extends React.Component {
             selectedTab: 'yellowTab',
             hidden: false,
             fullScreen: true,
+        }
+        this.showModal = key => (e) => {
+          e.preventDefault(); // 修复 Android 上点击穿透
+          this.setState({
+            [key]: true,
+          });
+        }
+        this.onClose = key => () => {
+          this.setState({
+            [key]: false,
+          });
+          window.location="./#/car/";
         }
     }    
     pagelinks(pageText) {
@@ -223,10 +236,24 @@ class ZmitiCarorderApp extends React.Component {
                 </div>
                 <div className="lv-pane-orderview-submit">
                     <div className="lv-pane-orderview-submit-l">确认信息无误后可提交订单</div>
-                    <div className="lv-pane-orderview-submit-r" onClick={this.onSubmit.bind(this)}>提交订单</div>
+                    <div className="lv-pane-orderview-submit-r" onClick={this.showModal('modal1')}>提交订单</div>
                     <div className="clearfix"></div>
                 </div>
-                  
+                <Modal
+                  visible={this.state.modal1}
+                  transparent
+                  maskClosable={false}
+                  onClose={this.onClose('modal1')}
+                  title="提交成功"
+                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+                  wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                >
+                  <div className="lv-dialog-text">
+                    <Result                      
+                      message="所提交内容已成功完成验证"
+                    />
+                  </div>
+                </Modal>
             </div>
         )
     }

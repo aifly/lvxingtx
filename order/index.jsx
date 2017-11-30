@@ -139,13 +139,6 @@ class ZmitiOrderApp extends React.Component {
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
-                                  <div style={{display:this.state.display}}>
-                                    <Result
-                                      img={<Icon type="check-circle" className="spe" style={{ fill: '#1F90E6' }} />}
-                                      title="提交成功"
-                                      message="所提交内容已成功完成验证"
-                                    />
-                                  </div>
                                 </div>
                                
                             </div>
