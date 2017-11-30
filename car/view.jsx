@@ -23,6 +23,49 @@ class ZmitiCarviewApp extends React.Component {
                 './assets/images/58ae580c2b2aa.jpg',
             ],
             initialHeight: 176,
+            detial:[{
+                carid:'',
+                carname:'',
+                carmodel:'',
+                brandid:'',
+                carsize:'',
+                capacity:'',
+                maxpassenger:'',
+                maxspeed:'',
+                emission:'',
+                engine:'',
+                motor:'',
+                drive:'',
+                carbreak:'',
+                steer:'',
+                config:'',
+                carfeature:'',
+                caruse:'',
+                life:'',
+                typeid:'',
+                tags:'',
+                status:'',
+                electricity:'',
+                batterytype:'',
+                overhang:'',
+                suspension:'',
+                tyresize:'',
+                motortype:'',
+                powerrate:'',
+                wheelbase:'',
+                weight:'',
+                createtime:'',
+                uid:'',
+                edituid:'',
+                edittime:'',
+                sort:'',
+                pictrueids:'',
+                hotsort:'',
+                typename:'',
+                brandname:'',
+                path:[],                
+
+            }],
         }
     }    
     orderview(){//提交订单
@@ -70,28 +113,28 @@ class ZmitiCarviewApp extends React.Component {
                         <div className="lv-pane">
                             <div className="lv-pane-carview">
                                 <div className="lv-pane-carview-inner">
-                                    <div className="lv-h2">舒驰YTK6810EV1纯电动客车8米 </div>
+                                    <div className="lv-h2">{this.state.detial.carname}</div>
                                     <div className="lv-pane-carview-col-1">
                                         <Flex>
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-01.png"/>
                                                 <div className="lv-pane-carview-f1">电动机型</div>
-                                                <div className="lv-pane-carview-f2">WTEM60-40-2</div>
+                                                <div className="lv-pane-carview-f2">{this.state.detial.motortype}</div>
                                             </Flex.Item>
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-02.png"/>
                                                 <div className="lv-pane-carview-f1">电池总储电量</div>
-                                                <div className="lv-pane-carview-f2">122kwh</div>
+                                                <div className="lv-pane-carview-f2">{this.state.detial.electricity+'kwh'}</div>
                                             </Flex.Item>
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-03.png"/>
                                                 <div className="lv-pane-carview-f1">续航里程</div>
-                                                <div className="lv-pane-carview-f2">260km</div>
+                                                <div className="lv-pane-carview-f2">{this.state.detial.life}km</div>
                                             </Flex.Item>
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-04.png"/>
                                                 <div className="lv-pane-carview-f1">可乘人数</div>
-                                                <div className="lv-pane-carview-f2">26</div>
+                                                <div className="lv-pane-carview-f2">{this.state.detial.maxpassenger}</div>
                                             </Flex.Item>
                                         </Flex>
                                     </div>                                   
@@ -101,25 +144,25 @@ class ZmitiCarviewApp extends React.Component {
                                     <div className="lv-pane-carview-col-2">
                                         <List renderHeader={() => <span className="lv-carview-borlft">基本信息</span>} 
                                             className="my-list">
-                                            <Item extra={'舒驰'}>品牌</Item>
-                                            <Item extra={'商务车'}>类型</Item>
-                                            <Item extra={'26'}>可乘人数</Item>
-                                            <Item extra={'260km'}>里程</Item>
+                                            <Item extra={this.state.detial.brandname}>品牌</Item>
+                                            <Item extra={this.state.detial.typename}>类型</Item>
+                                            <Item extra={this.state.detial.maxpassenger}>可乘人数</Item>
+                                            <Item extra={this.state.detial.life+'km'}>里程</Item>
                                         </List>
                                         <List renderHeader={() => <span className="lv-carview-borlft">技术参数</span>} 
                                             className="my-list">
-                                            <Item extra={'122kwh'}>电池总储电量</Item>
-                                            <Item extra={'磷酸铁锂'}>电池种类</Item>
-                                            <Item extra={'1720/1605mm'}>前悬/后悬</Item>
-                                            <Item extra={'0mm'}>悬架</Item>
+                                            <Item extra={this.state.detial.electricity+'kwh'}>电池总储电量</Item>
+                                            <Item extra={this.state.detial.batterytype}>电池种类</Item>
+                                            <Item extra={this.state.detial.overhang}>前悬/后悬</Item>
+                                            <Item extra={this.state.detial.suspension+'mm'}>悬架</Item>
 
-                                            <Item extra={'235/75R17.5'}>轮胎规格</Item>
-                                            <Item extra={'WTEM60-40-2'}>电动机型</Item>
-                                            <Item extra={'60kw'}>额定功率</Item>
-                                            <Item extra={'3980mm'}>轴距</Item>
+                                            <Item extra={this.state.detial.tyresize}>轮胎规格</Item>
+                                            <Item extra={this.state.detial.motortype}>电动机型</Item>
+                                            <Item extra={this.state.detial.powerrate+'kw'}>额定功率</Item>
+                                            <Item extra={this.state.detial.wheelbase+'mm'}>轴距</Item>
 
-                                            <Item extra={'9650kg'}>整车质量</Item>
-                                            <Item extra={'100km/h'}>最高车速</Item>
+                                            <Item extra={this.state.detial.weight+'kg'}>整车质量</Item>
+                                            <Item extra={this.state.detial.maxspeed+'km/h'}>最高车速</Item>
                                         </List>
                                     </div>
                                 </div>
@@ -150,11 +193,11 @@ class ZmitiCarviewApp extends React.Component {
               carid:carid,
             },
             success(result){
-              if(result.getret===1004){          
-                console.log(result,'getdata'); 
-                /*s.setState({
-                  dataSource:result.carlist,
-                })*/
+              if(result.getret===1004){     
+                s.setState({
+                  detial:result.detial,
+                })
+                console.log(result.detial,'detial');
                 s.forceUpdate();
               }
 
