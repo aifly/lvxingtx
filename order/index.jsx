@@ -30,18 +30,8 @@ class ZmitiOrderApp extends React.Component {
             hidden: false,
             fullScreen: true,
         }
-        this.showModal = key => (e) => {
-          e.preventDefault(); // 修复 Android 上点击穿透
-          this.setState({
-            [key]: true,
-          });
-        }
-        this.onClose = key => () => {
-          this.setState({
-            [key]: false,
-          });
-          window.location="./";
-        }
+        
+        
     }    
     pagelinks(pageText) {
         window.location=pageText;
@@ -52,7 +42,24 @@ class ZmitiOrderApp extends React.Component {
         tValue:val,
       })
     }
-
+    //打开弹窗
+    showModal(e){
+      var s = this;
+      e.preventDefault(); 
+      s.setState({
+        modal1: true,
+      });
+      s.forceUpdate();
+    }
+    //关闭弹窗
+    onClose(){
+      var s = this;
+      s.setState({
+        modal1: false,
+      });
+      s.forceUpdate();
+      window.location="./";
+    }
     //获取车型
     getdatasource(){
       var s = this;    
@@ -66,14 +73,13 @@ class ZmitiOrderApp extends React.Component {
               s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
           })
           s.forceUpdate();
-
         }
       })
-      s.forceUpdate();
     }
     //提交
     onSubmit(){
       var s = this;
+      this.showModal('modal1');//打开弹窗
     }
 
     render() {
@@ -135,7 +141,7 @@ class ZmitiOrderApp extends React.Component {
                                     </List>
                                   </form>
                                   <div className="lv-order-btn"> 
-                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.showModal('modal1')}>确认</div></div>
+                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.showModal.bind(this)}>确认</div></div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
@@ -152,9 +158,9 @@ class ZmitiOrderApp extends React.Component {
                   visible={this.state.modal1}
                   transparent
                   maskClosable={false}
-                  onClose={this.onClose('modal1')}
+                  onClose={this.onClose.bind(this)}
                   title="提交成功"
-                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose.bind(this)(); } }]}
                   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 >
                   <div className="lv-dialog-text">

@@ -34,20 +34,7 @@ class ZmitiCarlistApp extends React.Component {
             page:1,//当前第*页，从1开始
             countPageNum:1,//共*页
             residueNum:0,//最后一页里有*条
-            data: [
-              {
-                path: './assets/images/car-01.png',
-                carname: '7舒驰YTK6118EV2纯电动客车11米舒驰',
-              },
-              {
-                path: './assets/images/car-01.png',
-                carname: '8纯电动客车11米舒驰',
-              },
-              {
-                path: './assets/images/car-01.png',
-                carname: '9舒驰YTK6118EV2纯电动客车11米舒驰',
-              },
-            ],
+            data: [],//车辆数据源
         };
     }    
 
@@ -88,7 +75,7 @@ class ZmitiCarlistApp extends React.Component {
                     </Flex>
                     <Flex>
                         <Flex.Item>续航：{obj.life}KM</Flex.Item>
-                        <Flex.Item><span className="lv-font-c2">可乘：46人</span></Flex.Item>
+                        <Flex.Item><span className="lv-font-c2">可乘：{obj.maxpassenger}人</span></Flex.Item>
                     </Flex>
                   </div>
                 </div>
@@ -148,7 +135,7 @@ class ZmitiCarlistApp extends React.Component {
       // load new data
       // hasMore: from backend data, indicates whether it is the last page, here is false
       if (this.state.isLoading && !this.state.hasMore) {
-        return false;
+        return;
       }
       console.log('reach end', event);
       this.setState({ isLoading: true });
@@ -196,8 +183,7 @@ class ZmitiCarlistApp extends React.Component {
     //滚动
     getscrollpage(){
       var s = this;
-      console.log('scroll');
-
+      //console.log('scroll');
     }
     componentWillMount() {
 
