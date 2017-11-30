@@ -7,13 +7,17 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {NavBar, Icon,Carousel,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
+const H5API='http://api.ev-bluesky.com/v2/';
+const WebSite='http://www.ev-bluesky.com/';
 class ZmitiCarviewApp extends React.Component {
     constructor(args) {
         super(...args);
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             visible: false,
-            data: [
+            carid:'',//车辆id
+            dataSource:[],
+            dataImgs: [
                 './assets/images/58abb79645954.jpg',
                 './assets/images/58ae580bbe166.jpg', 
                 './assets/images/58ae580c2b2aa.jpg',
@@ -25,6 +29,7 @@ class ZmitiCarviewApp extends React.Component {
         window.location="./#/carorder/";
     }
     render() {
+        const CurrentId=this.props.params.id;
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-top-navbar">
@@ -46,7 +51,7 @@ class ZmitiCarviewApp extends React.Component {
                               beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
                               afterChange={index => console.log('slide to', index)}
                             >
-                              {this.state.data.map((item,index) => (
+                              {this.state.dataImgs.map((item,index) => (
                                 <a href="javascript:void(0)" key={index}>
                                   <img
                                     src={item}
@@ -135,6 +140,27 @@ class ZmitiCarviewApp extends React.Component {
     goback(){
         history.go(-1);
     }
+    getDetail(carid){
+        var s = this;
+        carid=this.props.params.id;
+        $.ajax({
+            url:H5API+'h5/gecardetial',
+            type:'post',
+            data:{
+              carid:carid,
+            },
+            success(result){
+              if(result.getret===1004){          
+                console.log(result,'getdata'); 
+                /*s.setState({
+                  dataSource:result.carlist,
+                })*/
+                s.forceUpdate();
+              }
+
+            }
+        })
+    }
 
 
     componentWillMount() {
@@ -153,6 +179,7 @@ class ZmitiCarviewApp extends React.Component {
         setTimeout(()=>{
             this.scroll.refresh();
         },1000);
+        this.getDetail();
 
     }
 

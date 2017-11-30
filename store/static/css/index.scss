@@ -117,8 +117,25 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
       width:180px;
       margin:0 auto;
       position: relative;
+      .lv-ico-store{
+        height: 36px;
+      }
       .am-segment-item{
         padding-left: 23px;
+        background-color: transparent; 
+        border-color: rgb(26, 173, 25); 
+        color: rgb(26, 173, 25);
+        a{
+          color: rgb(26, 173, 25);
+        }
+      }
+      .am-segment-item-selected{
+        background-color: rgb(26, 173, 25); 
+        border-color: rgb(26, 173, 25);
+        color: #ffffff;
+        a{
+          color: #ffffff;
+        }
       }
       .lv-ico-store-imga,.lv-ico-store-imgb{
         position: absolute;

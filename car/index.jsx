@@ -73,9 +73,9 @@ class ZmitiCarlistApp extends React.Component {
           return (
             <div key={rowID} className="lv-car-item">
               <div className="lv-car-item-inner">
-                <a href="./#/carview/"><img src={WebSite+obj.path} alt={obj.carname}/></a>
+                <a href={'./#/carview/'+obj.carid}><img src={WebSite+obj.path} alt={obj.carname}/></a>
                 <div className="lv-car-item-inner-con">
-                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.carname}</a></div>                  
+                  <div  className="lv-car-subtitle"><a href={'./#/carview/'+obj.carid}>{obj.carname}</a></div>                  
                   <div className="lv-car-info">
                     <div style={{ display: 'none'}}><span>{rowID}</span></div>
                     <Flex>
@@ -83,7 +83,7 @@ class ZmitiCarlistApp extends React.Component {
                         <Flex.Item>类型：{obj.typename}</Flex.Item>
                     </Flex>
                     <Flex>
-                        <Flex.Item>续航：260KM</Flex.Item>
+                        <Flex.Item>续航：{obj.life}KM</Flex.Item>
                         <Flex.Item><span className="lv-font-c2">可乘：46人</span></Flex.Item>
                     </Flex>
                   </div>
@@ -171,9 +171,7 @@ class ZmitiCarlistApp extends React.Component {
     }
     //获取数据
     getdatasource(){
-      var s = this;
-
-    
+      var s = this;    
       $.ajax({
         url:H5API+'h5/getcarlist',
         type:'post',
@@ -185,14 +183,9 @@ class ZmitiCarlistApp extends React.Component {
         success(result){
           if(result.getret===1004){          
             console.log(result,'getdata'); 
-            s.state.data=result.carlist;             
-            /*$.each(data.cartypedata,function(index,item){
-                var ii=index+1;
-                s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
-            })*/
-            
-            
-            //console.log(s.state.citydata,'s.state.citydata');
+            s.setState({
+              data:result.carlist,
+            })
             s.forceUpdate();
           }
 

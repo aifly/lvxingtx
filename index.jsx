@@ -13,6 +13,7 @@ import ZmitiHomeApp from './home/index.jsx';
 import ZmitiCarlistApp from './car/index.jsx';
 import ZmitiCarviewApp from './car/view.jsx';
 import ZmitiStoreApp from './store/index.jsx';
+import ZmitiStoreChargingApp from './store/charging.jsx';
 import ZmitiOrderApp from './order/index.jsx';
 import ZmitiCarorderApp from './car/order.jsx';
 import ZmitiAboutApp from './about/index.jsx';
@@ -28,13 +29,13 @@ class App extends React.Component {
 				path: '/',
 				app: ZmitiHomeApp
 			}, {
-				path: '/carorder/(id)',
+				path: '/carorder/(:id)',
 				app: ZmitiCarorderApp
 			}, {
-				path: '/car/(id)',
+				path: '/car/(:id)',
 				app: ZmitiCarlistApp
 			}, {
-				path: '/carview',
+				path: '/carview/(:id)',
 				app: ZmitiCarviewApp
 			}, {
 				path: '/store',
@@ -45,6 +46,9 @@ class App extends React.Component {
 			}, {
 				path: '/about',
 				app: ZmitiAboutApp
+			},{
+				path:'storecharging',
+				app: ZmitiStoreChargingApp
 			}
 
 		];
