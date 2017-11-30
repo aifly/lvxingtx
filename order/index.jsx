@@ -43,9 +43,9 @@ class ZmitiOrderApp extends React.Component {
       })
     }
     //打开弹窗
-    showModal(e){
+    showModal(){
       var s = this;
-      e.preventDefault(); 
+      //e.preventDefault(); 
       s.setState({
         modal1: true,
       });
@@ -77,9 +77,10 @@ class ZmitiOrderApp extends React.Component {
       })
     }
     //提交
-    onSubmit(){
+    onSubmit(e){
       var s = this;
-      this.showModal('modal1');//打开弹窗
+      e.preventDefault(); 
+      s.showModal();//打开弹窗
     }
 
     render() {
@@ -141,7 +142,7 @@ class ZmitiOrderApp extends React.Component {
                                     </List>
                                   </form>
                                   <div className="lv-order-btn"> 
-                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.showModal.bind(this)}>确认</div></div>
+                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.onSubmit.bind(this)}>确认</div></div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
