@@ -17,7 +17,8 @@ import IScroll from 'iscroll';
 import {SegmentedControl,TabBar,Flex, Button,ListView, List, WhiteSpace,Drawer,NavBar, Icon } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
-
+const H5API='http://api.ev-bluesky.com/v2/';
+const WebSite='http://www.ev-bluesky.com/';
 const data = [
   {
     title: '河北江富新能源汽车销售有限公司新能源汽车',
@@ -223,6 +224,30 @@ class ZmitiStoreChargingApp extends React.Component {
         //console.log(value);       
         this.forceUpdate();
     }
+    //获取数据
+    getdatasource(){
+      var s = this;    
+      $.ajax({
+        url:H5API+'h5/getchargstationlist',
+        type:'post',
+        data:{
+          page:1,
+          pagenum:10,
+          cityid:'',
+        },
+        success(result){
+          if(result.getret===1004){          
+            console.log(result,'getdata'); 
+            /*s.setState({
+              data:result.carlist,
+            })*/
+            s.forceUpdate();
+          }
+
+        }
+      })
+      s.forceUpdate();
+    }
 
     //ListView
     onEndReached (event) {
@@ -257,6 +282,7 @@ class ZmitiStoreChargingApp extends React.Component {
             isLoading: false,
           });
         }, 600);
+        this.getdatasource();
 
     }
     // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
