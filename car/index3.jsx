@@ -142,9 +142,6 @@ class ZmitiCarlistApp extends React.Component {
     } 
     //Listview
     onEndReached(event){
-      var s = this;
-      var countPageNum=s.state.countPageNum;//总页数
-      var residueNum=s.state.residueNum;//最后一页条数
       // load new data
       // hasMore: from backend data, indicates whether it is the last page, here is false
       if (this.state.isLoading && !this.state.hasMore) {
@@ -154,8 +151,7 @@ class ZmitiCarlistApp extends React.Component {
       this.setState({ isLoading: true });
       setTimeout(() => {
         this.rData = { ...this.rData, ...genData(++pageIndex) };
-        if(pageIndex<countPageNum){
-          s.getdatasource(pageIndex+1);//加载当前页数据
+        if(pageIndex<2){
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this.rData),
             isLoading: false,
@@ -165,7 +161,7 @@ class ZmitiCarlistApp extends React.Component {
         
       }, 1000);
     }
-    /*获取数据*/
+    //获取数据
     getdatasource(pageid){
       var s = this;    
       $.ajax({
@@ -181,11 +177,10 @@ class ZmitiCarlistApp extends React.Component {
             console.log(result,'getdata'); 
             s.setState({
               data:result.carlist,
-              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
-              residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
+              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),
             })
             console.log('总共'+s.state.countPageNum+'页');
-            console.log(s.state.residueNum,'余数');
+            console.log(7%5,'余数');
             s.forceUpdate();
           }
 
@@ -212,7 +207,7 @@ class ZmitiCarlistApp extends React.Component {
         });
       }, 600);
 
-      this.getdatasource(1);//默认获取第1页数据
+      this.getdatasource(1);
     }
 
 

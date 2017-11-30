@@ -9,8 +9,8 @@ import IScroll from 'iscroll';
 import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-const NUM_ROWS = 5;//一屏显示条数
-let pageIndex = 0;//开始页码，从0开始
+const NUM_ROWS = 5;
+let pageIndex = 0;
 
 function genData(pIndex = 0) {
   const dataBlob = {};
@@ -31,9 +31,7 @@ class ZmitiCarlistApp extends React.Component {
             mainHeight: document.documentElement.clientHeight,
             dataSource,
             isLoading: true,
-            page:1,//当前第*页，从1开始
-            countPageNum:1,//共*页
-            residueNum:0,//最后一页里有*条
+            page:1,
             data: [
               {
                 path: './assets/images/car-01.png',
@@ -142,9 +140,6 @@ class ZmitiCarlistApp extends React.Component {
     } 
     //Listview
     onEndReached(event){
-      var s = this;
-      var countPageNum=s.state.countPageNum;//总页数
-      var residueNum=s.state.residueNum;//最后一页条数
       // load new data
       // hasMore: from backend data, indicates whether it is the last page, here is false
       if (this.state.isLoading && !this.state.hasMore) {
@@ -154,25 +149,21 @@ class ZmitiCarlistApp extends React.Component {
       this.setState({ isLoading: true });
       setTimeout(() => {
         this.rData = { ...this.rData, ...genData(++pageIndex) };
-        if(pageIndex<countPageNum){
-          s.getdatasource(pageIndex+1);//加载当前页数据
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.rData),
-            isLoading: false,
-          });
-          console.log(pageIndex,'pageIndex');
-        }
-        
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(this.rData),
+          isLoading: false,
+        });
+        console.log(pageIndex,'pageIndex');
       }, 1000);
     }
-    /*获取数据*/
-    getdatasource(pageid){
+    //获取数据
+    getdatasource(){
       var s = this;    
       $.ajax({
         url:H5API+'h5/getcarlist',
         type:'post',
         data:{
-          page:pageid,
+          page:s.state.page,
           pagenum:5,
           cartypeid:0,
         },
@@ -181,17 +172,13 @@ class ZmitiCarlistApp extends React.Component {
             console.log(result,'getdata'); 
             s.setState({
               data:result.carlist,
-              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
-              residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
             })
-            console.log('总共'+s.state.countPageNum+'页');
-            console.log(s.state.residueNum,'余数');
             s.forceUpdate();
           }
 
         }
       })
-      return pageid;
+      s.forceUpdate();
     }
     //滚动
     getscrollpage(){
@@ -212,7 +199,7 @@ class ZmitiCarlistApp extends React.Component {
         });
       }, 600);
 
-      this.getdatasource(1);//默认获取第1页数据
+      this.getdatasource();
     }
 
 
