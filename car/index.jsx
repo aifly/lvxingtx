@@ -8,15 +8,6 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
-function MyBody(props) {
-  return (
-    <div className="am-list-body my-body">
-      <span style={{ display: 'none' }}>you can custom body wrap element</span>
-      {props.children}
-    </div>
-  );
-}
-
 const data = [
   {
     img: './assets/images/car-01.png',
@@ -32,68 +23,38 @@ const data = [
     img: './assets/images/car-01.png',
     title: '3YTK6118EV2纯电动客车11米舒驰',
     des: '6118EV2纯电动客车11米舒驰',
-  }
+  },
 ];
-const NUM_SECTIONS = 3;//第*组后加载
-const NUM_ROWS_PER_SECTION = 3;//每组个数
+const NUM_ROWS = 20;
 let pageIndex = 0;
 
-const dataBlobs = {};
-let sectionIDs = [];
-let rowIDs = [];
 function genData(pIndex = 0) {
-  for (let i = 0; i < NUM_SECTIONS; i++) {
-    const ii = (pIndex * NUM_SECTIONS) + i;
-    const sectionName = `Section ${ii}`;
-    sectionIDs.push(sectionName);
-    dataBlobs[sectionName] = sectionName;
-    rowIDs[ii] = [];
-
-    for (let jj = 0; jj < NUM_ROWS_PER_SECTION; jj++) {
-      const rowName = `S${ii}, R${jj}`;
-      rowIDs[ii].push(rowName);
-      dataBlobs[rowName] = rowName;
-    }
+  const dataBlob = {};
+  for (let i = 0; i < NUM_ROWS; i++) {
+    const ii = (pIndex * NUM_ROWS) + i;
+    dataBlob[`${ii}`] = `row - ${ii}`;
   }
-  sectionIDs = [...sectionIDs];
-  rowIDs = [...rowIDs];
+  return dataBlob;
 }
 class ZmitiCarlistApp extends React.Component {
     constructor(args) {
         super(...args);
-        const getSectionData = (dataBlob, sectionID) => dataBlob[sectionID];
-        const getRowData = (dataBlob, sectionID, rowID) => dataBlob[rowID];
-
         const dataSource = new ListView.DataSource({
-          getRowData,
-          getSectionHeaderData: getSectionData,
           rowHasChanged: (row1, row2) => row1 !== row2,
-          sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
         });
-
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             dataSource,
             isLoading: true,
-            height: document.documentElement.clientHeight * 3 / 4,
-            selectedTab: 'redTab',
         };
     }    
-  onEndReached(event){
-        if (this.state.isLoading && !this.state.hasMore) {
-          return;
-        }
-        console.log('reach end', event);
-        this.setState({ isLoading: true });
-        setTimeout(() => {
-          genData(++pageIndex);
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
-            isLoading: false,
-          });
-        }, 1000);
-    }
+
     render() {
+
+        
+        let tabbarProps ={
+            selectedTab: 'redTab',
+        }
         const separator = (sectionID, rowID) => (
           <div
             key={`${sectionID}-${rowID}`}
@@ -112,30 +73,27 @@ class ZmitiCarlistApp extends React.Component {
           }
           const obj = data[index--];
           return (
-            <div key={rowID} className="lv-car-item">              
+            <div key={rowID} className="lv-car-item">
               <div className="lv-car-item-inner">
-                <a href="./#/carview/"><img src={obj.img} alt="" /></a>
+                <a href="./#/carview/"><img src={obj.img} alt={obj.title}/></a>
                 <div className="lv-car-item-inner-con">
-                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.title}</a></div>
-                    <div className="lv-car-info">
-                        <Flex>
-                            <Flex.Item>品牌：舒驰</Flex.Item>
-                            <Flex.Item>类型：通勤车</Flex.Item>
-                        </Flex>
-                        <Flex>
-                            <Flex.Item>续航：260KM</Flex.Item>
-                            <Flex.Item><span className="lv-font-c2">可乘：46人</span></Flex.Item>
-                        </Flex>
-                    </div>
+                  <div  className="lv-car-subtitle"><a href="./#/carview/">{obj.title}</a></div>                  
+                  <div className="lv-car-info">
+                    <div style={{ display: 'none'}}><span>{rowID}</span></div>
+                    <Flex>
+                        <Flex.Item>品牌：舒驰</Flex.Item>
+                        <Flex.Item>类型：通勤车</Flex.Item>
+                    </Flex>
+                    <Flex>
+                        <Flex.Item>续航：260KM</Flex.Item>
+                        <Flex.Item><span className="lv-font-c2">可乘：46人</span></Flex.Item>
+                    </Flex>
+                  </div>
                 </div>
-                <div className="clearfix"></div>
               </div>
             </div>
           );
         };
-        let tabbarProps ={
-            selectedTab: 'redTab',
-        }
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-pane-carlist">
@@ -147,26 +105,21 @@ class ZmitiCarlistApp extends React.Component {
                         />
                     </div>
                     <ListView
-                        ref={el => this.lv = el}
-                        dataSource={this.state.dataSource}
-                        renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                          {this.state.isLoading ? '加载中...' : '加载完成'}
-                        </div>)}
-                        renderSectionHeader={sectionData => (
-                          <div>{`Task ${sectionData.split(' ')[1]}`}</div>
-                        )}
-                        renderBodyComponent={() => <MyBody />}
-                        renderRow={row}
-                        renderSeparator={separator}
-                        style={{
-                          height: this.state.height-97,
-                          overflow: 'auto',
-                        }}
-                        pageSize={4}
-                        onScroll={() => { console.log('scroll'); }}
-                        scrollRenderAheadDistance={500}
-                        onEndReached={this.onEndReached.bind(this)}
-                        onEndReachedThreshold={10}
+                      ref={el => this.lv = el}
+                      dataSource={this.state.dataSource}
+                      renderHeader={() => <span>header</span>}
+                      renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                        {this.state.isLoading ? 'Loading...' : 'Loaded'}
+                      </div>)}
+                      renderRow={row}
+                      renderSeparator={separator}
+                      className="am-list"
+                      pageSize={4}
+                      useBodyScroll
+                      onScroll={() => { console.log('scroll'); }}
+                      scrollRenderAheadDistance={500}
+                      onEndReached={this.onEndReached.bind(this)}
+                      onEndReachedThreshold={10}
                     />
                 </div>              
                 <div className="lv-menu-bar">
@@ -185,26 +138,38 @@ class ZmitiCarlistApp extends React.Component {
     navOnValueChange(value){
         console.log(value);
     } 
-
+    //Listview
+    onEndReached(event){
+      // load new data
+      // hasMore: from backend data, indicates whether it is the last page, here is false
+      if (this.state.isLoading && !this.state.hasMore) {
+        return;
+      }
+      console.log('reach end', event);
+      this.setState({ isLoading: true });
+      setTimeout(() => {
+        this.rData = { ...this.rData, ...genData(++pageIndex) };
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(this.rData),
+          isLoading: false,
+        });
+      }, 1000);
+    }
 
     componentWillMount() {
 
     }
 
     componentDidMount() {
-        const hei = document.documentElement.clientHeight - ReactDOM.findDOMNode(this.lv).parentNode.offsetTop;
-        // simulate initial Ajax
-        setTimeout(() => {
-          genData();
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRowsAndSections(dataBlobs, sectionIDs, rowIDs),
-            isLoading: false,
-            height: hei,
-          });
+      setTimeout(() => {
+        this.rData = genData();
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(this.rData),
+          isLoading: false,
+        });
+      }, 600);
 
-        }, 1000);
-        this.getdatasource();
-
+      this.getdatasource();
     }
     //获取数据
     getdatasource(){
@@ -220,16 +185,18 @@ class ZmitiCarlistApp extends React.Component {
           cartypeid:0,
         },
         success(data){
-          console.log(data,'getdata'); 
-          var carlist=data.carlist;             
-                /*$.each(data.cartypedata,function(index,item){
-                    var ii=index+1;
-                    s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
-                })*/
-                
-                
-                //console.log(s.state.citydata,'s.state.citydata');
-                s.forceUpdate();
+          if(data.getret===1004){          
+            console.log(data,'getdata'); 
+            var carlist=data.carlist;             
+            /*$.each(data.cartypedata,function(index,item){
+                var ii=index+1;
+                s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
+            })*/
+            
+            
+            //console.log(s.state.citydata,'s.state.citydata');
+            s.forceUpdate();
+          }
 
         }
       })
