@@ -63,14 +63,19 @@
     background:none;
     .am-list-item{
       background:none;
+      min-height: 30px;
     }
   }
   .am-list-item .am-list-line .am-list-content{
     text-overflow:inherit;
+    font-size: 15px;
   }
 }
+html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .am-list-line::after{
+  height: 0px;
+}
 .lv-pane-store-con{
-  padding: 0 0 0 90px;
+  margin-left:90px;
 }
 .lv-pane-store-listpane-inner{
   background-color: #ffffff;
@@ -81,7 +86,11 @@
     border-bottom:1px solid #ECECED;
     margin-bottom: 10px;
   }
+  .am-list-body{
+    padding: 10px 0 0 0;
+  }
 }
+
 .lv-page-store{
   position: absolute;
   width: 100%;

@@ -129,7 +129,7 @@ class ZmitiStoreApp extends React.Component {
                   fontSize: 15,
                 }}
               >{obj.title}</div>
-              <div style={{ display: '-webkit-box', display: 'flex', padding: '15px 0' }}>              
+              <div style={{ display: '-webkit-box', display: 'flex', padding: '12px 0' }}>              
                 <div style={{ lineHeight: 1.2,fontSize:'14px',color:'#888'}}>
                   <div>营业时间：{obj.opentime}--{rowID}</div>
                   <div>联系电话：{obj.telephone}</div>
@@ -171,7 +171,7 @@ class ZmitiStoreApp extends React.Component {
                             <ListView
                                 ref={el => this.lv = el}
                                 dataSource={this.state.dataSource}
-                                renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                                renderFooter={() => (<div className="lv-am-list-footer" style={{ padding: 30}}>
                                   {this.state.isLoading ? 'Loading...' : 'Loaded'}
                                 </div>)}
                                 renderRow={row}
