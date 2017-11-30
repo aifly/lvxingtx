@@ -172,7 +172,7 @@ class ZmitiCarlistApp extends React.Component {
               residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
             })
             console.log('总共'+s.state.countPageNum+'页');
-            console.log(s.state.residueNum,'余数');
+            console.log('最后一页有'+s.state.residueNum+'条');
             s.forceUpdate();
           }
 
