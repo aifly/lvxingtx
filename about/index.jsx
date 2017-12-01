@@ -32,7 +32,6 @@ class ZmitiAboutApp extends React.Component {
             	<div className="lv-top-navbar">
                     <NavBar
                       mode="light"
-                      icon={<Icon type="left" />}
                       onLeftClick={this.goback.bind(this)}
                     >关于我们</NavBar>
                 </div>

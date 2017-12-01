@@ -182,39 +182,7 @@ class ZmitiHomeApp extends React.Component {
     		tValue:val,
     	})
     }
-    getStore(){
-        var citylist = new Array();
-        var arealist = new Array();
-        var pdata = new Array();
-        
-        var ipt_city = "<option value='0'>-选择-</option>";
-        $.getJSON("./assets/js/getStore.json",function(pdata){
-            $.each(pdata,function(i,item){
-                $.each(item.provincelist,function(v,city){                             
-                    ipt_city += "<option value='" + city.city_id + "'>" + city.cityname + "</option>";  
-                    $("#input_city").html(ipt_city);                                   
-                })              
-            });
-            $("#input_city").change(function(){
-                var val_city=$(this).val();
-                var ipt_store = "<option value='0'>-选择-</option>"; 
-                /*$.each(pdata,function(i,item){ 
-                    $.each(item.provincelist,function(v,city){
-                        if(val_city==city.city_id){
-                            $.each(city.citylist,function(k,area){
-                                $.each(area.arealist,function(m,store){
-                                    ipt_store += "<option value='" + store.stoid + "'>" + store.storename + "</option>";
-                                })
-                                $("#input_store").html(ipt_store);
-                            })                   
-                        }               
-                    })
-                })*/
-            })
-        
-        })
 
-    }
     //获取车型
     getdatasource(){
     	var s = this;
@@ -241,26 +209,7 @@ class ZmitiHomeApp extends React.Component {
     	})
     	s.forceUpdate();
     }
-    /*
-    getcity(e){
-        var s = this;
-        s.state.cityid=e.target.value;
-        console.log(s.state.cityid,'s.state.cityid');
-        s.forceUpdate();
-    }
-    getstoreid(e){
-        var s = this;
-        s.state.storeid=e.target.value;
-        console.log(s.state.storeid,'s.state.storeid');
-        s.forceUpdate();
-    }
-    getcartypeid(e){
-        var s = this;
-        s.state.cartypeid=e.target.value;
-        console.log(s.state.cartypeid,'s.state.cartypeid');
-        s.forceUpdate();
-    }
-    */
+
     gosearch(){//去选车
         var s = this;
         var params={
