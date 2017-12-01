@@ -221,7 +221,6 @@ class ZmitiCarorderApp extends React.Component {
             ]
           ]
       })
-      alert("test");
     }
     //订单类型
     orderstatic(e){

@@ -56,34 +56,7 @@ class ZmitiStoreApp extends React.Component {
             dataSource,
             isLoading: true,
             visible: false,
-            dataLeftMenu:[{
-            	'cityname':'石家庄',
-            	'cityid':180,
-            },{
-            	'cityname':'武汉',
-            	'cityid':181,
-            },{
-            	'cityname':'南京',
-            	'cityid':182,
-            },{
-            	'cityname':'成都',
-            	'cityid':180,
-            },{
-            	'cityname':'贵阳',
-            	'cityid':180,
-            },{
-            	'cityname':'广州',
-            	'cityid':180,
-            },{
-            	'cityname':'海口',
-            	'cityid':180,
-            },{
-            	'cityname':'长沙',
-            	'cityid':180,
-            },{
-            	'cityname':'太原',
-            	'cityid':180,
-            }],
+            dataLeftMenu:[],
             valuetypea:'curr',//默认选中门店
             valuetypeb:'',
             hidden: false,
@@ -101,9 +74,9 @@ class ZmitiStoreApp extends React.Component {
         const sidebar = (<List className="my-list">
           {this.state.dataLeftMenu.map((item, index) => {
             return (<List.Item key={index}
-            	onClick={() => {console.log(item.cityid,'cityid');}}
+            	onClick={() => {console.log(item.value,'cityid');}}
               
-            >{item.cityname}
+            >{item.label}
             </List.Item>);
           })}
         </List>);
@@ -259,16 +232,27 @@ class ZmitiStoreApp extends React.Component {
           });
         }, 1000);
     }
+    //获取城市
+    getcityListsource(){
+      var s = this;    
+      $.ajax({
+        url:H5API+'h5/getcitylist',
+        type:'post',
+        success(data){
+          console.log(data,'getdata'); 
+          s.setState({
+            dataLeftMenu:data.citydata,
+          })
+          s.forceUpdate();
+        }
+      })
+    }
     
     componentWillMount() {
 
     }
 
     componentDidMount() {
-        // you can scroll to the specified position
-        // setTimeout(() => this.lv.scrollTo(0, 120), 800);
-
-        // simulate initial Ajax
         setTimeout(() => {
           this.rData = genData();
           this.setState({
@@ -277,16 +261,9 @@ class ZmitiStoreApp extends React.Component {
           });
         }, 600);
         this.getdatasource();
+        this.getcityListsource();
 
     }
-    // If you use redux, the data maybe at props, you need use `componentWillReceiveProps`
-    // componentWillReceiveProps(nextProps) {
-    //   if (nextProps.dataSource !== this.props.dataSource) {
-    //     this.setState({
-    //       dataSource: this.state.dataSource.cloneWithRows(nextProps.dataSource),
-    //     });
-    //   }
-    // }    
 
 }
 
