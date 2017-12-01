@@ -9,7 +9,7 @@ import IScroll from 'iscroll';
 import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-const NUM_ROWS = 4;//一屏显示条数
+const NUM_ROWS = 5;//一屏显示条数
 let pageIndex = 0;//开始页码，从0开始
 
 function genData(pIndex = 0) {
@@ -64,7 +64,7 @@ class ZmitiCarlistApp extends React.Component {
           return (
             <div key={rowID} className="lv-car-item">
               <div className="lv-car-item-inner">
-                <a href={'./#/carview/'+obj.carid}><img src={WebSite+obj.path} alt={rowID}/></a>
+                <a href={'./#/carview/'+obj.carid}><img src={WebSite+obj.path} alt={obj.carname}/></a>
                 <div className="lv-car-item-inner-con">
                   <div  className="lv-car-subtitle"><a href={'./#/carview/'+obj.carid}>{obj.carname}</a></div>                  
                   <div className="lv-car-info">
@@ -98,7 +98,7 @@ class ZmitiCarlistApp extends React.Component {
                       ref={el => this.lv = el}
                       dataSource={this.state.dataSource}
                       renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                        {this.state.isLoading ? '加载中...' : '没有更多了'}
+                        {this.state.isLoading ? 'Loading...' : 'Loaded'}
                       </div>)}
                       renderRow={row}
                       renderSeparator={separator}
@@ -129,28 +129,28 @@ class ZmitiCarlistApp extends React.Component {
     } 
     //Listview
     onEndReached(event){
-		var s = this;
-		var countPageNum=s.state.countPageNum-1;//总页数
-		var residueNum=s.state.residueNum;//最后一页条数
-
-		if(pageIndex<countPageNum){
-			if (this.state.isLoading && !this.state.hasMore) {
-				return;
-			}
-			console.log('reach end', event);
-			this.setState({ isLoading: true });
-			setTimeout(() => {
-			this.rData = { ...this.rData, ...genData(++pageIndex) };
-
-			  s.getdatasource(pageIndex+1);//加载当前页数据
-			  this.setState({
-			    dataSource: this.state.dataSource.cloneWithRows(this.rData),
-			    isLoading: false,
-			  });
-			  console.log(pageIndex,'pageIndex');
-
-			}, 1000);
-  		}
+      var s = this;
+      var countPageNum=s.state.countPageNum;//总页数
+      var residueNum=s.state.residueNum;//最后一页条数
+      // load new data
+      // hasMore: from backend data, indicates whether it is the last page, here is false
+      if (this.state.isLoading && !this.state.hasMore) {
+        return;
+      }
+      console.log('reach end', event);
+      this.setState({ isLoading: true });
+      setTimeout(() => {
+        this.rData = { ...this.rData, ...genData(++pageIndex) };
+        if(pageIndex<countPageNum){
+          s.getdatasource(pageIndex+1);//加载当前页数据
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(this.rData),
+            isLoading: false,
+          });
+          console.log(pageIndex,'pageIndex');
+        }
+        
+      }, 1000);
     }
     /*获取数据*/
     getdatasource(pageid){
@@ -160,23 +160,21 @@ class ZmitiCarlistApp extends React.Component {
         type:'post',
         data:{
           page:pageid,
-          pagenum:NUM_ROWS,
+          pagenum:5,
           cartypeid:0,
         },
         success(result){
-        	console.log('加载第'+pageid+'页');
-
-			if(result.getret===1004){          
-				console.log(result.carlist,'getdata'); 
-				s.setState({
-				  data:result.carlist,
-				  countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
-				  residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
-				})
-				console.log('总共'+s.state.countPageNum+'页');
-				console.log('最后一页有'+s.state.residueNum+'条');
-				s.forceUpdate();
-			}
+          if(result.getret===1004){          
+            console.log(result,'getdata'); 
+            s.setState({
+              data:result.carlist,
+              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
+              residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
+            })
+            console.log('总共'+s.state.countPageNum+'页');
+            console.log('最后一页有'+s.state.residueNum+'条');
+            s.forceUpdate();
+          }
 
         }
       })
