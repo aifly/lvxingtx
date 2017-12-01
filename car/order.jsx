@@ -165,7 +165,7 @@ class ZmitiCarorderApp extends React.Component {
 
         this.setState({
             sValue:val,
-            tValue:0,
+            tValue:0,//门店数值初始化
         })
         s.state.carstoredata[0][0]={label: '全部', value:0};
         $.each(citydata,function(index,item){
@@ -173,11 +173,10 @@ class ZmitiCarorderApp extends React.Component {
             var sValue=item.value;
             if(sValue==val){              
               
-              console.log(item.children,'item.children');
+              //console.log(item.children,'item.children');
               $.each(item.children,function(idx,ele){
                   var ii=idx+1;
                   s.state.carstoredata[0][ii]={'label':ele.label , 'value':ele.value};
-                  //console.log(ii,s.state.carstoredata[0][ii],'s.state.carstoredata[0][ii]');
               })
 
               s.forceUpdate();
@@ -185,7 +184,7 @@ class ZmitiCarorderApp extends React.Component {
             
             
         })
-        console.log(s.state.carstoredata,'s.state.carstoredata');
+        //console.log(s.state.carstoredata,'s.state.carstoredata');
         s.forceUpdate();
         
     }
@@ -194,6 +193,20 @@ class ZmitiCarorderApp extends React.Component {
         this.setState({
             tValue:val,
         })
+    }
+    //门店数值初始化
+    openpicker(){
+      this.setState({
+          tValue:0,
+          carstoredata:[
+            [
+              {
+                label: '全部',
+                value: 0,
+              }
+            ]
+          ]
+      })
     }
     render() {
         return (
@@ -254,10 +267,11 @@ class ZmitiCarorderApp extends React.Component {
                                           cascade={false}
                                           extra="选择地区"
                                           value={this.state.sValue}
+                                         
                                           onChange={this.selectcity.bind(this)}
                                           
                                         >
-                                          <Item arrow="down" >地区</Item>
+                                          <Item arrow="down" onClick={this.openpicker.bind(this)}>地区</Item>
                                         </Picker>
                                         
 
