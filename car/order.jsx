@@ -5,11 +5,11 @@ import { createForm } from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex,InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {TabBar,Flex,InputItem,Radio,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-
+const RadioItem = Radio.RadioItem;
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -20,7 +20,7 @@ class ZmitiCarorderApp extends React.Component {
             storeid:0,//门店
             cartypeid:0,//车型
             visible: false,
-            ordertype:1,//订单类型
+            ordertype:0,//订单类型
             getcarstoreid: '',
             contentusername:'',
             contentphone:'',            
@@ -91,19 +91,19 @@ class ZmitiCarorderApp extends React.Component {
             }],
             hidden: false,
             fullScreen: true,
+            orderdata: [
+              { value: 0, label: '租车' },
+              { value: 1, label: '购车' },
+            ],
+            value:0,
         }
-        this.showModal = key => (e) => {
-          e.preventDefault(); // 修复 Android 上点击穿透
+        this.onChangeOrder = (value) => {
+          console.log(value,'checkbox');
           this.setState({
-            [key]: true,
+            value:value,
+            ordertype:value,
           });
-        }
-        this.onClose = key => () => {
-          this.setState({
-            [key]: false,
-          });
-          window.location="./#/car/";
-        }
+        };
     }    
     pagelinks(pageText) {
         window.location=pageText;
@@ -112,6 +112,24 @@ class ZmitiCarorderApp extends React.Component {
 
     goback(){
         history.go(-1);
+    }
+    //打开弹窗
+    showModal(){
+      var s = this;
+      //e.preventDefault(); 
+      s.setState({
+        modal1: true,
+      });
+      s.forceUpdate();
+    }
+    //关闭弹窗
+    onClose(){
+      var s = this;
+      s.setState({
+        modal1: false,
+      });
+      s.forceUpdate();
+      window.location="./#/car/";
     }
     //获取详情
     getDetail(){
@@ -216,9 +234,21 @@ class ZmitiCarorderApp extends React.Component {
         s.state.ordertype=0;
       }
     }
+    contentusername(val){
+      var s = this;
+      s.state.contentusername=val;
+      s.forceUpdate();
+    }
+    /*onChangeOrder(value){
+      console.log('checkbox');
+      this.setState({
+        value,
+      });
+    };*/
     //提交订单
-    onSubmit(){
+    onSubmit(e){
         var s = this;
+        e.preventDefault(); 
         var params={
           carid:s.props.params.id,
           ordertype:s.state.ordertype,//订单类型
@@ -228,6 +258,16 @@ class ZmitiCarorderApp extends React.Component {
           content:s.state.content,
         };
         console.log(params,'params');
+        $.ajax({
+          url:H5API+'h5/saveorder',
+          type:'post',
+          data:params,
+          success(result){
+            if(result.getmsg==='提交订单成功'){              
+              s.showModal();
+            }
+          }
+        })
     }
     render() {
         let SwitchExample = (props) => {
@@ -241,9 +281,9 @@ class ZmitiCarorderApp extends React.Component {
                     valuePropName: 'checked',
                   })}
                   platform="android"
-                  color="red"
+                  color="#38b44c"
                 />}
-                onChange={this.orderstatic.bind(this)}
+                onClick={this.orderstatic.bind(this)}
               >订单类型</List.Item>
             </List>
           );
@@ -294,7 +334,15 @@ class ZmitiCarorderApp extends React.Component {
                                   
                                 </div>
                                 <div className="hr10"></div>
-                                
+                                <div className="lv-pane-orderview-column3">
+                                  <List>
+                                    {this.state.orderdata.map(i => (
+                                      <RadioItem key={i.value} checked={this.state.value === i.value} onChange={() => this.onChangeOrder(i.value)}>
+                                        {i.label}
+                                      </RadioItem>
+                                    ))}
+                                  </List>
+                                </div>
                                 <div className="hr10"></div>
                                 <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
                                     
@@ -331,11 +379,11 @@ class ZmitiCarorderApp extends React.Component {
                                 <div className="hr10"></div>
                                 <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
                                     <div className="lv-pane-list-item-last">
-                                      <SwitchExample />
+                                      
                                       <List>
 
                                           <InputItem                                        
-                                              onChange={(value)=>{this.state.contentusername=value;this.forceUpdate();}}
+                                              onChange={this.contentusername.bind(this)}
                                               value={this.state.contentusername}                                       
                                               placeholder="请输入您的姓名"
                                           >姓名</InputItem>
@@ -367,16 +415,16 @@ class ZmitiCarorderApp extends React.Component {
                 </div>
                 <div className="lv-pane-orderview-submit">
                     <div className="lv-pane-orderview-submit-l">确认信息无误后可提交订单</div>
-                    <div className="lv-pane-orderview-submit-r" onClick={this.showModal('modal1')}>提交订单</div>
+                    <div className="lv-pane-orderview-submit-r" onClick={this.onSubmit.bind(this)}>提交订单</div>
                     <div className="clearfix"></div>
                 </div>
                 <Modal
                   visible={this.state.modal1}
                   transparent
                   maskClosable={false}
-                  onClose={this.onClose('modal1')}
+                  onClose={this.onClose.bind(this)}
                   title="提交成功"
-                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose('modal1')(); } }]}
+                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose.bind(this)(); } }]}
                   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 >
                   <div className="lv-dialog-text">

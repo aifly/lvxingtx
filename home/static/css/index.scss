@@ -342,3 +342,7 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
     font-size: 17px;
   }
 }
+.am-radio.am-radio-checked .am-radio-inner:after {
+    display: block;
+    border-color: #38b44c;
+}
