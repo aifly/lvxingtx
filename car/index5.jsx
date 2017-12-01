@@ -10,7 +10,7 @@ import {TabBar,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl 
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
 const NUM_ROWS = 4;//一屏显示条数
-//let pageIndex = 0;//开始页码，从0开始
+let pageIndex = 0;//开始页码，从0开始
 
 function genData(pIndex = 0) {
   const dataBlob = {};
@@ -31,7 +31,6 @@ class ZmitiCarlistApp extends React.Component {
             mainHeight: document.documentElement.clientHeight,
             dataSource,
             isLoading: true,
-            pageIndex:0,//开始页码，从0开始
             page:1,//当前第*页，从1开始
             countPageNum:1,//共*页
             residueNum:0,//最后一页里有*条
@@ -133,17 +132,16 @@ class ZmitiCarlistApp extends React.Component {
 		var s = this;
 		var countPageNum=s.state.countPageNum-1;//总页数
 		var residueNum=s.state.residueNum;//最后一页条数
-		s.forceUpdate();
-		if(s.state.pageIndex<countPageNum){			
+		if(pageIndex<countPageNum){
 			if (this.state.isLoading && !this.state.hasMore) {
 				return;
 			}
 			console.log('reach end', event);
 			this.setState({ isLoading: true });
 			setTimeout(() => {
-			this.rData = { ...this.rData, ...genData(++s.state.pageIndex) };
+			this.rData = { ...this.rData, ...genData(++pageIndex) };
 
-			  s.getdatasource(s.state.pageIndex+1);//加载当前页数据
+			  s.getdatasource(pageIndex+1);//加载当前页数据
 			  this.setState({
 			    dataSource: this.state.dataSource.cloneWithRows(this.rData),
 			    isLoading: false,
@@ -152,7 +150,7 @@ class ZmitiCarlistApp extends React.Component {
 
 			}, 1000);
   		}
-  		console.log(s.state.pageIndex,'pageIndex');
+  		console.log(pageIndex,'pageIndex');
     }
     /*获取数据*/
     getdatasource(pageid){
@@ -204,7 +202,7 @@ class ZmitiCarlistApp extends React.Component {
       }, 600);
 
       this.getdatasource(1);//默认获取第1页数据
-      //this.onEndReached();
+      this.onEndReached();
     }
 
 
