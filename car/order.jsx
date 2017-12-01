@@ -25,68 +25,25 @@ class ZmitiCarorderApp extends React.Component {
             citydata:[
               [
                 {
-                  label: '石家庄',
-                  value: '138',
-                },
-                {
-                  label: '武汉',
-                  value: '180',
-                },
-                {
-                  label: '南京',
-                  value: '220',
-                },
-                {
-                  label: '成都',
-                  value: '322',
-                },
-                {
-                  label: '贵阳',
-                  value: '111',
-                },
-                {
-                  label: '广州',
-                  value: '76',
-                },
-                {
-                  label: '海口',
-                  value: '120',
-                },
-                {
-                  label: '长沙',
-                  value: '197',
-                },
-                {
-                  label: '太原',
-                  value: '300',
-                },
+                  label: '全部',
+                  value: 0,
+                  children:[{
+                      label: '全部',
+                      value: 0,
+                  }]
+                }
               ]
             ],
             carstoredata:[
               [
                 {
                   label: '全部',
-                  value: '0',
-                },{
-                  label: '河北江富新能源汽车销售有限公司',
-                  value: '1',
-                },
-                {
-                  label: '湖北神通捷能电动汽车销售有限公司',
-                  value: '2',
-                },
-                {
-                  label: '镇江易联捷能新能源汽车有限公司',
-                  value: '3',
-                },
-                {
-                  label: '镇江国达新能源汽车租赁有限公司',
-                  value: '4',
-                },
+                  value: 0,
+                }
               ]
             ],
-            sValue: ['138'],//地区
-            tValue: ['0'],//车型
+            sValue: [0],//地区
+            tValue: [0],//门店
             detial:[{
                 carid:'',
                 carname:'',
@@ -148,23 +105,12 @@ class ZmitiCarorderApp extends React.Component {
     pagelinks(pageText) {
         window.location=pageText;
     }
-    selectcity(val){
-        console.log(val,'城市');
-        this.setState({
-            sValue:val,
-        })
-    }
-    selectstoretype(val){
-        console.log(val,'门店');
-        this.setState({
-            tValue:val,
-        })
-    }
+    
     onSubmit(){
         var s = this;
         var params={
-            cityid:s.state.sValue.toString(),//城市
-            storeid:s.state.tValue.toString(),//门店
+            cityid:s.state.sValue,//城市
+            storeid:s.state.tValue,//门店
             cartypeid:s.state.cartypeid,//车型
         };
         console.log(params,'params');
@@ -191,6 +137,62 @@ class ZmitiCarorderApp extends React.Component {
               }
 
             }
+        })
+    }
+    //获取车型&门店
+    getdatasource(){
+      var s = this;
+    
+      $.ajax({
+        url:H5API+'h5/getcitylist',
+        type:'post',
+        success(data){
+          console.log(data,'getdata');               
+          $.each(data.citydata,function(index,item){
+              var mm=index+1;
+              s.state.citydata[0][mm]={'label':item.label , 'value':item.value,'children':item.children};
+          })
+          //console.log(s.state.citydata,'s.state.citydata');
+          s.forceUpdate();
+
+        }
+      })
+    }
+    selectcity(val){
+        var s = this;
+        var citydata=s.state.citydata[0];
+        console.log(val,'城市');
+
+        this.setState({
+            sValue:val,
+            tValue:0,
+        })
+        s.state.carstoredata[0][0]={label: '全部', value:0};
+        $.each(citydata,function(index,item){
+            var nn=index+1;
+            var sValue=item.value;
+            if(sValue==val){              
+              
+              console.log(item.children,'item.children');
+              $.each(item.children,function(index,ele){
+                  var ii=index+1;
+                  s.state.carstoredata[0][ii]={'label':ele.label , 'value':ele.value};
+                  //console.log(ii,s.state.carstoredata[0][ii],'s.state.carstoredata[0][ii]');
+              })
+
+              s.forceUpdate();
+            }
+            
+            
+        })
+        console.log(s.state.carstoredata,'s.state.carstoredata');
+        s.forceUpdate();
+        
+    }
+    selectstoretype(val){
+        console.log(val,'门店');
+        this.setState({
+            tValue:val,
         })
     }
     render() {
@@ -252,8 +254,8 @@ class ZmitiCarorderApp extends React.Component {
                                           cascade={false}
                                           extra="选择地区"
                                           value={this.state.sValue}
-                                          onChange={v => this.setState({ sValue: v })}
-                                          onOk={v => this.setState({ sValue: v })}
+                                          onChange={this.selectcity.bind(this)}
+                                          
                                         >
                                           <Item arrow="down" >地区</Item>
                                         </Picker>
@@ -266,7 +268,7 @@ class ZmitiCarorderApp extends React.Component {
                                           extra="选择门店"
                                           value={this.state.tValue}
                                           onChange={this.selectstoretype.bind(this)}
-                                          onOk={v => this.setState({ tValue: v })}
+                                          
                                         >
                                           <List.Item arrow="down">门店</List.Item>
                                         </Picker>
@@ -323,9 +325,6 @@ class ZmitiCarorderApp extends React.Component {
     }
 
 
-
-
-
     componentWillMount() {
 
     }
@@ -333,8 +332,8 @@ class ZmitiCarorderApp extends React.Component {
     componentDidMount() {
       var s = this;
       s.getDetail();
+      s.getdatasource();
     }
-
 
 }
 
