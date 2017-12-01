@@ -326,3 +326,19 @@ html:not([data-scale]) .am-list-body::after{
 html:not([data-scale]) .lv-dialog-text .am-result::after{
   height: 0px;
 }
+.lv-pane-list-item-last{
+  .am-list-item.am-list-item-middle .am-list-line{
+    border-bottom: 1px #ddd solid;
+  }
+}
+.lv-pane-list-item-only{
+  .am-list-header{
+    padding: 7px 15px 0 15px;
+    color: #5b6873;
+    font-size: 17px;
+  }
+  .am-textarea-label{
+    color: #5b6873;
+    font-size: 17px;
+  }
+}

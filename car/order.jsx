@@ -5,7 +5,7 @@ import createForm from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex, InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {TabBar,Flex,Switch, InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
@@ -19,9 +19,11 @@ class ZmitiCarorderApp extends React.Component {
             storeid:0,//门店
             cartypeid:0,//车型
             visible: false,
-            username:'',
-            usermobile:'',
-            codenums: '',            
+            ordertype:0,//订单类型
+            getcarstoreid: '',
+            contentusername:'',
+            contentphone:'',            
+            content:'',        
             citydata:[
               [
                 {
@@ -109,9 +111,8 @@ class ZmitiCarorderApp extends React.Component {
     onSubmit(){
         var s = this;
         var params={
-            cityid:s.state.sValue,//城市
-            storeid:s.state.tValue,//门店
-            cartypeid:s.state.cartypeid,//车型
+            getcarstoreid:s.state.getcarstoreid,//门店
+            ordertype:s.state.ordertype,//车型
         };
         console.log(params,'params');
     }
@@ -192,6 +193,7 @@ class ZmitiCarorderApp extends React.Component {
         console.log(val,'门店');
         this.setState({
             tValue:val,
+            getcarstoreid:String(val),
         })
     }
     //门店数值初始化
@@ -290,23 +292,37 @@ class ZmitiCarorderApp extends React.Component {
                                 </div>
                                 <div className="hr10"></div>
                                 <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
-                                    <List>
-                                        <InputItem                                        
-                                            onChange={(value)=>{this.state.username=value;this.forceUpdate();}}
-                                            value={this.state.username}                                       
-                                            placeholder="请输入您的姓名"
-                                        >姓名</InputItem>
-                                        <InputItem                                        
-                                            onChange={(value)=>{this.state.usermobile=value;this.forceUpdate();}}
-                                            value={this.state.usermobile}                                       
-                                            placeholder="请输入您的电话"
-                                        >电话</InputItem>
-                                        <InputItem                                        
-                                            onChange={(value)=>{this.state.codenums=value;this.forceUpdate();}}
-                                            value={this.state.codenums}                                       
-                                            placeholder="18位身份证号"
-                                        >身份证号</InputItem>
-                                    </List>
+                                    <div className="lv-pane-list-item-last">
+                                      <List>
+                                          <InputItem                                        
+                                              onChange={(value)=>{this.state.ordertype=value;this.forceUpdate();}}
+                                              value={this.state.ordertype}                                       
+                                              placeholder="请输入订单类型"
+                                          >订单类型</InputItem>
+                                          <InputItem                                        
+                                              onChange={(value)=>{this.state.contentusername=value;this.forceUpdate();}}
+                                              value={this.state.contentusername}                                       
+                                              placeholder="请输入您的姓名"
+                                          >姓名</InputItem>
+                                          <InputItem                                        
+                                              onChange={(value)=>{this.state.contentphone=value;this.forceUpdate();}}
+                                              value={this.state.contentphone}                                       
+                                              placeholder="请输入您的电话"
+                                          >电话</InputItem>
+                                      </List>
+                                    </div>
+                                    <div className="lv-pane-list-item-only">
+                                      <List>
+                                          <TextareaItem
+                                            title="备注"
+                                            onChange={(value)=>{this.state.content=value;this.forceUpdate();}}
+                                            value={this.state.content}
+                                            autoHeight
+                                            labelNumber={5}
+                                            placeholder="请输入备注内容"
+                                          />
+                                      </List>
+                                    </div>
                                 </div>
 
                                
