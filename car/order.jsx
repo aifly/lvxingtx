@@ -1,7 +1,7 @@
 import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
-import createForm from 'rc-form';
+import { createForm } from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
@@ -9,6 +9,7 @@ import {TabBar,Flex,InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,N
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
+
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -19,7 +20,7 @@ class ZmitiCarorderApp extends React.Component {
             storeid:0,//门店
             cartypeid:0,//车型
             visible: false,
-            ordertype:0,//订单类型
+            ordertype:1,//订单类型
             getcarstoreid: '',
             contentusername:'',
             contentphone:'',            
@@ -108,14 +109,7 @@ class ZmitiCarorderApp extends React.Component {
         window.location=pageText;
     }
     
-    onSubmit(){
-        var s = this;
-        var params={
-            getcarstoreid:s.state.getcarstoreid,//门店
-            ordertype:s.state.ordertype,//车型
-        };
-        console.log(params,'params');
-    }
+
     goback(){
         history.go(-1);
     }
@@ -210,7 +204,51 @@ class ZmitiCarorderApp extends React.Component {
           ]
       })
     }
+    //订单类型
+    orderstatic(e){
+      var s = this;    
+      var val=e.target.value;
+      if(val==='on'){
+        console.log(val,'购车');
+        s.state.ordertype=1;
+      }else{
+        console.log(val,'租车');
+        s.state.ordertype=0;
+      }
+    }
+    //提交订单
+    onSubmit(){
+        var s = this;
+        var params={
+          carid:s.props.params.id,
+          ordertype:s.state.ordertype,//订单类型
+          getcarstoreid:s.state.getcarstoreid,//门店
+          contentusername:s.state.contentusername,
+          contentphone:s.state.contentphone,
+          content:s.state.content,
+        };
+        console.log(params,'params');
+    }
     render() {
+        let SwitchExample = (props) => {
+          const { getFieldProps } = props.form;
+          return (
+            <List>
+              <List.Item
+                extra={<Switch
+                  {...getFieldProps('Switch5', {
+                    initialValue: true,
+                    valuePropName: 'checked',
+                  })}
+                  platform="android"
+                  color="red"
+                />}
+                onChange={this.orderstatic.bind(this)}
+              >订单类型</List.Item>
+            </List>
+          );
+        };
+        SwitchExample = createForm()(SwitchExample);
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-top-navbar">
@@ -293,12 +331,9 @@ class ZmitiCarorderApp extends React.Component {
                                 <div className="hr10"></div>
                                 <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
                                     <div className="lv-pane-list-item-last">
+                                      <SwitchExample />
                                       <List>
-                                          <InputItem                                        
-                                              onChange={(value)=>{this.state.ordertype=value;this.forceUpdate();}}
-                                              value={this.state.ordertype}                                       
-                                              placeholder="请输入订单类型"
-                                          >订单类型</InputItem>
+
                                           <InputItem                                        
                                               onChange={(value)=>{this.state.contentusername=value;this.forceUpdate();}}
                                               value={this.state.contentusername}                                       
