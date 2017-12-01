@@ -221,6 +221,7 @@ class ZmitiCarorderApp extends React.Component {
             ]
           ]
       })
+      alert("test");
     }
     //订单类型
     orderstatic(e){
@@ -270,6 +271,7 @@ class ZmitiCarorderApp extends React.Component {
         })
     }
     render() {
+
         let SwitchExample = (props) => {
           const { getFieldProps } = props.form;
           return (
@@ -334,21 +336,15 @@ class ZmitiCarorderApp extends React.Component {
                                   
                                 </div>
                                 <div className="hr10"></div>
-                                <div className="lv-pane-orderview-column3">
-                                  <List>
-                                    {this.state.orderdata.map(i => (
-                                      <RadioItem key={i.value} checked={this.state.value === i.value} onChange={() => this.onChangeOrder(i.value)}>
-                                        {i.label}
-                                      </RadioItem>
-                                    ))}
-                                  </List>
-                                </div>
-                                <div className="hr10"></div>
-                                <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
+
+                                <div className="lv-pane-orderview-inner lv-pane-orderview-column2 lv-pane-list-item-only">
                                     
                                     <List>                                       
-                                        
-
+                                        {this.state.orderdata.map(i => (
+                                          <RadioItem key={i.value} checked={this.state.value === i.value} onChange={() => this.onChangeOrder(i.value)}>
+                                            {i.label}
+                                          </RadioItem>
+                                        ))}
                                         <Picker
                                           data={this.state.citydata}
                                           title="选择地区"
@@ -374,15 +370,7 @@ class ZmitiCarorderApp extends React.Component {
                                         >
                                           <List.Item arrow="down">门店</List.Item>
                                         </Picker>
-                                    </List>
-                                </div>
-                                <div className="hr10"></div>
-                                <div className="lv-pane-orderview-inner lv-pane-orderview-column2">
-                                    <div className="lv-pane-list-item-last">
-                                      
-                                      <List>
-
-                                          <InputItem                                        
+                                        <InputItem                                        
                                               onChange={this.contentusername.bind(this)}
                                               value={this.state.contentusername}                                       
                                               placeholder="请输入您的姓名"
@@ -392,10 +380,6 @@ class ZmitiCarorderApp extends React.Component {
                                               value={this.state.contentphone}                                       
                                               placeholder="请输入您的电话"
                                           >电话</InputItem>
-                                      </List>
-                                    </div>
-                                    <div className="lv-pane-list-item-only">
-                                      <List>
                                           <TextareaItem
                                             title="备注"
                                             onChange={(value)=>{this.state.content=value;this.forceUpdate();}}
@@ -404,10 +388,8 @@ class ZmitiCarorderApp extends React.Component {
                                             labelNumber={5}
                                             placeholder="请输入备注内容"
                                           />
-                                      </List>
-                                    </div>
+                                    </List>
                                 </div>
-
                                
                             </div>
                         </div>
@@ -444,6 +426,16 @@ class ZmitiCarorderApp extends React.Component {
 
     componentDidMount() {
       var s = this;
+      /*
+      this.scroll = new IScroll(this.refs['wrapper'],{
+        scrollbars:true
+      });
+
+      setTimeout(()=>{
+        this.scroll.refresh();
+      },1000)
+      */
+
       s.getDetail();
       s.getdatasource();
     }
