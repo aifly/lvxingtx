@@ -204,7 +204,7 @@ class ZmitiCarlistApp extends React.Component {
       }, 600);
 
       this.getdatasource(1);//默认获取第1页数据
-      //this.onEndReached();
+      this.onEndReached();
     }
 
 

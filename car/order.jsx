@@ -7,6 +7,8 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {TabBar,Flex, InputItem,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
+const H5API='http://api.ev-bluesky.com/v2/';
+const WebSite='http://www.ev-bluesky.com/';
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -85,7 +87,48 @@ class ZmitiCarorderApp extends React.Component {
             ],
             sValue: ['138'],//地区
             tValue: ['0'],//车型
-            selectedTab: 'yellowTab',
+            detial:[{
+                carid:'',
+                carname:'',
+                carmodel:'',
+                brandid:'',
+                carsize:'',
+                capacity:'',
+                maxpassenger:'',
+                maxspeed:'',
+                emission:'',
+                engine:'',
+                motor:'',
+                drive:'',
+                carbreak:'',
+                steer:'',
+                config:'',
+                carfeature:'',
+                caruse:'',
+                life:'',
+                typeid:'',
+                tags:'',
+                status:'',
+                electricity:'',
+                batterytype:'',
+                overhang:'',
+                suspension:'',
+                tyresize:'',
+                motortype:'',
+                powerrate:'',
+                wheelbase:'',
+                weight:'',
+                createtime:'',
+                uid:'',
+                edituid:'',
+                edittime:'',
+                sort:'',
+                pictrueids:'',
+                hotsort:'',
+                typename:'',
+                brandname:'',             
+
+            }],
             hidden: false,
             fullScreen: true,
         }
@@ -129,6 +172,27 @@ class ZmitiCarorderApp extends React.Component {
     goback(){
         history.go(-1);
     }
+    //获取详情
+    getDetail(){
+        var s = this;
+        $.ajax({
+            url:H5API+'h5/gecardetial',
+            type:'post',
+            data:{
+              carid:this.props.params.id,
+            },
+            success(result){
+              if(result.getret===1004){
+                s.setState({
+                  detial:result.detial,                  
+                })
+                //console.log(result.detial,'detial');
+                s.forceUpdate();
+              }
+
+            }
+        })
+    }
     render() {
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
@@ -146,26 +210,26 @@ class ZmitiCarorderApp extends React.Component {
                             <div className="lv-pane-orderview">
                                 <div className="lv-pane-orderview-inner lv-pane-orderview-column1">                                  
                                   <List>
-                                    <Item><div className="lv-pane-orderview-h2">舒驰YTK6810EV1纯电动客车8米</div></Item>
+                                    <Item><div className="lv-pane-orderview-h2">{this.state.detial.carname}</div></Item>
                                     <Item
                                       thumb="./assets/images/car-05.png"
                                     >
                                         <div className="lv-pane-orderview-arr">
                                             <div className="lv-pane-orderview-arritem">
                                                 <div className="lv-pane-orderview-arr-l">电动机型</div>
-                                                <div className="lv-pane-orderview-arr-r">WTEM60-40-2</div>
+                                                <div className="lv-pane-orderview-arr-r">{this.state.detial.motortype}</div>
                                             </div>
                                             <div className="lv-pane-orderview-arritem2">
                                                 <div className="lv-pane-orderview-arr-l">电池总储电量</div>
-                                                <div className="lv-pane-orderview-arr-r">122kwh</div>
+                                                <div className="lv-pane-orderview-arr-r">{this.state.detial.electricity+'kwh'}</div>
                                             </div>
                                             <div className="lv-pane-orderview-arritem">
                                                 <div className="lv-pane-orderview-arr-l">续航里程</div>
-                                                <div className="lv-pane-orderview-arr-r">260km</div>
+                                                <div className="lv-pane-orderview-arr-r">{this.state.detial.life+'km'}</div>
                                             </div>
                                             <div className="lv-pane-orderview-arritem">
                                                 <div className="lv-pane-orderview-arr-l">可乘人数</div>
-                                                <div className="lv-pane-orderview-arr-r">26</div>
+                                                <div className="lv-pane-orderview-arr-r">{this.state.detial.maxpassenger}</div>
                                             </div>
                                         </div>
 
@@ -267,8 +331,8 @@ class ZmitiCarorderApp extends React.Component {
     }
 
     componentDidMount() {
-
-
+      var s = this;
+      s.getDetail();
     }
 
 

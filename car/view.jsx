@@ -65,7 +65,7 @@ class ZmitiCarviewApp extends React.Component {
         }
     }    
     orderview(){//提交订单
-        window.location="./#/carorder/";
+        window.location="./#/carorder/"+this.props.params.id;
     }
     render() {
         const CurrentId=this.props.params.id;
@@ -125,7 +125,7 @@ class ZmitiCarviewApp extends React.Component {
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-03.png"/>
                                                 <div className="lv-pane-carview-f1">续航里程</div>
-                                                <div className="lv-pane-carview-f2">{this.state.detial.life}km</div>
+                                                <div className="lv-pane-carview-f2">{this.state.detial.life+'km'}</div>
                                             </Flex.Item>
                                             <Flex.Item>
                                                 <img src="./assets/images/carview-04.png"/>
