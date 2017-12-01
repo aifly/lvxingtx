@@ -21,7 +21,16 @@ class ZmitiOrderApp extends React.Component {
             typeid:0,
             cityname:'',
             content: '',
+            sValue: ['其他城市'],//地区
             tValue: ['0'],//车型
+            citydata:[
+              [
+                {
+                  label: '城市',
+                  value: '其他城市',
+                },
+              ]
+            ],
             cartypedata:[[
                 {
                   label: '全部',
@@ -37,6 +46,12 @@ class ZmitiOrderApp extends React.Component {
     }    
     pagelinks(pageText) {
         window.location=pageText;
+    }
+    selectcity(val){
+      console.log(val,'城市');
+      this.setState({
+        sValue:val,
+      })
     }
     selectcartype(val){
       console.log(val,'车型');
@@ -74,6 +89,10 @@ class ZmitiOrderApp extends React.Component {
               var ii=index+1;
               s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
           })
+          $.each(data.citydata,function(index,item){
+              var mm=index+1;
+              s.state.citydata[0][mm]={'label':item.label , 'value':String(item.label)};
+          })
           s.forceUpdate();
         }
       })
@@ -89,7 +108,7 @@ class ZmitiOrderApp extends React.Component {
           username:s.state.username,
           usermobile:s.state.usermobile,
           typeid:String(s.state.tValue),
-          cityname:s.state.cityname,
+          cityname:String(s.state.sValue),
           content: s.state.content,
         },
         success(result){
@@ -147,12 +166,18 @@ class ZmitiOrderApp extends React.Component {
                                       >
                                         <List.Item arrow="horizontal">需求车型</List.Item>
                                       </Picker>
-                                      <InputItem placeholder="请输入"
-                                        onChange={(value)=>{this.state.cityname=value;this.forceUpdate();}}
-                                        value={this.state.cityname}
+
+                                      <Picker
+                                        data={this.state.citydata}
+                                        title="地区"
+                                        cascade={false}
+                                        extra="用车地址"
+                                        value={this.state.sValue}
+                                        onChange={this.selectcity.bind(this)}
+                                        onOk={v => this.setState({ sValue: v })}
                                       >
-                                        用车地址
-                                      </InputItem>
+                                        <List.Item arrow="horizontal">用车地址</List.Item>
+                                      </Picker>
 
                                       
                                       <List.Item data-seed="logId">需求内容</List.Item>
