@@ -130,27 +130,27 @@ class ZmitiCarlistApp extends React.Component {
     } 
     //Listview
     onEndReached(event){
-		var s = this;
-		var countPageNum=s.state.countPageNum-1;//总页数
-		var residueNum=s.state.residueNum;//最后一页条数
-		s.forceUpdate();
-		if(s.state.pageIndex<countPageNum){			
-			if (this.state.isLoading && !this.state.hasMore) {
-				return;
-			}
-			console.log('reach end', event);
-			this.setState({ isLoading: true });
-			setTimeout(() => {
-			this.rData = { ...this.rData, ...genData(++s.state.pageIndex) };
+  		var s = this;
+  		var countPageNum=s.state.countPageNum-1;//总页数
+  		var residueNum=s.state.residueNum;//最后一页条数
+  		s.forceUpdate();
+  		if(s.state.pageIndex<countPageNum){			
+  			if (this.state.isLoading && !this.state.hasMore) {
+  				return;
+  			}
+  			console.log('reach end', event);
+  			this.setState({ isLoading: true });
+  			setTimeout(() => {
+  			this.rData = { ...this.rData, ...genData(++s.state.pageIndex) };
 
-			  s.getdatasource(s.state.pageIndex+1);//加载当前页数据
-			  this.setState({
-			    dataSource: this.state.dataSource.cloneWithRows(this.rData),
-			    isLoading: false,
-			  });
-			  
+  			  s.getdatasource(s.state.pageIndex+1);//加载当前页数据
+  			  this.setState({
+  			    dataSource: this.state.dataSource.cloneWithRows(this.rData),
+  			    isLoading: false,
+  			  });
+  			  
 
-			}, 1000);
+  			}, 1000);
   		}
   		console.log(s.state.pageIndex,'pageIndex');
     }
@@ -169,17 +169,17 @@ class ZmitiCarlistApp extends React.Component {
         success(result){
         	console.log('加载第'+pageid+'页');
 
-			if(result.getret===1004){          
-				console.log(result.carlist,'getdata'); 
-				s.setState({
-				  data:result.carlist,
-				  countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
-				  residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
-				})
-				console.log('总共'+s.state.countPageNum+'页');
-				console.log('最后一页有'+s.state.residueNum+'条');
-				s.forceUpdate();
-			}
+    			if(result.getret===1004){          
+    				console.log(result.carlist,'getdata'); 
+    				s.setState({
+    				  data:result.carlist,
+    				  countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
+    				  residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
+    				})
+    				console.log('总共'+s.state.countPageNum+'页');
+    				console.log('最后一页有'+s.state.residueNum+'条');
+    				s.forceUpdate();
+    			}
 
         }
       })

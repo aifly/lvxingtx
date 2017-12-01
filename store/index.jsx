@@ -13,28 +13,8 @@ import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-const data = [
-  {
-    title: '河北江富新能源汽车销售有限公司新能源汽车',
-    opentime:'09:00--17:00',
-    telephone:'0311-66031159',
-    address:'河北石家庄桥西区裕华路66号金正海悦天地E座1019',
-  },
-  {
-    title: '河北江富新能源汽车销售有限公司新能源汽车',
-    opentime:'09:00--17:00',
-    telephone:'0311-66031159',
-    address:'河北石家庄桥西区裕华路66号金正海悦天地E座1019',
-  },
-  {
-    title: '河北江富新能源汽车销售有限公司新能源汽车',
-    opentime:'09:00--17:00',
-    telephone:'0311-66031159',
-    address:'河北石家庄桥西区裕华路66号金正海悦天地E座1019',
-  },
-];
-const NUM_ROWS = 20;
-let pageIndex = 0;
+const NUM_ROWS = 4;//一屏显示条数
+//let pageIndex = 0;//开始页码，从0开始
 
 function genData(pIndex = 0) {
   const dataBlob = {};
@@ -42,6 +22,7 @@ function genData(pIndex = 0) {
     const ii = (pIndex * NUM_ROWS) + i;
     dataBlob[`${ii}`] = `row - ${ii}`;
   }
+  //console.log(pIndex,'pIndex');//pageNum
   return dataBlob;
 }
 
@@ -55,6 +36,11 @@ class ZmitiStoreApp extends React.Component {
             mainHeight: document.documentElement.clientHeight,
             dataSource,
             isLoading: true,
+            pageIndex:0,//开始页码，从0开始
+            page:1,//当前第*页，从1开始
+            countPageNum:1,//共*页
+            residueNum:0,//最后一页里有*条
+            data: [],//车辆数据源
             visible: false,
             dataLeftMenu:[],
             valuetypea:'curr',//默认选中门店
@@ -71,15 +57,7 @@ class ZmitiStoreApp extends React.Component {
         let tabbarProps ={
           selectedTab: 'greenTab',
         }	    
-        const sidebar = (<List className="my-list">
-          {this.state.dataLeftMenu.map((item, index) => {
-            return (<List.Item key={index}
-            	onClick={() => {console.log(item.value,'cityid');}}
-              
-            >{item.label}
-            </List.Item>);
-          })}
-        </List>);
+        
         const separator = (sectionID, rowID) => (
           <div
             key={`${sectionID}-${rowID}`}
@@ -89,12 +67,12 @@ class ZmitiStoreApp extends React.Component {
             }}
           />
         );
-        let index = data.length - 1;
+        let index = this.state.data.length - 1;
         const row = (rowData, sectionID, rowID) => {
           if (index < 0) {
-            index = data.length - 1;
+            index = this.state.data.length - 1;
           }
-          const obj = data[index--];
+          const obj = this.state.data[index--];
           return (
             <div key={rowID} style={{ padding: '0 15px' }}>
               <div
@@ -103,17 +81,27 @@ class ZmitiStoreApp extends React.Component {
                   color: '#000',
                   fontSize: 15,
                 }}
-              >{obj.title}</div>
+              >{obj.storename}</div>
               <div style={{ display: '-webkit-box', display: 'flex', padding: '12px 0' }}>              
                 <div style={{ lineHeight: 1.2,fontSize:'14px',color:'#888'}}>
-                  <div>营业时间：{obj.opentime}--{rowID}</div>
-                  <div>联系电话：{obj.telephone}</div>
-                  <div>门店地址：{obj.address}</div>
+                  <div>营业时间：{obj.workingtime}--{rowID}</div>
+                  <div>联系电话：{obj.contactphone}</div>
+                  <div>门店地址：{obj.storeaddress}</div>
                 </div>
               </div>
             </div>
           );
         };
+
+        const sidebar = (<List className="my-list">
+          {this.state.dataLeftMenu.map((item, index) => {
+            return (<List.Item key={index}
+              onClick={() => {console.log(item.value,'cityid');}}
+              
+            >{item.label}
+            </List.Item>);
+          })}
+        </List>);
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
             	<div className="lv-store-header">
@@ -145,20 +133,20 @@ class ZmitiStoreApp extends React.Component {
                     <div className="lv-pane-store-con">
                         <div className="lv-pane-store-listpane-inner">
                             <ListView
-                                ref={el => this.lv = el}
-                                dataSource={this.state.dataSource}
-                                renderFooter={() => (<div className="lv-am-list-footer" style={{ padding: 30}}>
-                                  {this.state.isLoading ? 'Loading...' : 'Loaded'}
-                                </div>)}
-                                renderRow={row}
-                                renderSeparator={separator}
-                                className="am-list"
-                                pageSize={4}
-                                useBodyScroll
-                                onScroll={() => { console.log('scroll'); }}
-                                scrollRenderAheadDistance={500}
-                                onEndReached={this.onEndReached.bind(this)}
-                                onEndReachedThreshold={10}
+                              ref={el => this.lv = el}
+                              dataSource={this.state.dataSource}
+                              renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+                                {this.state.isLoading ? '加载中...' : '没有更多了'}
+                              </div>)}
+                              renderRow={row}
+                              renderSeparator={separator}
+                              className="am-list"
+                              pageSize={4}
+                              useBodyScroll
+                              onScroll={this.getscrollpage.bind(this)}
+                              scrollRenderAheadDistance={500}
+                              onEndReached={this.onEndReached.bind(this)}
+                              onEndReachedThreshold={10}
                             />
                         </div>
                     </div>
@@ -190,47 +178,65 @@ class ZmitiStoreApp extends React.Component {
 	    //console.log(value);
         this.forceUpdate();
 	}
-    //获取数据
-    getdatasource(){
-      var s = this;    
-      $.ajax({
-        url:H5API+'h5/gestorelist',
-        type:'post',
-        data:{
-          page:1,
-          pagenum:10,
-          cityid:'',
-        },
-        success(result){
-          if(result.getret===1004){          
-            console.log(result,'getdata'); 
-            /*s.setState({
-              data:result.carlist,
-            })*/
-            s.forceUpdate();
-          }
 
-        }
-      })
+
+
+    onEndReached(event){
+      var s = this;
+      var countPageNum=s.state.countPageNum-1;//总页数
+      var residueNum=s.state.residueNum;//最后一页条数
       s.forceUpdate();
-    }
-
-    //ListView
-    onEndReached (event) {
-        // load new data
-        // hasMore: from backend data, indicates whether it is the last page, here is false
+      if(s.state.pageIndex<countPageNum){     
         if (this.state.isLoading && !this.state.hasMore) {
           return;
         }
         console.log('reach end', event);
         this.setState({ isLoading: true });
         setTimeout(() => {
-          this.rData = { ...this.rData, ...genData(++pageIndex) };
+        this.rData = { ...this.rData, ...genData(++s.state.pageIndex) };
+
+          s.getdatasource(s.state.pageIndex+1);//加载当前页数据
           this.setState({
             dataSource: this.state.dataSource.cloneWithRows(this.rData),
             isLoading: false,
           });
+          
+
         }, 1000);
+      }
+      console.log(s.state.pageIndex,'pageIndex');
+    }
+
+    /*获取数据*/
+    getdatasource(pageid){
+      var s = this;    
+      $.ajax({
+        url:H5API+'h5/gestorelist',
+        type:'post',
+        data:{
+          page:pageid,
+          //page:1,
+          pagenum:NUM_ROWS,
+          cartypeid:0,
+        },
+        success(result){
+          console.log('加载第'+pageid+'页');
+
+          if(result.getret===1004){          
+            console.log(result.list,'getdata'); 
+            s.setState({
+              data:result.list,
+              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
+              residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
+            })
+            console.log('总共'+s.state.countPageNum+'页');
+            console.log('最后一页有'+s.state.residueNum+'条');
+            s.forceUpdate();
+          }
+
+        }
+      })
+      return pageid;
     }
     //获取城市
     getcityListsource(){
@@ -247,7 +253,11 @@ class ZmitiStoreApp extends React.Component {
         }
       })
     }
-    
+    //滚动
+    getscrollpage(){
+      var s = this;
+      //console.log('scroll');
+    }
     componentWillMount() {
 
     }
@@ -260,8 +270,10 @@ class ZmitiStoreApp extends React.Component {
             isLoading: false,
           });
         }, 600);
-        this.getdatasource();
         this.getcityListsource();
+
+        this.getdatasource(1);//默认获取第1页数据
+        this.onEndReached();
 
     }
 
