@@ -174,8 +174,8 @@ class ZmitiCarorderApp extends React.Component {
             if(sValue==val){              
               
               console.log(item.children,'item.children');
-              $.each(item.children,function(index,ele){
-                  var ii=index+1;
+              $.each(item.children,function(idx,ele){
+                  var ii=idx+1;
                   s.state.carstoredata[0][ii]={'label':ele.label , 'value':ele.value};
                   //console.log(ii,s.state.carstoredata[0][ii],'s.state.carstoredata[0][ii]');
               })
