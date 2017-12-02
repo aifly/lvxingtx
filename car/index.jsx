@@ -2,6 +2,7 @@ import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Link} from 'react-router';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
@@ -36,6 +37,13 @@ class ZmitiCarlistApp extends React.Component {
             countPageNum:1,//共*页
             residueNum:0,//最后一页里有*条
             data: [],//车辆数据源
+            cartypelabel:['全部'],
+            cartypedata:[
+                {
+                  label: '全部',
+                  value: '0',
+                }
+            ],
         };
     }    
 
@@ -88,7 +96,7 @@ class ZmitiCarlistApp extends React.Component {
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-car-nav">
                     <SegmentedControl
-                      values={['全部', '通勤车', '旅游车', '商务车', '物流车']}
+                      values={this.state.cartypelabel}
                       onChange={this.navOnChange.bind(this)}
                       onValueChange={this.navOnValueChange.bind(this)}
                     />
@@ -117,6 +125,25 @@ class ZmitiCarlistApp extends React.Component {
                 </div>
             </div>
         )
+    }
+    //获取车型
+    getcitydata(){
+      var s = this;    
+      $.ajax({
+        url:H5API+'h5/getcitylist',
+        type:'post',
+        success(result){
+          //console.log(result,'result-city');               
+          $.each(result.cartypedata,function(index,item){
+              var ii=index+1;
+              s.state.cartypedata[ii]={'label':item.label , 'value':String(item.value)};
+              s.state.cartypelabel[ii]=item.label;
+          })
+          console.log(s.state.cartypedata,'s.state.cartypedata');
+          console.log(s.state.cartypelabel,'s.state.cartypelabel');  
+          s.forceUpdate();
+        }
+      })
     }
     pagelinks(pageText) {
         window.location=pageText;
@@ -167,6 +194,7 @@ class ZmitiCarlistApp extends React.Component {
           cartypeid:0,
         },
         success(result){
+          //console.log(result,'result');
         	console.log('加载第'+pageid+'页');
 
     			if(result.getret===1004){          
@@ -205,6 +233,7 @@ class ZmitiCarlistApp extends React.Component {
 
       this.getdatasource(1);//默认获取第1页数据
       this.onEndReached();
+      this.getcitydata();
     }
 
 
