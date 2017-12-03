@@ -217,7 +217,7 @@ class ZmitiHomeApp extends React.Component {
             //storeid:s.state.storeid,//门店
             cartypeid:s.state.tValue.toString(),//车型
         };
-        window.location="./#/car/"+s.state.tValue.toString();
+        window.location="./#/carcity/"+s.state.tValue.toString()+"/"+s.state.sValue.toString();
         console.log(params,'params');
     }
 

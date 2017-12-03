@@ -11,6 +11,7 @@ import {
 } from 'react-router';
 import ZmitiHomeApp from './home/index.jsx';
 import ZmitiCarlistApp from './car/index.jsx';
+import ZmitiCarcityApp from './car/city.jsx';
 import ZmitiCarviewApp from './car/view.jsx';
 import ZmitiStoreApp from './store/index.jsx';
 import ZmitiStoreChargingApp from './store/charging.jsx';
@@ -32,8 +33,11 @@ class App extends React.Component {
 				path: '/carorder/(:id)',
 				app: ZmitiCarorderApp
 			}, {
-				path: '/car/(:id)',
+				path: '/car/(:id)/(:city)',
 				app: ZmitiCarlistApp
+			}, {
+				path: '/carcity/(:id)/(:city)',
+				app: ZmitiCarcityApp
 			}, {
 				path: '/carview/(:id)',
 				app: ZmitiCarviewApp

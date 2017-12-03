@@ -44,7 +44,10 @@ class ZmitiCarlistApp extends React.Component {
                   value: '0',
                 }
             ],
+            totalnum:0,
+            currId:0,
         };
+        
     }    
 
     render() {
@@ -92,6 +95,24 @@ class ZmitiCarlistApp extends React.Component {
             </div>
           );
         };
+        const diylist = <ListView
+            ref={el => this.lv = el}
+            dataSource={this.state.dataSource}
+            renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
+              {this.state.isLoading ? '加载中...' : '没有了'}
+            </div>)}
+            renderRow={row}
+            renderSeparator={separator}
+            className="am-list"
+            pageSize={4}
+            useBodyScroll
+            onScroll={this.getscrollpage.bind(this)}
+            scrollRenderAheadDistance={500}
+            onEndReached={this.onEndReached.bind(this)}
+            onEndReachedThreshold={10}
+        />;
+        const nodata=<div className="lv-nodata">无数据</div>;     
+        
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-car-nav">
@@ -99,27 +120,10 @@ class ZmitiCarlistApp extends React.Component {
                       values={this.state.cartypelabel}
                       onChange={this.navOnChange.bind(this)}
                       onValueChange={this.navOnValueChange.bind(this)}
+                      selectedIndex={this.setcartype.bind(this)}
                     />
                 </div>
-                <div className="lv-pane-carlist">
-                    
-                    <ListView
-                      ref={el => this.lv = el}
-                      dataSource={this.state.dataSource}
-                      renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                        {this.state.isLoading ? '加载中...' : '没有了'}
-                      </div>)}
-                      renderRow={row}
-                      renderSeparator={separator}
-                      className="am-list"
-                      pageSize={4}
-                      useBodyScroll
-                      onScroll={this.getscrollpage.bind(this)}
-                      scrollRenderAheadDistance={500}
-                      onEndReached={this.onEndReached.bind(this)}
-                      onEndReachedThreshold={10}
-                    />
-                </div>              
+                <div className="lv-pane-carlist">{this.state.totalnum===0 ? nodata : diylist}</div>              
                 <div className="lv-menu-bar">
                   <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
                 </div>
@@ -150,10 +154,22 @@ class ZmitiCarlistApp extends React.Component {
     }
     
     navOnChange(e) {
-        console.log(`selectedIndex:${e.nativeEvent.selectedSegmentIndex}`);
+      var val=e.nativeEvent.selectedSegmentIndex;
+      console.log(`selectedIndex:${e.nativeEvent.selectedSegmentIndex}`);
+      window.location="./#/car/"+val;
     }
     navOnValueChange(value){
-        console.log(value);
+      console.log(value);
+      var s = this;
+      var cid=0;
+      $.each(this.state.cartypelabel,function(index,item){
+        if(index=cid){          
+          setTimeout(() => {
+            window.location="./#/car/"+cid;
+          }, 600);
+        }
+      })
+      window.location.reload();
     } 
     //Listview
     onEndReached(event){
@@ -181,37 +197,55 @@ class ZmitiCarlistApp extends React.Component {
   		}
   		console.log(s.state.pageIndex,'pageIndex');
     }
+    /*设置当前车型*/
+    setcartype(){
+      var s = this;
+      var cid=0;
+      if(s.props.params.id>0){ 
+        cid=s.props.params.id;     
+        s.state.currId=s.props.params.id;
+        console.log(s.state.currId,"我是第"+s.props.params.id+"分类");
+      }else{
+        s.state.currId=0;
+        cid=0;
+        console.log("我是全部");
+      }
+      s.forceUpdate();
+      return cid;      
+    }
     /*获取数据*/
     getdatasource(pageid){
-      var s = this;    
+      var s = this;
       $.ajax({
         url:H5API+'h5/getcarlist',
         type:'post',
+        cache:false,
+        async:false,
         data:{
           page:pageid,
           //page:1,
           pagenum:NUM_ROWS,
           cartypeid:s.props.params.id,
-          cityid:s.props.params.city,
         },
         success(result){
           //console.log(result,'result');
         	console.log('加载第'+pageid+'页');
-
-    			if(result.getret===1004){          
-    				console.log(result.carlist,'getdata'); 
+          s.state.totalnum=result.totalnum;          
+    			if(result.totalnum!=0){          
+    				console.log(result.carlist,'getdata');
     				s.setState({
     				  data:result.carlist,
     				  countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
     				  residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
     				})
     				console.log('总共'+s.state.countPageNum+'页');
-    				console.log('最后一页有'+s.state.residueNum+'条');
-    				s.forceUpdate();
+    				console.log('最后一页有'+s.state.residueNum+'条');    				
     			}
+          s.forceUpdate();
 
         }
       })
+      s.forceUpdate();
       return pageid;
     }
     //滚动
@@ -235,6 +269,7 @@ class ZmitiCarlistApp extends React.Component {
       this.getdatasource(1);//默认获取第1页数据
       this.onEndReached();
       this.getcitydata();
+      this.setcartype();
     }
 
 
