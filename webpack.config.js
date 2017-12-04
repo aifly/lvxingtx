@@ -15,8 +15,10 @@ var config = {
         inline: true,
         port: 4011,
         hot: true,
-		host: "192.168.0.5",
-		progress: true
+		host: "0.0.0.0",
+		progress: true,
+		contentBase: '.',
+		disableHostCheck: true
     },
     externals: {
         //'react':'React',
