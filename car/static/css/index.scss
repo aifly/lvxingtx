@@ -85,9 +85,17 @@
     border: 1px #22ac38 solid;
   }
 }
+
+.lv-top-fixed{
+  position: fixed;
+  width: 100%;
+  top:0;
+  z-index: 10;
+}
+
 .lv-pane-carlist{
   position: relative; 
-  padding: 0 0 50px 0; 
+  padding: 45px 0 50px 0; 
   .lv-car-item{
     padding:0 10px;
     .lv-car-item-inner{

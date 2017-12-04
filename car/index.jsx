@@ -70,7 +70,6 @@ class ZmitiCarlistApp extends React.Component {
     }
     tabchange(tab,index){
       var s = this;
-
       console.log(tab,index,"tabindex");
       s.getdatasource(index);
       s.forceUpdate();
@@ -135,16 +134,15 @@ class ZmitiCarlistApp extends React.Component {
       $.ajax({
         url:H5API+'h5/getcitylist',
         type:'post',
-        success(result){
-          //console.log(result,'result-city');               
+        success(result){            
           $.each(result.cartypedata,function(index,item){
               var ii=index+1;
               s.state.cartypedata[ii]={'label':item.label , 'value':String(item.value)};
               s.state.cartypelabel[ii]=item.label;
               s.state.tabs[ii]={'title':item.label, 'value':String(item.value)};
           })
-          console.log(s.state.cartypedata,'s.state.cartypedata');
-          console.log(s.state.cartypelabel,'s.state.cartypelabel');  
+          //console.log(s.state.cartypedata,'s.state.cartypedata');
+          //console.log(s.state.cartypelabel,'s.state.cartypelabel');  
           s.forceUpdate();
         }
       })
@@ -176,14 +174,14 @@ class ZmitiCarlistApp extends React.Component {
           //console.log(result,'result');
           s.state.totalnum=result.totalnum;
           if(result.totalnum>0){          
-            console.log(result.carlist,'getdata'); 
+            //console.log(result.carlist,'getdata'); 
             s.setState({
               data:result.carlist,
-              countPageNum:Math.ceil(result.totalnum/5),//共*页
-              residueNum:result.totalnum % 5,//最后一页共*条
+              //countPageNum:Math.ceil(result.totalnum/5),//共*页
+              //residueNum:result.totalnum % 5,//最后一页共*条
             })
-            console.log('总共'+s.state.countPageNum+'页');
-            console.log('最后一页有'+s.state.residueNum+'条');
+            //console.log('总共'+s.state.countPageNum+'页');
+            //console.log('最后一页有'+s.state.residueNum+'条');
           }else{
             s.setState({
               data:[],
