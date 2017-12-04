@@ -100,7 +100,7 @@ class ZmitiCarcityApp extends React.Component {
                         onLeftClick={this.goback.bind(this)}
                       >{this.props.params.city==0 ? navbarType : navbarCity}</NavBar>
                   </div>
-                <div className="lv-car-pane-page" style={{height:this.state.mainHeight-95}}>
+                <div className="lv-car-pane-page2" style={{height:this.state.mainHeight-95}}>
 
                   <div className="lv-pane-carlist">
                     <div className="am-list">

@@ -117,7 +117,7 @@ class ZmitiCarlistApp extends React.Component {
         }
       </div>
       return (
-        <div className="lv-pane-carlist">
+        <div className="lv-pane-carlist" style={{height:this.state.mainHeight-90}}>
           <div className="am-list">
             <div className="am-list-body">
               <div className="list-view-section-body">
