@@ -61,13 +61,13 @@ class ZmitiStoreChargingApp extends React.Component {
 
                       <div className="lv-pane-store-tabs">
                           <div className="lv-pane-store-tabs-inner">
-                              <div className="lv-ico-store-imga lv-ico-store-imga"></div>
-                              <div className="lv-ico-store-imgb lv-ico-store-imgbcurr"></div>
+                              <div className="lv-ico-store-imga lv-ico-store-imgacurr"></div>
+                              <div className="lv-ico-store-imgb lv-ico-store-imgb"></div>
                               <div className="lv-ico-store am-segment">
-                                  <div className="am-segment-item" >
+                                  <div className="am-segment-item am-segment-item-selected" >
                                       <div className="am-segment-item-inner"><Link to='/store/'>门店</Link></div>                                    
                                   </div>
-                                  <div className="am-segment-item am-segment-item-selected" >
+                                  <div className="am-segment-item " >
                                       <div className="am-segment-item-inner"><Link to='/storecharging/'>电桩</Link></div>                                    
                                   </div>
                               </div>
