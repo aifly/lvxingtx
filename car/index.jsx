@@ -71,7 +71,7 @@ class ZmitiCarlistApp extends React.Component {
     tabchange(tab,index){
       var s = this;
       console.log(tab,index,"tabindex");
-      s.getdatasource(index);
+      s.getdatasource(index);//根据车型序号获取数据
       s.forceUpdate();
 
     }
@@ -171,7 +171,7 @@ class ZmitiCarlistApp extends React.Component {
           cityid:0,
         },
         success(result){
-          //console.log(result,'result');
+          console.log(result,'result');
           s.state.totalnum=result.totalnum;
           if(result.totalnum>0){          
             //console.log(result.carlist,'getdata'); 
