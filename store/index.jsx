@@ -138,8 +138,7 @@ class ZmitiStoreApp extends React.Component {
           <div className="am-list">
             <div className="am-list-body">
               <div className="list-view-section-body">
-                {/*{this.state.totalnum===0 ? nodataTabs : tabListContent}*/}
-                {tabListContent}
+                {this.state.totalnum===0 ? nodataTabs : tabListContent}
               </div>
             </div>
           </div>
@@ -181,6 +180,7 @@ class ZmitiStoreApp extends React.Component {
         },
         success(result){
           //console.log(result,'getdata-result'); 
+          s.state.totalnum=result.totalnum;
           if(result.totalnum>0){          
             console.log(result.list,'getdata'); 
             s.setState({

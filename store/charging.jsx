@@ -2,57 +2,44 @@ import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {
-    Router,
-    Route,
-    hashHistory,
-    Link,
-    browserHistory
-} from 'react-router';
-import createForm from 'rc-form';
+import {Link} from 'react-router';
+import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {SegmentedControl,TabBar,Flex, Button,ListView, List, WhiteSpace,Drawer,NavBar, Icon } from 'antd-mobile';
+import {SegmentedControl,TabBar,Flex, Button,ListView, List, WhiteSpace,Drawer,NavBar, Icon,Tabs } from 'antd-mobile';
 import { provinceLite as province } from 'antd-mobile-demo-data';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-const NUM_ROWS = 4;//一屏显示条数
-//let pageIndex = 0;//开始页码，从0开始
 
-function genData(pIndex = 0) {
-  const dataBlob = {};
-  for (let i = 0; i < NUM_ROWS; i++) {
-    const ii = (pIndex * NUM_ROWS) + i;
-    dataBlob[`${ii}`] = `row - ${ii}`;
-  }
-  //console.log(pIndex,'pIndex');//pageNum
-  return dataBlob;
-}
 
 class ZmitiStoreChargingApp extends React.Component {
     constructor(args) {
         super(...args);
-        const dataSource = new ListView.DataSource({
-          rowHasChanged: (row1, row2) => row1 !== row2,
-        });
+
         this.state = {
             mainHeight: document.documentElement.clientHeight,
-            dataSource,
+            tabconHeight: document.documentElement.clientHeight-110,
+
             isLoading: true,
             pageIndex:0,//开始页码，从0开始
             page:1,//当前第*页，从1开始
             countPageNum:1,//共*页
             residueNum:0,//最后一页里有*条
-            data: [],//车辆数据源
+            data: [],//门店数据源
             visible: false,
             dataLeftMenu:[],
             valuetypea:'curr',//默认选中门店
             valuetypeb:'',
             hidden: false,
             fullScreen: false,
+            tabs: [
+              { title: '全部',value: '0', },
+            ],
+            totalnum:0,
+            citydata:[],
         }
 
     }    
@@ -62,97 +49,46 @@ class ZmitiStoreChargingApp extends React.Component {
     render() {
         let tabbarProps ={
           selectedTab: 'greenTab',
-        }	    
-        const sidebar = (<List className="my-list">
-          {this.state.dataLeftMenu.map((item, index) => {
-            return (<List.Item key={index}
-              onClick={() => {console.log(item.value,'cityid');}}
-              
-            >{item.label}
-            </List.Item>);
-          })}
-        </List>);
-        const separator = (sectionID, rowID) => (
-          <div
-            key={`${sectionID}-${rowID}`}
-            style={{
-              height: 10,
-              borderTop: '1px solid #ECECED',
-            }}
-          />
-        );
-        let index = this.state.data.length - 1;
-        const row = (rowData, sectionID, rowID) => {
-          if (index < 0) {
-            index = this.state.data.length - 1;
-          }
-          const obj = this.state.data[index--];
-          return (
-            <div key={rowID} style={{ padding: '0 15px' }}>
-              <div
-                style={{
-                  lineHeight: '1.2',
-                  color: '#000',
-                  fontSize: 15,
-                }}
-              >{obj.stationname}</div>
-              <div style={{ display: '-webkit-box', display: 'flex', padding: '12px 0' }}>              
-                <div style={{ lineHeight: 1.2,fontSize:'14px',color:'#888'}}>
-                  <div>营业时间：{obj.workingtime}--{rowID}</div>
-                  <div>联系电话：{obj.contactphone}</div>
-                  <div>门店地址：{obj.stationaddress}</div>
-                </div>
-              </div>
-            </div>
-          );
-        };
+        }     
+        
+
         return (
-            <div className="lv-container" style={{height:this.state.mainHeight}}>
-            	<div className="lv-store-header">
-            		<div className="lv-store-channel-title">
-            		附近<br/>门店/充电桩
-            		</div>
-            		<div className="lv-pane-store-tabs">
-                        <div className="lv-pane-store-tabs-inner">
-                            <div className="lv-ico-store-imga lv-ico-store-imgacurr"></div>
-                            <div className="lv-ico-store-imgb lv-ico-store-imgb"></div>
-                            <div className="lv-ico-store am-segment">
-                                <div className="am-segment-item am-segment-item-selected" >
-                                    <div className="am-segment-item-inner"><Link to='/store/'>门店</Link></div>                                    
-                                </div>
-                                <div className="am-segment-item" >
-                                    <div className="am-segment-item-inner"><Link to='/storecharging/'>电桩</Link></div>                                    
-                                </div>
-                            </div>
-                        </div>
-                	</div>
-            	</div>
+            <div className="lv-container">
+                <div className="lv-store-header">
+                  <div className="lv-store-channel-title">
+                  附近<br/>门店/充电桩
+                  </div>
+
+                      <div className="lv-pane-store-tabs">
+                          <div className="lv-pane-store-tabs-inner">
+                              <div className="lv-ico-store-imga lv-ico-store-imga"></div>
+                              <div className="lv-ico-store-imgb lv-ico-store-imgbcurr"></div>
+                              <div className="lv-ico-store am-segment">
+                                  <div className="am-segment-item" >
+                                      <div className="am-segment-item-inner"><Link to='/store/'>门店</Link></div>                                    
+                                  </div>
+                                  <div className="am-segment-item am-segment-item-selected" >
+                                      <div className="am-segment-item-inner"><Link to='/storecharging/'>电桩</Link></div>                                    
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                </div>
+                
                 <div className=" lv-page-store" >
-                    <div className="lv-pane-store-menu">
-                        <div className="lv-pane-store-menu-inner">                                          
-                            {sidebar}
-                        </div>
+                    <div className="lv-page-store-tabs">
+                      <div style={{height:this.state.tabconHeight}}>
+                          <Tabs tabs={this.state.tabs}
+                            initalPage={'t2'}
+                            tabBarPosition="left"
+                            tabDirection="vertical"
+                            onTabClick={this.tabchange.bind(this)}
+                          >
+                            {this.renderTabContent.bind(this)}
+                          </Tabs>
+                      </div>
                     </div>
-                    <div className="lv-pane-store-con">
-                        <div className="lv-pane-store-listpane-inner">
-                            <ListView
-                              ref={el => this.lv = el}
-                              dataSource={this.state.dataSource}
-                              renderFooter={() => (<div style={{ padding: 30, textAlign: 'center' }}>
-                                {this.state.isLoading ? '加载中...' : '没有更多了'}
-                              </div>)}
-                              renderRow={row}
-                              renderSeparator={separator}
-                              className="am-list"
-                              pageSize={4}
-                              useBodyScroll
-                              onScroll={this.getscrollpage.bind(this)}
-                              scrollRenderAheadDistance={500}
-                              onEndReached={this.onEndReached.bind(this)}
-                              onEndReachedThreshold={10}
-                            />
-                        </div>
-                    </div>
+
                     
                 </div>
                 <div className="lv-menu-bar">
@@ -161,86 +97,105 @@ class ZmitiStoreChargingApp extends React.Component {
             </div>
         )
     }
-
-
-	/*选择门店-充电桩*/
-    onstoreChange(e){
-        if(e.nativeEvent.selectedSegmentIndex==0){
-            this.state.valuetypea="curr";
-            this.state.valuetypeb="";
-            //window.location='./#/store/';
-            console.log(e.nativeEvent.selectedSegmentIndex,'门店');
-        }else if(e.nativeEvent.selectedSegmentIndex==1){
-            this.state.valuetypea="";
-            this.state.valuetypeb="curr";
-            //window.location='./#/storecharging/';
-            console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
-        }
-        this.forceUpdate();
-    }
-    //回调
-    onstoreValueChange (value) {
-        //console.log(value);       
-        this.forceUpdate();
-    }
-
-
-    onEndReached(event){
+    tabchange(tab,index){
       var s = this;
-      var countPageNum=s.state.countPageNum-1;//总页数
-      var residueNum=s.state.residueNum;//最后一页条数
+      s.getdatasource(tab.value);//根据城市id获取数据
       s.forceUpdate();
-      if(s.state.pageIndex<countPageNum){     
-        if (this.state.isLoading && !this.state.hasMore) {
-          return;
-        }
-        console.log('reach end', event);
-        this.setState({ isLoading: true });
-        setTimeout(() => {
-        this.rData = { ...this.rData, ...genData(++s.state.pageIndex) };
-
-          s.getdatasource(s.state.pageIndex+1);//加载当前页数据
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.rData),
-            isLoading: false,
-          });
-          
-
-        }, 1000);
-      }
-      console.log(s.state.pageIndex,'pageIndex');
     }
+    renderTabContent(tab){
+      const nodataTabs=<div>
+        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>无数据</div>
+      </div>
+      const tabListContent=<div>
+        {
+          this.state.data.map((item, index) => {
+            return <div key={index} className="lv-page-store-list-items">
+
+                <div style={{ padding: '0 15px' }}>
+                  <div
+                    style={{
+                      lineHeight: '1.35',
+                      color: '#000',
+                      fontSize: 15,
+                    }}
+                  >{item.stationname}</div>
+                  <div className="lv-page-store-list-items-inner" style={{ display: '-webkit-box', display: 'flex'}}>              
+                    <div>
+                      <div>营业时间：{item.workingtime}</div>
+                      <div>联系电话：{item.contactphone}</div>
+                      <div>门店地址：{item.stationaddress}</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            
+          })
+        }
+      </div>
+      return (
+        <div className="lv-pane-store-listpane-inner" style={{height:this.state.tabconHeight}}>
+          <div className="am-list">
+            <div className="am-list-body">
+              <div className="list-view-section-body">
+                {this.state.totalnum===0 ? nodataTabs : tabListContent}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
+  /*选择门店-充电桩*/
+    onstoreChange(e){
+      if(e.nativeEvent.selectedSegmentIndex==0){
+        this.state.valuetypea="curr";
+        this.state.valuetypeb="";
+        console.log(e.nativeEvent.selectedSegmentIndex,'门店');
+      }else if(e.nativeEvent.selectedSegmentIndex==1){
+        this.state.valuetypea="";
+        this.state.valuetypeb="curr";
+        console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
+      }
+      this.forceUpdate();
+  }
+  //回调
+  onstoreValueChange (value) {
+      //console.log(value);
+        this.forceUpdate();
+  }
+
+
+
 
     /*获取数据*/
-    getdatasource(pageid){
+    getdatasource(cityid){
       var s = this;    
       $.ajax({
         url:H5API+'h5/getchargstationlist',
         type:'post',
         data:{
-          page:pageid,
-          //page:1,
-          pagenum:NUM_ROWS,
-          cartypeid:0,
+          page:1,
+          pagenum:20,
+          cityid:cityid,
         },
         success(result){
-          console.log('加载第'+pageid+'页');
-
-          if(result.getret===1004){          
+          //console.log(result,'getdata-result'); 
+          s.state.totalnum=result.totalnum;
+          if(result.totalnum>0){          
             console.log(result.list,'getdata'); 
             s.setState({
               data:result.list,
-              countPageNum:Math.ceil(result.totalnum/NUM_ROWS),//共*页
-              residueNum:result.totalnum % NUM_ROWS,//最后一页共*条
-            })
-            console.log('总共'+s.state.countPageNum+'页');
-            console.log('最后一页有'+s.state.residueNum+'条');
-            s.forceUpdate();
+            })            
+          }else{
+            s.setState({
+              data:[],
+            })            
           }
+          s.forceUpdate();
 
         }
       })
-      return pageid;
+
     }
     //获取城市
     getcityListsource(){
@@ -249,39 +204,30 @@ class ZmitiStoreChargingApp extends React.Component {
         url:H5API+'h5/getcitylist',
         type:'post',
         success(data){
-          console.log(data,'getdata'); 
+          //console.log(data,'getcitylist'); 
           s.setState({
             dataLeftMenu:data.citydata,
+            citydata:data.citydata,
+          })
+          $.each(data.citydata,function(index,item){
+              var nn=index+1;
+              s.state.tabs[nn]={'title':item.label, 'value':String(item.value)};
           })
           s.forceUpdate();
         }
       })
     }
-    //滚动
-    getscrollpage(){
-      var s = this;
-      //console.log('scroll');
-    }
+
     componentWillMount() {
 
     }
 
     componentDidMount() {
 
-        setTimeout(() => {
-          this.rData = genData();
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(this.rData),
-            isLoading: false,
-          });
-        }, 600);
         this.getcityListsource();
-
-        this.getdatasource(1);//默认获取第1页数据
-        this.onEndReached();
+        this.getdatasource(0);
 
     }
-
 
 }
 
