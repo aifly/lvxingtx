@@ -76,16 +76,6 @@ class ZmitiStoreApp extends React.Component {
                 </div>
                 
                 <div className=" lv-page-store" >
-                    {/*<div className="lv-pane-store-menu">
-                        <div className="lv-pane-store-menu-inner">                                          
-                            {sidebar}
-                        </div>
-                    </div>
-                    <div className="lv-pane-store-con">
-                        <div className="lv-pane-store-listpane-inner">
-                                
-                        </div>
-                    </div>*/}
                     <div className="lv-page-store-tabs">
                       <div style={{height:this.state.tabconHeight}}>
                           <Tabs tabs={this.state.tabs}
@@ -109,7 +99,6 @@ class ZmitiStoreApp extends React.Component {
     }
     tabchange(tab,index){
       var s = this;
-      //console.log(tab,"tabindex");
       s.getdatasource(tab.value);//根据城市id获取数据
       s.forceUpdate();
     }
