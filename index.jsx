@@ -33,7 +33,7 @@ class App extends React.Component {
 				path: '/carorder/(:id)',
 				app: ZmitiCarorderApp
 			}, {
-				path: '/car/(:id)/(:city)',
+				path: '/car',
 				app: ZmitiCarlistApp
 			}, {
 				path: '/carcity/(:id)/(:city)',

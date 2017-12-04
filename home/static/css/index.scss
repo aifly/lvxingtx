@@ -346,3 +346,9 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
     display: block;
     border-color: #38b44c;
 }
+.nodataTabs{
+  background-color: #ffffff;
+  display:flex;
+  -webkit-display:flex;
+  color: #999999;
+}

@@ -70,18 +70,33 @@
     @include radius(0);
   }
 }
+.lv-car-pane-page{
+  .am-tabs-default-bar-tab{
+    line-height: 40px;
+    height: 40px;
+  }  
+  .am-tabs-default-bar-tab{
+    color: rgb(148, 148, 148);
+  }
+  .am-tabs-default-bar-tab-active{
+    color: #22ac38;
+  }
+  .am-tabs-default-bar-underline{
+    border: 1px #22ac38 solid;
+  }
+}
 .lv-pane-carlist{
   position: relative; 
-  /* padding: 40px 0 0 0; */ 
+  padding: 0 0 50px 0; 
   .lv-car-item{
     padding:0 10px;
     .lv-car-item-inner{
       position: relative;
       padding: 20px 0;
       zoom:1;
-      min-height: 70px;
       .lv-car-item-inner-con{
         padding:0 0 0 125px;
+        min-height: 70px;
         .am-flexbox .am-flexbox-item{
           margin-left: 2px;
         }

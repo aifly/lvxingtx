@@ -45,17 +45,20 @@ class ZmitiCarcityApp extends React.Component {
         }
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                
-                <Tabs tabs={this.state.tabs}
-                  swipeable={true}                  
-                  prerenderingSiblingsNumber={true}
-                  onClick={this.tabchange.bind(this)}
-                >
+                <div className="lv-car-pane-page">
 
-                  {this.renderTabContent.bind(this)}
-                      
-                </Tabs>
-                
+                  <Tabs tabs={this.state.tabs}
+                    swipeable={true}                  
+                    prerenderingSiblingsNumber={true}
+                    initialPage={1}
+                    onChange={this.tabchange.bind(this)}
+                    onTabClick={this.tabchange.bind(this)}
+                  >
+
+                    {this.renderTabContent.bind(this)}
+                        
+                  </Tabs>
+                </div>
               
                 
                 <div className="lv-menu-bar">
@@ -66,8 +69,8 @@ class ZmitiCarcityApp extends React.Component {
     }
     tabchange(tab,index){
       var s = this;
-      var cartypeid=s.props.params.id;
-      console.log(index,cartypeid,"tabindex");
+
+      console.log(tab,index,"tabindex");
 
     }
     renderTabContent(tab){
@@ -78,11 +81,19 @@ class ZmitiCarcityApp extends React.Component {
               <div className="list-view-section-body">
                 {this.state.data.map((item, index) => {
                   return <div key={index}>
+                      <div
+                        style={{
+                          backgroundColor: '#F5F5F9',
+                          height: 8,
+                          borderTop: '1px solid #ECECED',
+                          borderBottom: '1px solid #ECECED',
+                        }}
+                      ></div>
                       <div className="lv-car-item">
                         <div className="lv-car-item-inner">
                           <a href={'./#/carview/'+item.carid}><img src={WebSite+item.path} alt={index}/></a>
                           <div className="lv-car-item-inner-con">
-                            <div  className="lv-car-subtitle"><a href={'./#/carview/'+item.carid}>{item.carname}</a></div>                  
+                            <div className="lv-car-subtitle"><a href={'./#/carview/'+item.carid}>{item.carname}</a></div>                  
                             <div className="lv-car-info">
                               <div style={{ display: 'none'}}><span>{index}</span></div>
                               <Flex>
@@ -97,14 +108,7 @@ class ZmitiCarcityApp extends React.Component {
                           </div>
                         </div>
                       </div>
-                      <div
-                        style={{
-              backgroundColor: '#F5F5F9',
-              height: 8,
-              borderTop: '1px solid #ECECED',
-              borderBottom: '1px solid #ECECED',
-            }}
-                      ></div>
+                      
                   </div>
                   
                 })}
@@ -146,7 +150,7 @@ class ZmitiCarcityApp extends React.Component {
     } 
 
     /*获取数据*/
-    getdatasource(){
+    getdatasource(typeid,cityid){
       var s = this;    
       $.ajax({
         url:H5API+'h5/getcarlist',
