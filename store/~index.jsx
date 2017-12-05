@@ -15,7 +15,7 @@ const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
 
 
-class ZmitiStoreChargingApp extends React.Component {
+class ZmitiStoreApp extends React.Component {
     constructor(args) {
         super(...args);
 
@@ -49,25 +49,25 @@ class ZmitiStoreChargingApp extends React.Component {
     render() {
         let tabbarProps ={
           selectedTab: 'greenTab',
-        }     
+        }	    
         
 
         return (
             <div className="lv-container">
                 <div className="lv-store-header">
-                  <div className="lv-store-channel-title">
-                  附近<br/>门店/充电桩
-                  </div>
+              		<div className="lv-store-channel-title">
+              		附近<br/>门店/充电桩
+              		</div>
 
                       <div className="lv-pane-store-tabs">
                           <div className="lv-pane-store-tabs-inner">
-                              <div className="lv-ico-store-imga lv-ico-store-imgacurr"></div>
-                              <div className="lv-ico-store-imgb lv-ico-store-imgb"></div>
+                              <div className="lv-ico-store-imga lv-ico-store-imga"></div>
+                              <div className="lv-ico-store-imgb lv-ico-store-imgbcurr"></div>
                               <div className="lv-ico-store am-segment">
-                                  <div className="am-segment-item am-segment-item-selected" >
+                                  <div className="am-segment-item" >
                                       <div className="am-segment-item-inner"><Link to='/store/'>门店</Link></div>                                    
                                   </div>
-                                  <div className="am-segment-item " >
+                                  <div className="am-segment-item am-segment-item-selected" >
                                       <div className="am-segment-item-inner"><Link to='/storecharging/'>电桩</Link></div>                                    
                                   </div>
                               </div>
@@ -104,7 +104,7 @@ class ZmitiStoreChargingApp extends React.Component {
     }
     renderTabContent(tab){
       const nodataTabs=<div>
-        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
+        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>无数据</div>
       </div>
       const tabListContent=<div>
         {
@@ -118,12 +118,12 @@ class ZmitiStoreChargingApp extends React.Component {
                       color: '#000',
                       fontSize: 15,
                     }}
-                  >{item.stationname}</div>
+                  >{item.storename}</div>
                   <div className="lv-page-store-list-items-inner" style={{ display: '-webkit-box', display: 'flex'}}>              
                     <div>
                       <div>营业时间：{item.workingtime}</div>
                       <div>联系电话：{item.contactphone}</div>
-                      <div>门店地址：{item.stationaddress}</div>
+                      <div>门店地址：{item.storeaddress}</div>
                     </div>
                   </div>
                 </div>
@@ -145,24 +145,24 @@ class ZmitiStoreChargingApp extends React.Component {
         </div>
       )
     }
-  /*选择门店-充电桩*/
+	/*选择门店-充电桩*/
     onstoreChange(e){
-      if(e.nativeEvent.selectedSegmentIndex==0){
-        this.state.valuetypea="curr";
-        this.state.valuetypeb="";
-        console.log(e.nativeEvent.selectedSegmentIndex,'门店');
-      }else if(e.nativeEvent.selectedSegmentIndex==1){
-        this.state.valuetypea="";
-        this.state.valuetypeb="curr";
-        console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
-      }
-      this.forceUpdate();
-  }
-  //回调
-  onstoreValueChange (value) {
-      //console.log(value);
+    	if(e.nativeEvent.selectedSegmentIndex==0){
+    		this.state.valuetypea="curr";
+    		this.state.valuetypeb="";
+    		console.log(e.nativeEvent.selectedSegmentIndex,'门店');
+    	}else if(e.nativeEvent.selectedSegmentIndex==1){
+    		this.state.valuetypea="";
+    		this.state.valuetypeb="curr";
+    		console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
+    	}
+    	this.forceUpdate();
+	}
+	//回调
+	onstoreValueChange (value) {
+	    //console.log(value);
         this.forceUpdate();
-  }
+	}
 
 
 
@@ -171,7 +171,7 @@ class ZmitiStoreChargingApp extends React.Component {
     getdatasource(cityid){
       var s = this;    
       $.ajax({
-        url:H5API+'h5/getchargstationlist',
+        url:H5API+'h5/gestorelist',
         type:'post',
         data:{
           page:1,
@@ -231,4 +231,4 @@ class ZmitiStoreChargingApp extends React.Component {
 
 }
 
-export default ZmitiPubApp(ZmitiStoreChargingApp);
+export default ZmitiPubApp(ZmitiStoreApp);

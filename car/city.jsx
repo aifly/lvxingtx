@@ -49,7 +49,7 @@ class ZmitiCarcityApp extends React.Component {
         }
         var s = this;
         const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-90 }}>无数据</div>
+          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-90 }}>...</div>
         </div>
         const tabListContent=<div>
           {

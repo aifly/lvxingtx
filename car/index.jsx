@@ -77,7 +77,7 @@ class ZmitiCarlistApp extends React.Component {
     }
     renderTabContent(tab){
       const nodataTabs=<div>
-        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>无数据</div>
+        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
       </div>
       const tabListContent=<div>
         {
@@ -92,10 +92,10 @@ class ZmitiCarlistApp extends React.Component {
                   }}
                 ></div>
                 <div className="lv-car-item">
-                  <div className="lv-car-item-inner">
-                    <a href={'./#/carview/'+item.carid}><img src={WebSite+item.path} alt={index}/></a>
+                  <div className="lv-car-item-inner">                    
+                    <Link to={'/carview/'+item.carid}><img src={WebSite+item.path} alt={index}/></Link>
                     <div className="lv-car-item-inner-con">
-                      <div className="lv-car-subtitle"><a href={'./#/carview/'+item.carid}>{item.carname}</a></div>                  
+                      <div className="lv-car-subtitle"><Link to={'/carview/'+item.carid}>{item.carname}</Link></div>                  
                       <div className="lv-car-info">
                         <div style={{ display: 'none'}}><span>{index}</span></div>
                         <Flex>

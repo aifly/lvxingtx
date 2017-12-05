@@ -40,6 +40,7 @@ class ZmitiStoreApp extends React.Component {
             ],
             totalnum:0,
             citydata:[],
+            activeTab:0,
         }
 
     }    
@@ -78,14 +79,33 @@ class ZmitiStoreApp extends React.Component {
                 <div className=" lv-page-store" >
                     <div className="lv-page-store-tabs">
                       <div style={{height:this.state.tabconHeight}}>
-                          <Tabs tabs={this.state.tabs}
+                          {/*<Tabs tabs={this.state.tabs}
                             initalPage={'t2'}
                             tabBarPosition="left"
                             tabDirection="vertical"
                             onTabClick={this.tabchange.bind(this)}
                           >
                             {this.renderTabContent.bind(this)}
-                          </Tabs>
+                          </Tabs>*/}
+                          <div className="am-tabs am-tabs-vertical am-tabs-left">
+                            <div className="am-tabs-tab-bar-wrap">
+                              
+                              <Tabs.DefaultTabBar tabs={this.state.tabs}
+                                page={8}
+                                tabBarPosition="left"
+                                goToTab={this.tabchange.bind(this)}
+                                activeTab={this.state.activeTab}
+                              >
+                              </Tabs.DefaultTabBar>
+                              
+                              <div className="am-tabs-content-wrap am-tabs-content-wrap-animated">
+
+                                  {this.renderTabContent.bind(this)}
+                                  
+                                
+                              </div>
+                            </div>
+                          </div>
                       </div>
                     </div>
 
@@ -100,6 +120,8 @@ class ZmitiStoreApp extends React.Component {
     tabchange(tab,index){
       var s = this;
       s.getdatasource(tab.value);//根据城市id获取数据
+      s.state.activeTab=tab;
+      console.log(tab,'tab-index')
       s.forceUpdate();
     }
     renderTabContent(tab){
