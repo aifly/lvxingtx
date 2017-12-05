@@ -133,19 +133,19 @@ class ZmitiHomeApp extends React.Component {
                                         <div className="flex-container">
                                             <Flex>
                                               <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/u39.jpg"/></div>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-t1.png"/></div>
                                                 <div>节能环保</div>
                                               </Flex.Item>
                                               <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/u44.jpg"/></div>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-t2.png"/></div>
                                                 <div>价格低廉</div>
                                               </Flex.Item>
                                               <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-icon1.png"/></div>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-t3.png"/></div>
                                                 <div>服务高效</div>
                                               </Flex.Item>
                                               <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-icon2.png"/></div>
+                                                <div className="lv-item-icon"><img src="./assets/images/index-t4.png"/></div>
                                                 <div>快捷方便</div>
                                               </Flex.Item>
                                             </Flex>

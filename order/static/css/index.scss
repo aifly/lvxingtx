@@ -35,7 +35,7 @@
 
 .lv-pane-order{
   position: relative;
-  
+  font-size: 15px;
   .lv-order-text{
     @include boxsizing();
     padding:0 2px;
@@ -48,12 +48,21 @@
   .am-list-header{
     background-color: #ffffff;
     color: #000;
-    font-size: 17px;
+    font-size: 15px;
     padding-bottom: 0;
   }
   .am-textarea-control textarea{
     height: 60px;
     overflow-y:auto; 
+  }
+  .am-list-item .am-list-line .am-list-content{
+    font-size: 15px;
+  }
+  .am-list-item .am-input-label{
+    font-size: 15px;
+  }
+  .am-list-item .am-input-control input,.am-textarea-control textarea{
+    font-size: 15px;
   }
   
 }

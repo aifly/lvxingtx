@@ -22,7 +22,7 @@ class ZmitiStoreApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             tabconHeight: document.documentElement.clientHeight-110,
-            tabconWidth: document.documentElement.clientWidth-61,
+            tabconWidth: document.documentElement.clientWidth-70,
             isLoading: true,
             pageIndex:0,//开始页码，从0开始
             page:1,//当前第*页，从1开始
@@ -82,11 +82,12 @@ class ZmitiStoreApp extends React.Component {
             })
           }
         </div>
+
         return (
             <div className="lv-container">
                 <div className="lv-store-header">
               		<div className="lv-store-channel-title">
-              		附近<br/>门店/充电桩
+              		附近<br/>门店/电桩
               		</div>
 
                       <div className="lv-pane-store-tabs">
@@ -112,10 +113,11 @@ class ZmitiStoreApp extends React.Component {
                             <div className="am-tabs-tab-bar-wrap" >
                               
                                 <Tabs.DefaultTabBar tabs={this.state.tabs}
-                                  page={8}
+                                  page={12}
                                   tabBarPosition="left"
                                   goToTab={this.tabchange.bind(this)}
                                   activeTab={this.state.activeTab}
+                                  tabBarBackgroundColor={'#f3f5f8'}
                                 >
                                 </Tabs.DefaultTabBar>
                               
@@ -124,7 +126,7 @@ class ZmitiStoreApp extends React.Component {
 
                                       <div>
                                         <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight}}>
-                                          <div className="scroller">
+                                          <div className="scroller" ref="scroller">
                                             <div className="am-list">
                                               <div className="am-list-body">
                                                 <div className="list-view-section-body">
@@ -166,6 +168,7 @@ class ZmitiStoreApp extends React.Component {
         s.getdatasource(item.value);//根据城市id获取数据
       }
     })
+    this.refs['scroller'].style.transform="translate(0px, 0px)";
     s.forceUpdate();
   }
 
@@ -241,7 +244,20 @@ class ZmitiStoreApp extends React.Component {
         }
       })
     }
+    //scroll
+    tabscroll(){
+      this.scroll = new IScroll(this.refs['wrapper'],{
+          scrollbars:true,
+          mouseWheel: true,
+          interactiveScrollbars: true,
+          shrinkScrollbars: 'scale',
+          fadeScrollbars: true
+      });
 
+      setTimeout(()=>{
+          this.scroll.refresh();
+      },1000);
+    }
     componentWillMount() {
 
     }
@@ -250,17 +266,7 @@ class ZmitiStoreApp extends React.Component {
 
         this.getcityListsource();
         this.getdatasource(0);
-        this.scroll = new IScroll(this.refs['wrapper'],{
-            scrollbars:true,
-            mouseWheel: true,
-            interactiveScrollbars: true,
-            shrinkScrollbars: 'scale',
-            fadeScrollbars: true
-        });
-
-        setTimeout(()=>{
-            this.scroll.refresh();
-        },1000);
+        this.tabscroll();
 
     }
 

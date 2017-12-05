@@ -22,7 +22,7 @@ class ZmitiStoreChargingApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             tabconHeight: document.documentElement.clientHeight-110,
-            tabconWidth: document.documentElement.clientWidth-61,
+            tabconWidth: document.documentElement.clientWidth-70,
             isLoading: true,
             pageIndex:0,//开始页码，从0开始
             page:1,//当前第*页，从1开始
@@ -86,7 +86,7 @@ class ZmitiStoreChargingApp extends React.Component {
             <div className="lv-container">
                 <div className="lv-store-header">
                   <div className="lv-store-channel-title">
-                  附近<br/>门店/充电桩
+                  附近<br/>门店/电桩
                   </div>
 
                       <div className="lv-pane-store-tabs">
@@ -116,6 +116,7 @@ class ZmitiStoreChargingApp extends React.Component {
                                   tabBarPosition="left"
                                   goToTab={this.tabchange.bind(this)}
                                   activeTab={this.state.activeTab}
+                                  tabBarBackgroundColor={'#f3f5f8'}
                                 >
                                 </Tabs.DefaultTabBar>
                               
