@@ -18,6 +18,15 @@ function Trim(str,is_global){
     }
    return result;
 }
+//验证11位手机号
+function checkMobile(sMobile){ 
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){ 
+        console.log("不是完整的11位手机号或者正确的手机号前七位"); 
+        return false; 
+    }else{
+      return true;
+    }
+} 
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -116,7 +125,31 @@ class ZmitiOrderApp extends React.Component {
       var typeid=String(s.state.tValue);
       var cityname=String(s.state.sValue);
       var content=s.state.content;
-      if(usermobilelen==11){
+      if(!(/^1[3|5|7|8][0-9]\d{4,8}$/.test(usermobile))){ 
+          console.log("不是完整的11位手机号或者正确的手机号前七位"); 
+          return false; 
+      }else{
+        //发送验证码
+        if(username!='' || content!=''){
+          $.ajax({
+            type:'post',
+            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/mobile/'+usermobile+'.html',
+            data:'mobile='+usermobile,
+            dataType:'json',
+            success:function(data){
+              console.log(data);
+              if(data.code==0){ 
+                console.info("验证码发送success");
+              }
+            }          
+          });  
+          s.showModal();//打开弹窗     
+          console.log(usermobilelen,'usermobilelen');
+        }
+
+        return true;
+      }
+/*      if(usermobilelen==11){
         //发送验证码
         $.ajax({
           type:'post',
@@ -132,7 +165,7 @@ class ZmitiOrderApp extends React.Component {
         });  
         s.showModal();//打开弹窗     
         console.log(usermobilelen,'usermobilelen');
-      }
+      }*/
       
     }
     //提交
