@@ -22,7 +22,7 @@ class ZmitiStoreChargingApp extends React.Component {
         this.state = {
             mainHeight: document.documentElement.clientHeight,
             tabconHeight: document.documentElement.clientHeight-110,
-            tabconWidth: document.documentElement.clientWidth-61,
+
             isLoading: true,
             pageIndex:0,//开始页码，从0开始
             page:1,//当前第*页，从1开始
@@ -40,8 +40,6 @@ class ZmitiStoreChargingApp extends React.Component {
             ],
             totalnum:0,
             citydata:[],
-            activeTab:0,
-            cityid:0,
         }
 
     }    
@@ -52,36 +50,8 @@ class ZmitiStoreChargingApp extends React.Component {
         let tabbarProps ={
           selectedTab: 'greenTab',
         }     
-        const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
-        </div>
-        const tabListContent=<div>
-          {
-            this.state.data.map((item, index) => {
-              return <div key={index} className="lv-page-store-list-items">
+        
 
-                  <div style={{ padding: '0 15px' }}>
-                    <div
-                      style={{
-                        lineHeight: '1.35',
-                        color: '#000',
-                        fontSize: 15,
-                      }}
-                    >{item.stationname}</div>
-                    <div className="lv-page-store-list-items-inner" style={{ display: '-webkit-box', display: 'flex'}}>              
-                      <div>
-                        <div>营业时间：{item.workingtime}</div>
-                        <div>联系电话：{item.contactphone}</div>
-                        <div>门店地址：{item.stationaddress}</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                </div>
-              
-            })
-          }
-        </div>
         return (
             <div className="lv-container">
                 <div className="lv-store-header">
@@ -91,13 +61,13 @@ class ZmitiStoreChargingApp extends React.Component {
 
                       <div className="lv-pane-store-tabs">
                           <div className="lv-pane-store-tabs-inner">
-                              <div className="lv-ico-store-imga lv-ico-store-imga"></div>
-                              <div className="lv-ico-store-imgb lv-ico-store-imgbcurr"></div>
+                              <div className="lv-ico-store-imga lv-ico-store-imgacurr"></div>
+                              <div className="lv-ico-store-imgb lv-ico-store-imgb"></div>
                               <div className="lv-ico-store am-segment">
-                                  <div className="am-segment-item" >
+                                  <div className="am-segment-item am-segment-item-selected" >
                                       <div className="am-segment-item-inner"><Link to='/store/'>门店</Link></div>                                    
                                   </div>
-                                  <div className="am-segment-item am-segment-item-selected" >
+                                  <div className="am-segment-item " >
                                       <div className="am-segment-item-inner"><Link to='/storecharging/'>电桩</Link></div>                                    
                                   </div>
                               </div>
@@ -108,42 +78,14 @@ class ZmitiStoreChargingApp extends React.Component {
                 <div className=" lv-page-store" >
                     <div className="lv-page-store-tabs">
                       <div style={{height:this.state.tabconHeight}}>
-                          <div className="am-tabs am-tabs-vertical am-tabs-left">
-                            <div className="am-tabs-tab-bar-wrap" >
-                              
-                                <Tabs.DefaultTabBar tabs={this.state.tabs}
-                                  page={8}
-                                  tabBarPosition="left"
-                                  goToTab={this.tabchange.bind(this)}
-                                  activeTab={this.state.activeTab}
-                                >
-                                </Tabs.DefaultTabBar>
-                              
-                                <div className="lv-store-tabs-right" style={{width:this.state.tabconWidth}}>
-                                  <div className="am-tabs-content-wrap am-tabs-content-wrap-animated">
-
-                                      <div>
-                                        <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight}}>
-                                          <div className="scroller">
-                                            <div className="am-list">
-                                              <div className="am-list-body">
-                                                <div className="list-view-section-body">
-                                                  {this.state.totalnum===0 ? nodataTabs : tabListContent}
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-
-
-                                        </div>
-
-                                      </div>
-                                      
-                                    
-                                  </div>
-                                </div>
-                            </div>
-                          </div>
+                          <Tabs tabs={this.state.tabs}
+                            initalPage={'t2'}
+                            tabBarPosition="left"
+                            tabDirection="vertical"
+                            onTabClick={this.tabchange.bind(this)}
+                          >
+                            {this.renderTabContent.bind(this)}
+                          </Tabs>
                       </div>
                     </div>
 
@@ -155,22 +97,56 @@ class ZmitiStoreChargingApp extends React.Component {
             </div>
         )
     }
-  //显示对应城市
-  tabchange(index){
-    var s = this;      
-    s.state.activeTab=index;//当前序号
-    console.log(index,'tab-index');
-    s.state.tabs.map((item, idx) => {
-      if(idx==index){
-        console.log(item.value,'tab-index-idx');
-        s.getdatasource(item.value);//根据城市id获取数据
-      }
-    })
-    s.forceUpdate();
-  }
+    tabchange(tab,index){
+      var s = this;
+      s.getdatasource(tab.value);//根据城市id获取数据
+      s.forceUpdate();
+    }
+    renderTabContent(tab){
+      const nodataTabs=<div>
+        <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
+      </div>
+      const tabListContent=<div>
+        {
+          this.state.data.map((item, index) => {
+            return <div key={index} className="lv-page-store-list-items">
 
+                <div style={{ padding: '0 15px' }}>
+                  <div
+                    style={{
+                      lineHeight: '1.35',
+                      color: '#000',
+                      fontSize: 15,
+                    }}
+                  >{item.stationname}</div>
+                  <div className="lv-page-store-list-items-inner" style={{ display: '-webkit-box', display: 'flex'}}>              
+                    <div>
+                      <div>营业时间：{item.workingtime}</div>
+                      <div>联系电话：{item.contactphone}</div>
+                      <div>门店地址：{item.stationaddress}</div>
+                    </div>
+                  </div>
+                </div>
+                
+              </div>
+            
+          })
+        }
+      </div>
+      return (
+        <div className="lv-pane-store-listpane-inner" style={{height:this.state.tabconHeight}}>
+          <div className="am-list">
+            <div className="am-list-body">
+              <div className="list-view-section-body">
+                {this.state.totalnum===0 ? nodataTabs : tabListContent}
+              </div>
+            </div>
+          </div>
+        </div>
+      )
+    }
   /*选择门店-充电桩*/
-  onstoreChange(e){
+    onstoreChange(e){
       if(e.nativeEvent.selectedSegmentIndex==0){
         this.state.valuetypea="curr";
         this.state.valuetypeb="";
@@ -250,17 +226,6 @@ class ZmitiStoreChargingApp extends React.Component {
 
         this.getcityListsource();
         this.getdatasource(0);
-        this.scroll = new IScroll(this.refs['wrapper'],{
-            scrollbars:true,
-            mouseWheel: true,
-            interactiveScrollbars: true,
-            shrinkScrollbars: 'scale',
-            fadeScrollbars: true
-        });
-
-        setTimeout(()=>{
-            this.scroll.refresh();
-        },1000);
 
     }
 

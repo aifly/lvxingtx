@@ -79,6 +79,7 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
 }
 .lv-pane-store-listpane-inner{
   background-color: #ffffff;
+  overflow-y:hidden;
   .am-list-view-scrollview{
     background-color: #ffffff;
   }
@@ -184,4 +185,13 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
   .am-tabs-default-bar-underline{
     border:1px #1aad19 solid;
   }
+}
+.lv-store-tabs-left{
+  width:61px;
+}
+.lv-store-tabs-right{
+  position: absolute;
+  right:0;
+  top:0;
+  @include boxsizing();
 }
