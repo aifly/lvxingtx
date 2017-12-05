@@ -168,12 +168,13 @@ class ZmitiStoreApp extends React.Component {
         s.getdatasource(item.value);//根据城市id获取数据
       }
     })
+
     this.refs['scroller'].style.transform="translate(0px, 0px)";
     s.forceUpdate();
   }
 
 	/*选择门店-充电桩*/
-  onstoreChange(e){
+	onstoreChange(e){
     	if(e.nativeEvent.selectedSegmentIndex==0){
     		this.state.valuetypea="curr";
     		this.state.valuetypeb="";
@@ -196,7 +197,8 @@ class ZmitiStoreApp extends React.Component {
 
     /*获取数据*/
     getdatasource(cityid){
-      var s = this;    
+      var s = this;
+
       $.ajax({
         url:H5API+'h5/gestorelist',
         type:'post',
@@ -212,7 +214,14 @@ class ZmitiStoreApp extends React.Component {
             console.log(result.list,'getdata'); 
             s.setState({
               data:result.list,
-            })            
+            })
+            /*if(result.totalnum<3){
+            	console.log("少于3个");
+            	s.tabscroll();
+            }else{
+            	console.log("大于3个");
+            	s.tabscroll();
+            } */      
           }else{
             s.setState({
               data:[],
@@ -251,12 +260,18 @@ class ZmitiStoreApp extends React.Component {
           mouseWheel: true,
           interactiveScrollbars: true,
           shrinkScrollbars: 'scale',
-          fadeScrollbars: true
+          fadeScrollbars: false,
+          resizePolling:300,
       });
 
       setTimeout(()=>{
           this.scroll.refresh();
-      },1000);
+      },300);
+      this.scroll.scrollTo(0, 0, 300);
+    }
+    //clear-scroll
+    clearscroll(){
+      var s = this;
     }
     componentWillMount() {
 
