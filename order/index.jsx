@@ -9,6 +9,15 @@ import IScroll from 'iscroll';
 import {Result,TabBar,Flex,Modal,InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
+function Trim(str,is_global){
+   var result;
+   result = str.replace(/(^\s+)|(\s+$)/g,"");
+   if(is_global.toLowerCase()=="g")
+    {
+      result = result.replace(/\s/g,"");
+    }
+   return result;
+}
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -21,6 +30,7 @@ class ZmitiOrderApp extends React.Component {
             typeid:0,
             cityname:'',
             content: '',
+            mobilecode:'',
             sValue: ['其他城市'],//地区
             tValue: ['0'],//车型
             citydata:[
@@ -75,7 +85,7 @@ class ZmitiOrderApp extends React.Component {
         modal1: false,
       });
       s.forceUpdate();
-      window.location="./";
+      //window.location="./";
     }
     //获取车型
     getdatasource(){
@@ -97,29 +107,80 @@ class ZmitiOrderApp extends React.Component {
         }
       })
     }
-    //提交
-    onSubmit(e){
-      var s = this;
-      e.preventDefault(); 
-      $.ajax({
-        url:H5API+'h5/saveuserneed',
-        type:'post',
-        data:{
-          username:s.state.username,
-          usermobile:s.state.usermobile,
-          typeid:String(s.state.tValue),
-          cityname:String(s.state.sValue),
-          content: s.state.content,
-        },
-        success(result){
-          
-          if(result.getmsg==='提交用车需求成功'){
-            //console.log(result,'提交后显示');
-            s.showModal();//打开弹窗
-          }
-        }
-      })
+    //打开弹窗
+    opendialog(){
+      var s = this;      
+      var username=s.state.username;
+      var usermobile=Trim(s.state.usermobile,'g');//手机号
+      var usermobilelen=usermobile.length;//手机号长度
+      var typeid=String(s.state.tValue);
+      var cityname=String(s.state.sValue);
+      var content=s.state.content;
+      if(usermobilelen==11){
+        //发送验证码
+        $.ajax({
+          type:'post',
+          url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/mobile/'+usermobile+'.html',
+          data:'mobile='+usermobile,
+          dataType:'json',
+          success:function(data){
+            console.log(data);
+            if(data.code==0){ 
+              console.info("验证码发送success");
+            }
+          }          
+        });  
+        s.showModal();//打开弹窗     
+        console.log(usermobilelen,'usermobilelen');
+      }
       
+    }
+    //提交
+    onSubmit(){
+      var s = this;
+      var usermobile=Trim(s.state.usermobile,'g');
+      var mobilecode=s.state.mobilecode;
+      $.ajax({
+        type:'post',
+        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/mobile/'+usermobile+'/code/'+mobilecode+".html",
+        data:'mobile='+usermobile+"&code="+mobilecode,
+        dataType:'json',
+        success:function(data){
+
+          console.log(data);
+          if(data.code==0){
+            console.info("提交验证码success");
+            //验证成功后提交表单
+            $.ajax({
+              url:H5API+'h5/saveuserneed',
+              type:'post',
+              data:{
+                username:s.state.username,
+                usermobile:Trim(s.state.usermobile,'g'),
+                typeid:String(s.state.tValue),
+                cityname:String(s.state.sValue),
+                content: s.state.content,
+                mobilecode: s.state.mobilecode,
+              },
+              success(result){                
+                if(result.getmsg==='提交用车需求成功'){
+                  s.setState({
+                    modal1: false,//提交成功后关闭弹窗
+                  });
+                  console.log(result,'提交后显示');            
+                }
+              }
+            }) 
+          }
+        },
+        error:function(msg){
+          console.log(msg,'验证码错误');
+        }
+        
+      });
+
+
+
     }
 
     render() {
@@ -128,7 +189,7 @@ class ZmitiOrderApp extends React.Component {
         }
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight}}>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
                     <div className="scroller">            
                         <div className="lv-pane">
                             <div className="lv-pane-order">
@@ -190,7 +251,7 @@ class ZmitiOrderApp extends React.Component {
                                     </List>
                                   </form>
                                   <div className="lv-order-btn"> 
-                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.onSubmit.bind(this)}>确认</div></div>
+                                    <div className="lv-pane-index-formitem"><div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div></div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
                                   </div>
@@ -208,14 +269,19 @@ class ZmitiOrderApp extends React.Component {
                   transparent
                   maskClosable={false}
                   onClose={this.onClose.bind(this)}
-                  title="提交成功"
-                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose.bind(this)(); } }]}
+                  title="输入验证码"
+                  footer={[{ text: '确定', onPress: () => { this.onSubmit.bind(this)(); } }]}
                   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 >
                   <div className="lv-dialog-text">
-                    <Result                      
-                      message="所提交内容已成功完成验证"
-                    />
+                    <div className="lv-dialog-text-tips">请输入手机接收到的验证码</div>
+                    <div className="lv-dialog-text-code">
+                      <InputItem                                        
+                        onChange={(value)=>{this.state.mobilecode=value;this.forceUpdate();}}
+                        value={this.state.mobilecode}                                       
+                        placeholder="验证码"
+                      >验证码</InputItem>
+                    </div>
                   </div>
                 </Modal>
             </div>

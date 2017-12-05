@@ -84,7 +84,7 @@ class ZmitiStoreApp extends React.Component {
         </div>
 
         return (
-            <div className="lv-container">
+            <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="lv-store-header">
               		<div className="lv-store-channel-title">
               		附近<br/>门店/电桩
