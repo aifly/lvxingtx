@@ -85,5 +85,27 @@
 .lv-dialog-text-code{
   .am-list-item .am-input-label,.am-list-item .am-input-control input{
     font-size: 15px;
+    height:32px;
+    padding:0;
+    border:1px #cccccc solid;
   }
+  .am-list-item.am-input-item{
+    height: 32px;
+    min-height: 32px;
+  }
+  .am-list-item{
+    padding-left: 0;
+  }
+  .am-list-item .am-list-line-multiple{
+    padding-right: 0;
+  }
+  .am-list-body .am-list-item.am-list-item-middle .am-list-line{
+    -webkit-box-align: initial;
+    -webkit-align-items: initial;
+    -ms-flex-align: initial;
+    align-items: initial; 
+  }
+}
+html:not([data-scale]) .lv-dialog-text-code .am-list-body div:not(:last-child) .am-list-line::after{
+  height:0;
 }

@@ -297,25 +297,11 @@ class ZmitiOrderApp extends React.Component {
                   <div className="lv-dialog-text">
                     <div className="lv-dialog-text-tips">请输入手机接收到的验证码</div>
                     <div className="lv-dialog-text-code">
-                      {/*<InputItem                                        
+                      <InputItem                                        
                         onChange={(value)=>{this.state.mobilecode=value;this.forceUpdate();}}
                         value={this.state.mobilecode}                                       
                         placeholder="验证码"
-                      >验证码</InputItem>*/}
-                      <List style={{ margin: '5px 0', backgroundColor: 'white' }}>
-                          <List.Item
-                            extra={<Button type="primary" size="small" inline>重新获取</Button>}
-                            multipleLine
-                          >
-                            <InputItem                                        
-                              onChange={(value) => {this.state.mobilecode=value;this.forceUpdate();}}
-                              value={this.state.mobilecode}                                       
-                              placeholder="请输入验证码"
-                              type={'number'}
-                              maxLength={6}
-                            />
-                          </List.Item>
-                      </List>
+                      >验证码</InputItem>
                     </div>
                   </div>
                 </Modal>
