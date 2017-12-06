@@ -170,6 +170,7 @@ class ZmitiStoreApp extends React.Component {
     })
 
     this.refs['scroller'].style.transform="translate(0px, 0px)";
+    //this.refs['scroller'].removeAttribute("style");
     s.forceUpdate();
   }
 
@@ -259,7 +260,6 @@ class ZmitiStoreApp extends React.Component {
           scrollbars:true,
           mouseWheel: true,
           interactiveScrollbars: true,
-          shrinkScrollbars: 'scale',
           fadeScrollbars: false,
           resizePolling:300,
       });

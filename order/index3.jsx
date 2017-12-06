@@ -8,6 +8,7 @@ import $ from 'jquery';
 import IScroll from 'iscroll';
 import {Result,TabBar,Flex,Modal,InputItem,Switch, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace,Toast } from 'antd-mobile';
 const Item = List.Item;
+const prompt = Modal.prompt;
 const H5API='http://api.ev-bluesky.com/v2/';
 function Trim(str,is_global){
    var result;
@@ -18,6 +19,15 @@ function Trim(str,is_global){
     }
    return result;
 }
+//验证11位手机号
+function checkMobile(sMobile){ 
+    if(!(/^1[3|4|5|8][0-9]\d{4,8}$/.test(sMobile))){ 
+        console.log("不是完整的11位手机号或者正确的手机号前七位"); 
+        return false; 
+    }else{
+      return true;
+    }
+} 
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -124,10 +134,8 @@ class ZmitiOrderApp extends React.Component {
         if(username!=''){
           $.ajax({
             type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
-            data:{
-              mobile:usermobile
-            },
+            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/mobile/'+usermobile+'.html',
+            data:'mobile='+usermobile,
             dataType:'json',
             success:function(data){
               console.log(data);
@@ -136,7 +144,7 @@ class ZmitiOrderApp extends React.Component {
               }
             }          
           });  
-          s.showModal();//打开弹窗     
+          //s.showModal();//打开弹窗     
           console.log(usermobilelen,'usermobilelen');
         }
 
@@ -145,17 +153,14 @@ class ZmitiOrderApp extends React.Component {
       
     }
     //提交
-    onSubmit(){
+/*    onSubmit(mobilecode){
       var s = this;
       var usermobile=Trim(s.state.usermobile,'g');
-      var mobilecode=s.state.mobilecode;
+      //var mobilecode=s.state.mobilecode;
       $.ajax({
         type:'post',
-        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/',
-        data:{
-          mobile:usermobile,
-          code:mobilecode,
-        },
+        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/mobile/'+usermobile+'/code/'+mobilecode+".html",
+        data:'mobile='+usermobile+"&code="+mobilecode,
         dataType:'json',
         success:function(data){
 
@@ -172,17 +177,15 @@ class ZmitiOrderApp extends React.Component {
                 typeid:String(s.state.tValue),
                 cityname:String(s.state.sValue),
                 content: s.state.content,
-                mobilecode: s.state.mobilecode,
+                mobilecode: mobilecode,//s.state.mobilecode,
               },
               success(result){                
                 if(result.getmsg==='提交用车需求成功'){
-                  s.setState({
-                    modal1: false,//提交成功后关闭弹窗
-                  });
+                  //s.setState({
+                    //modal1: false,//提交成功后关闭弹窗
+                  //});
                   Toast.info('提交用车需求成功', 1);
                   console.log(result,'提交后显示');            
-                }else{
-                  Toast.info('验证码错误', 1);
                 }
               }
             }) 
@@ -196,12 +199,120 @@ class ZmitiOrderApp extends React.Component {
 
 
 
+    }*/
+    //重新发送验证码
+    reAjaxMobileCode(){
+    	var s = this;
+    	var usermobile=Trim(s.state.usermobile,'g');
+    	$.ajax({
+            type:'post',
+            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/mobile/'+usermobile+'.html',
+            data:'mobile='+usermobile,
+            dataType:'json',
+            success:function(data){
+              console.log(data);
+              if(data.code==0){ 
+                console.info("验证码发送success");
+              }
+            }          
+        }); 
     }
 
+    //send
+/*    sendDialog(){
+      var s = this;
+      prompt('输入验证码', writeCode,
+      [
+        { text: '关闭' },
+        {
+          text: '提交',
+          onPress: value => new Promise((resolve) => {
+            Toast.info('提交用车需求成功', 1);
+            setTimeout(() => {
+              resolve();
+              console.log(`value:${value}`);
+            }, 1000);
+          }),
+        },
+      ], 'default', null, ['6位数字验证码']);
+    }*/
     render() {
+    	var s = this;
         let tabbarProps ={
             selectedTab: 'yellowTab',
         }
+
+        const tipsCode=<div>
+          已向您填写的手机发送验证码
+        </div>
+
+        const writeCode=<div>
+          <div>
+          已向您填写的手机发送验证码
+          </div>
+          <Button onClick={this.reAjaxMobileCode.bind(this)}>重新获取</Button>
+        </div>
+
+        const sendMobildCode=<div onClick={() => prompt('输入验证码', writeCode,
+          [
+            { text: '关闭' },
+            {
+              text: '提交',
+              onPress: value => new Promise((resolve) => {
+                //Toast.info('提交用车需求成功', 1);
+                setTimeout(() => {
+                  //resolve();
+                  //{value},为验证码
+                  //console.log(`value:${value}`);
+					      var usermobile=Trim(s.state.usermobile,'g');
+					      $.ajax({
+					        type:'post',
+					        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/mobile/'+usermobile+'/code/'+value+".html",
+					        dataType:'json',
+					        success:function(data){
+
+					          console.log(data);
+					          if(data.code==0){
+					            console.info("提交验证码success");
+					            //验证成功后提交表单
+					            $.ajax({
+					              url:H5API+'h5/saveuserneed',
+					              type:'post',
+					              data:{
+					                username:s.state.username,
+					                usermobile:Trim(s.state.usermobile,'g'),
+					                typeid:String(s.state.tValue),
+					                cityname:String(s.state.sValue),
+					                content: s.state.content,
+					                mobilecode: value,//s.state.mobilecode,
+					              },
+					              success(result){                
+					                if(result.getmsg==='提交用车需求成功'){
+					                  /*s.setState({
+					                    modal1: false,//提交成功后关闭弹窗
+					                  });*/
+					                  resolve();
+					                  Toast.info('提交用车需求成功', 1);
+					                  console.log(result,'提交后显示');            
+					                }else{
+					                	Toast.info('验证码错误', 1);
+					                }
+					              }
+					            }) 
+					          }
+					        },
+					        error:function(msg){
+					          console.log(msg,'验证码错误');
+					          Toast.info('验证码错误', 1);
+					        }
+					        
+					      });
+                }, 1000);
+              }),
+            },
+          ], 'default', null, ['6位数字验证码'])}
+        ><Button type="primary" onClick={this.opendialog.bind(this)}>确认</Button></div>
+
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
@@ -213,6 +324,35 @@ class ZmitiOrderApp extends React.Component {
                                     mode="light"
                                   >用车需求提交</NavBar>
                                   <div className="hr10"></div>
+<List style={{ margin: '5px 0', backgroundColor: 'white' }}>
+
+    <List.Item
+      extra={<Button type="primary" size="small" inline>重新获取</Button>}
+      multipleLine
+    >
+      Regional manager
+      <List.Item.Brief>
+        Can be collected, refund, discount management, view data and other operations
+      </List.Item.Brief>
+    </List.Item>
+</List>
+  
+{/*<Button onClick={() => prompt('输入验证码', writeCode,
+  [
+    { text: '关闭' },
+    {
+      text: '提交',
+      onPress: value => new Promise((resolve) => {
+        Toast.info('提交用车需求成功', 1);
+        setTimeout(() => {
+          resolve();
+          console.log(`value:${value}`);
+        }, 1000);
+      }),
+    },
+  ], 'default', null, ['6位数字验证码'])}
+>提交验证码</Button>*/}
+
 
                                   <form>
                                     <List>
@@ -267,8 +407,8 @@ class ZmitiOrderApp extends React.Component {
                                   </form>
                                   <div className="lv-order-btn"> 
                                     <div className="lv-pane-index-formitem">
-                                      {/*<div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div>*/}
-                                      {this.state.usermobile.length===13 && this.state.username.length!="" ? <div className=""><Button type="primary" onClick={this.opendialog.bind(this)}>确认</Button></div> : <div className=""><Button disabled>确认</Button></div>}
+                                    	{/*<div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div>*/}
+                                    	{this.state.usermobile.length===13 && this.state.username.length!="" ? sendMobildCode : <div className=""><Button disabled>确认</Button></div>}
                                     </div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
@@ -288,10 +428,7 @@ class ZmitiOrderApp extends React.Component {
                   maskClosable={false}
                   onClose={this.onClose.bind(this)}
                   title="输入验证码"
-                  footer={[
-                    { text: '关闭', onPress: () => { this.onClose.bind(this)(); } },
-                    { text: '确定', onPress: () => { this.onSubmit.bind(this)(); } }
-                  ]}
+                  footer={[{ text: '确定', onPress: () => { this.onSubmit.bind(this)(); } }]}
                   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 >
                   <div className="lv-dialog-text">
@@ -318,7 +455,7 @@ class ZmitiOrderApp extends React.Component {
     }
 
     componentDidMount() {
-        /*
+        /**/
         this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
@@ -330,7 +467,7 @@ class ZmitiOrderApp extends React.Component {
         setTimeout(()=>{
             this.scroll.refresh();
         },1000);
-        */
+        
         this.getdatasource();
 
     }
