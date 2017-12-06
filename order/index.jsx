@@ -18,6 +18,8 @@ function Trim(str,is_global){
     }
    return result;
 }
+
+
 class ZmitiOrderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -50,8 +52,10 @@ class ZmitiOrderApp extends React.Component {
             display:'none',//提交后显示
             hidden: false,
             fullScreen: true,
+            count: 60,//默认倒计时为*秒
+            liked: true,//倒计时显示
         }
-        
+
         
     }    
     pagelinks(pageText) {
@@ -136,7 +140,8 @@ class ZmitiOrderApp extends React.Component {
               }
             }          
           });  
-          s.showModal();//打开弹窗     
+          s.showModal();//打开弹窗
+          s.recodeClick();  
           console.log(usermobilelen,'usermobilelen');
         }
 
@@ -216,11 +221,33 @@ class ZmitiOrderApp extends React.Component {
             }          
         }); 
     }
+    //倒计时发送验证码
+    recodeClick(){
+        if(this.state.liked){
+          this.timer = setInterval(function () {
+            var count = this.state.count;
+            this.state.liked = false;
+            count -= 1;
+            if (count < 1) {
+              this.setState({
+                liked: true
+              });
+              count = 30;
+　　　　　　　clearInterval(this.timer);
+            }
+            this.setState({
+              count: count
+            });
+          }.bind(this), 1000);
+        }
+        
+    }
     //render
     render() {
         let tabbarProps ={
             selectedTab: 'yellowTab',
         }
+        let reCodetext = this.state.liked ? <Button onClick={this.reAjaxMobileCode.bind(this)} size="small" inline>获取验证码</Button> : <Button size="small" disabled inline>{this.state.count}秒后重发</Button>;
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
                 <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
@@ -287,7 +314,7 @@ class ZmitiOrderApp extends React.Component {
                                   <div className="lv-order-btn"> 
                                     <div className="lv-pane-index-formitem">
                                       {/*<div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div>*/}
-                                      {this.state.usermobile.length===13 && this.state.username.length!="" ? <Button type="primary" onClick={this.opendialog.bind(this)}>确认</Button> : <Button type="primary">确认</Button>}
+                                      {this.state.usermobile.length===13 && this.state.username.length!="" ? <Button type="primary"  onClick={this.opendialog.bind(this)}>确认</Button> : <Button type="primary">确认</Button>}
                                     </div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
@@ -318,7 +345,7 @@ class ZmitiOrderApp extends React.Component {
                     <div className="lv-dialog-text-code">
                       <List style={{ margin: '5px 0', backgroundColor: 'white' }}>
                           <List.Item
-                            extra={<Button onClick={this.reAjaxMobileCode.bind(this)}  size="small" disabled inline>重新获取</Button>}
+                            extra={<div onClick={this.recodeClick.bind(this)}>{reCodetext}</div>}
                             multipleLine
                           >
                             <InputItem                                        

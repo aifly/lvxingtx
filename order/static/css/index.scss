@@ -94,8 +94,14 @@
   .am-list-item .am-input-label,.am-list-item .am-input-control input{
     font-size: 15px;
     height:30px;
-    padding:0;
+    padding:0 0 0 2px;
     border:1px #ddd solid;
+  }
+  .am-list-item .am-list-line{
+    padding-right: 5px;
+  }
+  .am-list-item .am-list-line .am-list-extra{
+    padding-right: 10px; 
   }
   .am-list-item.am-input-item{
     height: 30px;
