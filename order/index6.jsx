@@ -197,26 +197,7 @@ class ZmitiOrderApp extends React.Component {
 
 
     }
-    //重新发送验证码
-    reAjaxMobileCode(){
-      var s = this;
-      var usermobile=Trim(s.state.usermobile,'g');
-      $.ajax({
-            type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
-            data:{
-              mobile:usermobile
-            },
-            dataType:'json',
-            success:function(data){
-              console.log(data);
-              if(data.code==0){ 
-                console.info("验证码发送success");
-              }
-            }          
-        }); 
-    }
-    //render
+
     render() {
         let tabbarProps ={
             selectedTab: 'yellowTab',
@@ -287,7 +268,7 @@ class ZmitiOrderApp extends React.Component {
                                   <div className="lv-order-btn"> 
                                     <div className="lv-pane-index-formitem">
                                       {/*<div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div>*/}
-                                      {this.state.usermobile.length===13 && this.state.username.length!="" ? <Button type="primary" onClick={this.opendialog.bind(this)}>确认</Button> : <Button type="primary">确认</Button>}
+                                      {this.state.usermobile.length===13 && this.state.username.length!="" ? <div className=""><Button type="primary" onClick={this.opendialog.bind(this)}>确认</Button></div> : <div className=""><Button disabled>确认</Button></div>}
                                     </div>
                                   </div>
                                   <div className="lv-order-telephone">咨询电话 010-8047152
@@ -306,7 +287,7 @@ class ZmitiOrderApp extends React.Component {
                   transparent
                   maskClosable={false}
                   onClose={this.onClose.bind(this)}
-                  title="- 输入验证码 -"
+                  title="输入验证码"
                   footer={[
                     { text: '关闭', onPress: () => { this.onClose.bind(this)(); } },
                     { text: '确定', onPress: () => { this.onSubmit.bind(this)(); } }
@@ -314,11 +295,16 @@ class ZmitiOrderApp extends React.Component {
                   wrapProps={{ onTouchStart: this.onWrapTouchStart }}
                 >
                   <div className="lv-dialog-text">
-                    <div className="lv-dialog-text-tips">已向 <span>{this.state.usermobile} </span>发送验证码</div>
+                    <div className="lv-dialog-text-tips">请输入手机接收到的验证码</div>
                     <div className="lv-dialog-text-code">
+                      {/*<InputItem                                        
+                        onChange={(value)=>{this.state.mobilecode=value;this.forceUpdate();}}
+                        value={this.state.mobilecode}                                       
+                        placeholder="验证码"
+                      >验证码</InputItem>*/}
                       <List style={{ margin: '5px 0', backgroundColor: 'white' }}>
                           <List.Item
-                            extra={<Button onClick={this.reAjaxMobileCode.bind(this)}  size="small" disabled inline>重新获取</Button>}
+                            extra={<Button type="primary" size="small" inline>重新获取</Button>}
                             multipleLine
                           >
                             <InputItem                                        

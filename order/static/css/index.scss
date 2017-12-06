@@ -69,6 +69,9 @@
 .lv-order-btn{
   padding: 40px 40px 10px 40px;
   font-size: 18px;
+  .am-button-primary{
+    background-color: #22ac38;
+  }
 }
 .lv-order-telephone{
   text-align: center;
@@ -79,19 +82,24 @@
 }
 .lv-dialog-text-tips{
   line-height:1;
-  padding:15px;
+  padding:15px 0;
   text-align: left;
+  color: #5b6873;
+  span{
+    font-weight: bold;
+    color: #1c242f;
+  }
 }
 .lv-dialog-text-code{
   .am-list-item .am-input-label,.am-list-item .am-input-control input{
     font-size: 15px;
-    height:32px;
+    height:30px;
     padding:0;
-    border:1px #cccccc solid;
+    border:1px #ddd solid;
   }
   .am-list-item.am-input-item{
-    height: 32px;
-    min-height: 32px;
+    height: 30px;
+    min-height: 30px;
   }
   .am-list-item{
     padding-left: 0;
@@ -108,4 +116,12 @@
 }
 html:not([data-scale]) .lv-dialog-text-code .am-list-body div:not(:last-child) .am-list-line::after{
   height:0;
+}
+.am-modal.am-modal-transparent .am-modal-content{
+  padding-top: 0;
+}
+.am-modal-wrap .am-modal-content .am-modal-header{
+  padding-top: 15px;
+  background-color: #eff2f6;
+  color: #5f6670;
 }
