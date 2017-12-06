@@ -36,11 +36,12 @@ class ZmitiHomeApp extends React.Component {
 			    }
 			]],
             dataImgs: [
-                './assets/images/u4.jpg',
-                './assets/images/banner2.jpg', 
-                './assets/images/banner3.jpg',
+                './assets/images/banner1.png',
+                './assets/images/banner2.png', 
+                './assets/images/banner3.png',
             ],
 		    visible: false,
+            columnHeight:'auto',
         }
     }    
 	
@@ -49,9 +50,10 @@ class ZmitiHomeApp extends React.Component {
             selectedTab: 'blueTab',
         }
         return (
-            <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-57}}>
-                    <div className="scroller">
+            <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
+                <div className="Index-flex-wrap">
+                    <div className="Index-flex-wrap-sub" ref="wrapper">
+
                         <div className="lv-banner">
                             <Carousel
                               className="my-carousel"
@@ -77,58 +79,66 @@ class ZmitiHomeApp extends React.Component {
                                 </a>
                               ))}
                             </Carousel>
-                        </div>             
-                        <div className="lv-pane">
-                            <div className="lv-pane-index">
-                                <div className="lv-pane-index-inner">
-                                    <div className="lv-pane-index-form">                
-                                        
-                                        <div>                                        	
-	                                    	<List style={{ backgroundColor: 'white' }} className="picker-list">
-	                                    		<Picker
-										          data={this.state.citydata}
-										          title="选择地区"
-										          cascade={false}
-										          extra="请选择"
-										          value={this.state.sValue}
-										          onChange={this.selectcity.bind(this)}
-										          onOk={v => this.setState({ sValue: v })}
-										        >
-										          <List.Item arrow="horizontal">地区</List.Item>
-										        </Picker>
-
-	                                    		<Picker
-										          data={this.state.cartypedata}
-                                                  cols={1}
-										          title="选择车型"
-										          cascade={false}
-										          extra="请选择"
-										          value={this.state.tValue}
-										          onChange={this.selectcartype.bind(this)}
-										          onOk={v => this.setState({ tValue: v })}
-										        >
-										          <List.Item arrow="horizontal">车型</List.Item>
-										        </Picker>
-									        </List>
-										</div>
-                                        <div className="lv-pane-index-formitem">
-                                            <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="lv-pane-index-column">
-                                        <div className="lv-pane-index-list-01">
-                                            <List>
-                                                <List.Item arrow="horizontal" onClick={() => {window.location='./#/car/'}}><span className="lv-borderleft">车型浏览</span></List.Item>
-                                                <List.Item arrow="horizontal" onClick={() => {window.location='./#/store/'}}><span className="lv-borderleft">全国门店/充电桩</span></List.Item>
-                                            </List>
-                                        </div>
-                                    </div>
-                                                                         
+                        </div>  
+                        {/*-banner-end-*/}
+                        <div className="lv-pane-index">
+                            <div className="lv-pane-index-inner">
+                                <div className="lv-pane-index-form">                
                                     
+                                    <div>                                           
+                                        <List style={{ backgroundColor: 'white' }} className="picker-list">
+                                            <Picker
+                                              data={this.state.citydata}
+                                              title="选择地区"
+                                              cascade={false}
+                                              extra="请选择"
+                                              value={this.state.sValue}
+                                              onChange={this.selectcity.bind(this)}
+                                              onOk={v => this.setState({ sValue: v })}
+                                            >
+                                              <List.Item arrow="horizontal">地区</List.Item>
+                                            </Picker>
+
+                                            <Picker
+                                              data={this.state.cartypedata}
+                                              cols={1}
+                                              title="选择车型"
+                                              cascade={false}
+                                              extra="请选择"
+                                              value={this.state.tValue}
+                                              onChange={this.selectcartype.bind(this)}
+                                              onOk={v => this.setState({ tValue: v })}
+                                            >
+                                              <List.Item arrow="horizontal">车型</List.Item>
+                                            </Picker>
+                                        </List>
+                                    </div>
+                                    <div className="lv-pane-index-formitem">
+                                        <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
+                                    </div>
                                 </div>
-                                <div className="hr10"></div>
-                                <div className="lv-pane-index-column pad-tb10">
+
+                                <div className="lv-pane-index-column">
+                                    <div className="lv-pane-index-list-01">
+                                        <List>
+                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/car/'}}><span className="lv-borderleft">车型浏览</span></List.Item>
+                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/store/'}}><span className="lv-borderleft">全国门店/充电桩</span></List.Item>
+                                        </List>
+                                    </div>
+                                </div>
+                                                                     
+                                
+                            </div>
+                            <div className="hr10"></div>
+
+
+                            
+
+                        </div>
+                        {/*-A-end-*/}
+                        <div className="Index-column-pane">
+                            <div className="lv-pane-index-column">
+                                <div className="lv-pndex-index-alignitem">
                                     <div className="lv-pane-index-column-icon">
                                         <div className="flex-container">
                                             <Flex>
@@ -154,19 +164,23 @@ class ZmitiHomeApp extends React.Component {
                                     <div className="hr10"></div>
                                     <div className="lv-pane-index-title">                                        
                                         <a href="./#/about/" className="antm-button-small" aria-disabled="false">
-                                        	<span>关于我们</span>
+                                            <span>关于我们</span>
                                         </a>
                                     </div>
                                 </div>
 
+
                             </div>
+                            
                         </div>
+                        
                     </div>
                 </div>
-                               
-                <div className="lv-menu-bar">
+                
+                <div className="lv-menu-bar" style={{marginTop:10}}>
                     <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
-                </div>
+                </div>            
+                
             </div>
         )
     }
@@ -221,28 +235,44 @@ class ZmitiHomeApp extends React.Component {
         console.log(params,'params');
     }
 
-
+    //关于我们
+    getabout(){
+        var s = this;
+        var mainHeight=document.documentElement.clientHeight;
+        console.log(mainHeight,'mainHeight');
+        /*if(mainHeight>568){
+            s.setState({
+                columnHeight:250,
+            }) 
+        }else{
+            s.setState({
+                columnHeight:150,
+            })
+        } */     
+    }
     componentWillMount() {
 
     }
 
     componentDidMount() {
     	var s = this;
-        /*
-        this.scroll = new IScroll(this.refs['wrapper'],{
+
+        /*this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
             shrinkScrollbars: 'scale',
-            fadeScrollbars: true
+            fadeScrollbars: true,
+            preventDefault:false,//允许默认点击事件
         });
 
         setTimeout(()=>{
             this.scroll.refresh();
-        },1000)
-        */
+        },1000)*/
+
         s.getdatasource();
         s.forceUpdate();
+        s.getabout()
 
     }
 

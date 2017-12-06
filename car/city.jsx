@@ -7,7 +7,7 @@ import {ZmitiPubApp} from '../components/public/pub.jsx';
 import Zmitimenubar from '../components/public/tabbar.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {NavBar,Icon,Tabs,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
+import {NavBar,Icon,Tabs, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
 
@@ -49,7 +49,7 @@ class ZmitiCarcityApp extends React.Component {
         }
         var s = this;
         const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-90 }}>...</div>
+          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-95 }}>...</div>
         </div>
         const tabListContent=<div>
           {
@@ -84,6 +84,7 @@ class ZmitiCarcityApp extends React.Component {
                     </div>
                   </div>
                   
+                  
               </div>
               
             })
@@ -92,25 +93,30 @@ class ZmitiCarcityApp extends React.Component {
         const navbarType=this.state.cartypelabel[this.props.params.id];
         const navbarCity=this.state.cityname;
         return (
-            <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="lv-top-navbar lv-top-fixed">
-                      <NavBar
-                        mode="light"
-                        icon={<Icon type="left" />}
-                        onLeftClick={this.goback.bind(this)}
-                      >{this.props.params.city==0 ? navbarType : navbarCity}</NavBar>
-                  </div>
-                <div className="lv-car-pane-page2" style={{height:this.state.mainHeight-95}}>
+            <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
+                <div className="lv-top-navbar">
+                    <NavBar
+                      mode="light"
+                      icon={<Icon type="left" />}
+                      onLeftClick={this.goback.bind(this)}
+                    >{this.props.params.city==0 ? navbarType : navbarCity}</NavBar>
+                </div>
+                <div className="Index-flex-wrap">
+                  <div className="Index-flex-wrap-sub" >
+                    <div className="lv-car-pane-page2" >
 
-                  <div className="lv-pane-carlist">
-                    <div className="am-list">
-                      <div className="am-list-body">
-                        <div className="list-view-section-body">
-                          {this.state.totalnum===0 ? nodataTabs : tabListContent}
+                      <div className="lv-pane-carlist" style={{height:this.state.mainHeight-95,padding:0,overflow:'auto'}}>
+                        <div className="am-list">
+                          <div className="am-list-body">
+                            <div className="list-view-section-body">
+                              {this.state.totalnum===0 ? nodataTabs : tabListContent}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
+
                 </div>
               
                 
@@ -202,17 +208,12 @@ class ZmitiCarcityApp extends React.Component {
         }
       })
     }
-    //滚动
-    getscrollpage(){
-      var s = this;
-      //console.log('scroll');
-    }
+
     componentWillMount() {
 
     }
 
     componentDidMount() {
-      //setTimeout(() => this.lv.scrollTo(0, 120), 800);
 
       this.getdatasource();//默认获取第1页数据
       let typeid=this.props.params.id || 0;

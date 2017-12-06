@@ -93,13 +93,13 @@
   z-index: 10;
 }
 .lv-car-pane-page2{
-  position: relative;
-  padding: 45px 0 0 0;
+/*   position: relative;
+  padding: 45px 0 0 0; */
   @include boxsizing();
 }
 .lv-pane-carlist{
   position: relative; 
-  padding: 0 0 50px 0; 
+  padding: 0 0 50px 0;   
   .lv-car-item{
     padding:0 10px;
     .lv-car-item-inner{

@@ -73,6 +73,9 @@
     background-color: #22ac38;
   }
 }
+html:not([data-scale]) .lv-order-btn .am-button-primary::before{
+  border:1px #22ac38 solid;
+}
 .lv-order-telephone{
   text-align: center;
   color: #b4b9bd;

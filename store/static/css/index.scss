@@ -94,9 +94,6 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
 }
 
 .lv-page-store{
-  position: absolute;
-  width: 100%;
-  top:60px;
   .am-tabs-default-bar{
     width:70px;
   }
@@ -104,11 +101,6 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
 .lv-store-header{
   height:60px;
   background-color: #ffffff;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 10;
   .lv-store-channel-title{
     width:70px;
     height: 60px;

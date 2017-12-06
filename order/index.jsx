@@ -250,14 +250,15 @@ class ZmitiOrderApp extends React.Component {
         let reCodetext = this.state.liked ? <Button onClick={this.reAjaxMobileCode.bind(this)} size="small" inline>获取验证码</Button> : <Button size="small" disabled inline>{this.state.count}秒后重发</Button>;
         return (
             <div className="lv-container" style={{height:this.state.mainHeight}}>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
+                <NavBar
+                  mode="light"
+                >用车需求提交</NavBar>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-95}}>
                     <div className="scroller">            
                         <div className="lv-pane">
                             <div className="lv-pane-order">
                                 <div className="lv-pane-order-inner">
-                                  <NavBar
-                                    mode="light"
-                                  >用车需求提交</NavBar>
+                                  
                                   <div className="hr10"></div>
 
                                   <form>
@@ -373,19 +374,18 @@ class ZmitiOrderApp extends React.Component {
     }
 
     componentDidMount() {
-        /*
         this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
             shrinkScrollbars: 'scale',
-            fadeScrollbars: true
+            fadeScrollbars: true,
+            preventDefault:false,//允许默认点击事件
         });
 
         setTimeout(()=>{
             this.scroll.refresh();
         },1000);
-        */
         this.getdatasource();
 
     }

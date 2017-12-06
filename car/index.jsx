@@ -45,7 +45,7 @@ class ZmitiCarlistApp extends React.Component {
             selectedTab: 'redTab',
         }
         return (
-            <div className="lv-container" style={{height:this.state.mainHeight}}>
+            <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
                 <div className="lv-car-pane-page">
 
                   <Tabs tabs={this.state.tabs}

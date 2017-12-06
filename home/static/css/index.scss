@@ -243,6 +243,8 @@ input, textarea {
 }
 .lv-pane-index-column{
   background-color: #ffffff;
+  /* width: 100%;
+  height: 100%; */
 }
 .lv-pane-index-column-icon{
   color: #666666;
@@ -304,16 +306,7 @@ html:not([data-scale]) .am-list-body::after{
     padding-right: 30px;
   }
 }
-.lv-menu-bar{
-  position: absolute;
-  width: 100%;
-  height: 50px;
-  bottom: 0;
-  z-index: 10;
-}
-.lv-am-list-footer{
-  text-align: center;
-}
+
 .am-modal-header{
   border-bottom: 1px #dddddd solid;
 }
@@ -352,4 +345,38 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
   display:flex;
   -webkit-display:flex;
   color: #999999;
+}
+.lv-pndex-index-alignitem{
+  display: table-cell;
+  vertical-align:middle;
+}
+.Index-flex{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  .Index-flex-wrap{
+    flex:1;
+    position: relative;
+    .Index-flex-wrap-sub{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      .Index-column-pane{
+        flex:1;
+        position: relative;
+        background-color: #ffffff;
+        margin-top:-30px;
+        padding-top: 30px;
+      }
+    }    
+  }
+
+}
+.lv-menu-bar{  
+  width: 100%;
+  height: 50px;
+}
+.lv-am-list-footer{
+  text-align: center;
 }
