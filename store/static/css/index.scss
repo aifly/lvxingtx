@@ -3,7 +3,6 @@
 }
 
 @mixin opacity($v:0) {
-  opacity: $v;
 }
 
 @mixin displayFlex($val:column){
@@ -80,7 +79,7 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
 .lv-pane-store-listpane-inner{
   background-color: #ffffff;
   display: relative;
-  overflow-y:hidden;
+  overflow-y:auto;
   .am-list-view-scrollview{
     background-color: #ffffff;
   }

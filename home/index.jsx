@@ -41,7 +41,7 @@ class ZmitiHomeApp extends React.Component {
                 './assets/images/banner3.png',
             ],
 		    visible: false,
-            columnHeight:'auto',
+            columnHeight:150,
         }
     }    
 	
@@ -52,9 +52,9 @@ class ZmitiHomeApp extends React.Component {
         return (
             <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
                 <div className="Index-flex-wrap">
-                    <div className="Index-flex-wrap-sub" ref="wrapper">
-
-                        <div className="lv-banner">
+                    <div className="Index-flex-wrap-sub" ref="wrapper" style={{height:this.state.mainHeight-60}}>
+                        <section>
+                        <div className="lv-banner" ref="lv-banner">
                             <Carousel
                               className="my-carousel"
                               autoplay={false}
@@ -79,9 +79,10 @@ class ZmitiHomeApp extends React.Component {
                                 </a>
                               ))}
                             </Carousel>
-                        </div>  
+                        </div>
+                        
                         {/*-banner-end-*/}
-                        <div className="lv-pane-index">
+                        <div className="lv-pane-index" ref="lv-pane-index">
                             <div className="lv-pane-index-inner">
                                 <div className="lv-pane-index-form">                
                                     
@@ -136,7 +137,8 @@ class ZmitiHomeApp extends React.Component {
 
                         </div>
                         {/*-A-end-*/}
-                        <div className="Index-column-pane">
+                        </section>
+                        <div className="Index-column-pane" ref="Index-column-pane" style={{height:this.state.columnHeight}}>
                             <div className="lv-pane-index-column">
                                 <div className="lv-pndex-index-alignitem">
                                     <div className="lv-pane-index-column-icon">
@@ -168,6 +170,7 @@ class ZmitiHomeApp extends React.Component {
                                         </a>
                                     </div>
                                 </div>
+
 
 
                             </div>
@@ -235,44 +238,23 @@ class ZmitiHomeApp extends React.Component {
         console.log(params,'params');
     }
 
-    //关于我们
-    getabout(){
-        var s = this;
-        var mainHeight=document.documentElement.clientHeight;
-        console.log(mainHeight,'mainHeight');
-        /*if(mainHeight>568){
-            s.setState({
-                columnHeight:250,
-            }) 
-        }else{
-            s.setState({
-                columnHeight:150,
-            })
-        } */     
-    }
     componentWillMount() {
 
     }
 
     componentDidMount() {
     	var s = this;
-
-        /*this.scroll = new IScroll(this.refs['wrapper'],{
-            scrollbars:true,
-            mouseWheel: true,
-            interactiveScrollbars: true,
-            shrinkScrollbars: 'scale',
-            fadeScrollbars: true,
-            preventDefault:false,//允许默认点击事件
-        });
-
-        setTimeout(()=>{
-            this.scroll.refresh();
-        },1000)*/
+        const section=document.getElementsByTagName('section');
+        const icoPane=this.refs['Index-column-pane'];
+        const clientHeight=document.documentElement.clientHeight;
+        setTimeout(() => {
+            //console.log(section[0].offsetHeight);//其它元素高度,60为底部高度
+            this.state.columnHeight=clientHeight-section[0].offsetHeight-60;//关于我们高度
+            this.forceUpdate();
+        },600);
 
         s.getdatasource();
         s.forceUpdate();
-        s.getabout()
 
     }
 

@@ -251,7 +251,7 @@ class ZmitiStoreChargingApp extends React.Component {
 
         this.getcityListsource();
         this.getdatasource(0);
-        this.scroll = new IScroll(this.refs['wrapper'],{
+        /*this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
@@ -261,7 +261,7 @@ class ZmitiStoreChargingApp extends React.Component {
 
         setTimeout(()=>{
             this.scroll.refresh();
-        },1000);
+        },1000);*/
 
     }
 

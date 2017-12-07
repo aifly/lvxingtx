@@ -281,7 +281,6 @@ class ZmitiStoreApp extends React.Component {
 
         this.getcityListsource();
         this.getdatasource(0);
-        this.tabscroll();
 
     }
 
