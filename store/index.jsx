@@ -61,13 +61,7 @@ class ZmitiStoreApp extends React.Component {
               return <div key={index} className="lv-page-store-list-items">
 
                   <div style={{ padding: '0 15px' }}>
-                    <div
-                      style={{
-                        lineHeight: '1.35',
-                        color: '#000',
-                        fontSize: 15,
-                      }}
-                    >{item.storename}</div>
+                    <div className="lv-page-store-itemsname">{item.storename}</div>
                     <div className="lv-page-store-list-items-inner" style={{ display: '-webkit-box', display: 'flex'}}>              
                       <div>
                         <div>营业时间：{item.workingtime}</div>

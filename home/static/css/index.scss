@@ -62,7 +62,7 @@ input, textarea {
   display: flex;
   flex-wrap: wrap;
 }
-@mixin displayflex(){
+@mixin disflex(){
   display: flex;
   -webkit-display: flex;
 }
@@ -346,11 +346,11 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
 .nodataTabs{
   background-color: #ffffff;  
   color: #999999;
-  @include displayflex();
+  @include disflex();
 }
 
 .Index-flex{
-  @include displayflex();
+  @include disflex();
   flex-direction: column;
   height: 100%;
   .Index-flex-wrap{
@@ -359,7 +359,7 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
     .Index-flex-wrap-sub{
       width: 100%;
       height: 100%;
-      @include displayflex();
+      @include disflex();
       flex-direction: column;
       .Index-column-pane{
         flex:1;
@@ -368,7 +368,7 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
         .lv-pane-index-column{
         	width:100%;
         	height: 100%;	
-        	@include displayflex();
+        	@include disflex();
         	align-items:center;
           justify-content: center;
         }
