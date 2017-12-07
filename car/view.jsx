@@ -190,7 +190,7 @@ class ZmitiCarviewApp extends React.Component {
             },
             success(result){
               if(result.getret===1004){
-                console.log(result);
+                console.log(result,result.detial.path[0]);
                 var dataImgs=result.detial.path;
                 $.each(dataImgs,function(index,item){
                     s.state.dataImgs.push(WebSite+item);

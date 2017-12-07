@@ -52,7 +52,7 @@ class ZmitiOrderApp extends React.Component {
             display:'none',//提交后显示
             hidden: false,
             fullScreen: true,
-            count: 60,//默认倒计时为*秒
+            count: 30,//默认倒计时为*秒
             liked: true,//倒计时显示
         }
 
@@ -195,6 +195,7 @@ class ZmitiOrderApp extends React.Component {
         },
         error:function(msg){
           console.log(msg,'验证码错误');
+          Toast.info('验证码错误', 1);
         }
         
       });

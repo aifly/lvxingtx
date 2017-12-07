@@ -33,7 +33,7 @@ class ZmitiCarorderApp extends React.Component {
             ordertype:0,//订单类型
             getcarstoreid: '',
             contentusername:'',
-            contentphone:'',            
+            contentphone:'', //用户手机号           
             content:'',        
             citydata:[
               [
@@ -97,7 +97,7 @@ class ZmitiCarorderApp extends React.Component {
                 hotsort:'',
                 typename:'',
                 brandname:'',             
-
+                path:[],  
             }],
             hidden: false,
             fullScreen: true,
@@ -106,7 +106,12 @@ class ZmitiCarorderApp extends React.Component {
               { value: 1, label: '购车' },
             ],
             value:0,
+            thumbImg:'',//车辆图片
+            mobilecode:'',//手机验证码
+            count: 30,//默认倒计时为*秒
+            liked: true,//倒计时显示
         }
+        //租车&购车
         this.onChangeOrder = (value) => {
           console.log(value,'checkbox');
           this.setState({
@@ -153,9 +158,11 @@ class ZmitiCarorderApp extends React.Component {
             success(result){
               if(result.getret===1004){
                 s.setState({
-                  detial:result.detial,                  
+                  detial:result.detial,
+                  thumbImg:result.detial.path[0],            
                 })
                 //console.log(result.detial,'detial');
+                console.log(s.state.thumbImg,'s.state.thumbImg');
                 s.forceUpdate();
               }
 
@@ -249,44 +256,141 @@ class ZmitiCarorderApp extends React.Component {
       s.state.contentusername=val;
       s.forceUpdate();
     }
-    //提交订单
-    onSubmit(e){
-        var s = this;
-        e.preventDefault(); 
-        var contentphone=Trim(s.state.contentphone,'g');//手机号
-        var params={
-          carid:s.props.params.id,
-          ordertype:s.state.ordertype,//订单类型
-          getcarstoreid:s.state.getcarstoreid,//门店
-          contentusername:s.state.contentusername,
-          contentphone:contentphone,
-          content:s.state.content,
-        };
-        console.log(params,'params');
-        if(contentphone.length==11){
+    //打开弹窗
+    opendialog(){
+      var s = this;      
+      var contentusername=s.state.contentusername;
+      var contentphone=Trim(s.state.contentphone,'g');//手机号
+      var usermobilelen=contentphone.length;//手机号长度
+
+      if(!(/^1[3|5|7|8][0-9]\d{4,8}$/.test(contentphone))){ 
+          console.log("不是完整的11位手机号或者正确的手机号前七位"); 
+          return false; 
+      }else{
+        //发送验证码
+        if(contentusername!=''){
           $.ajax({
-            url:H5API+'h5/saveorder',
             type:'post',
-            data:params,
-            success(result){
-              if(result.getmsg==='提交订单成功'){              
-                //s.showModal();//弹窗
-                Toast.info('提交订单成功', 1);
-                setTimeout(() => {
-                  window.location.hash="/car";  
-                },1000);
-              }else{
-                Toast.info(result.getmsg, 1);
+            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            data:{
+              mobile:contentphone
+            },
+            dataType:'json',
+            success:function(data){
+              console.log(data);
+              if(data.code==0){ 
+                console.info("验证码发送success");
               }
-            }
-          })
-        }else{
-          Toast.info('手机号码有误', 1);
+            }          
+          });  
+          s.showModal();//打开弹窗
+          s.recodeClick();  
+          console.log(usermobilelen,'usermobilelen');
         }
 
+        return true;
+      }
+      
+    }
+    //提交订单
+    onSubmit(){
+      var s = this;
+      var contentphone=Trim(s.state.contentphone,'g');
+      var mobilecode=s.state.mobilecode;
+      $.ajax({
+        type:'post',
+        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/',
+        data:{
+          mobile:contentphone,
+          code:mobilecode,
+        },
+        dataType:'json',
+        success:function(data){
+
+          console.log(data);
+          if(data.code==0){
+            console.info("提交验证码success");
+            //验证成功后提交表单
+            $.ajax({
+              url:H5API+'h5/saveorder',
+              type:'post',
+              data:{
+                carid:s.props.params.id,
+                ordertype:s.state.ordertype,//订单类型
+                getcarstoreid:s.state.getcarstoreid,//门店
+                contentusername:s.state.contentusername,
+                contentphone:contentphone,
+                content:s.state.content,
+                mobilecode: s.state.mobilecode,
+              },
+              success(result){                
+                if(result.getmsg==='提交订单成功'){
+                  s.setState({
+                    modal1: false,//提交成功后关闭弹窗
+                  });
+                  Toast.info('提交订单成功', 1);
+                  console.log(result,'提交后显示');            
+                }else{
+                  Toast.info('提交订单失败', 1);
+                }
+              }
+            }) 
+          }
+        },
+        error:function(msg){
+          console.log(msg,'验证码错误');
+          Toast.info('验证码错误', 1);
+        }
+        
+      });
+
+
+
+    }
+    //重新发送验证码
+    reAjaxMobileCode(){
+      var s = this;
+      var contentphone=Trim(s.state.contentphone,'g');
+      $.ajax({
+            type:'post',
+            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            data:{
+              mobile:contentphone
+            },
+            dataType:'json',
+            success:function(data){
+              console.log(data);
+              if(data.code==0){ 
+                console.info("验证码发送success");
+              }
+            }          
+        }); 
+    }
+    //倒计时发送验证码
+    recodeClick(){
+        if(this.state.liked){
+          this.timer = setInterval(function () {
+            var count = this.state.count;
+            this.state.liked = false;
+            count -= 1;
+            if (count < 1) {
+              this.setState({
+                liked: true
+              });
+              count = 30;
+　　　　　　　clearInterval(this.timer);
+            }
+            this.setState({
+              count: count
+            });
+          }.bind(this), 1000);
+        }
+        
     }
     render() {
 
+        let reCodetext = this.state.liked ? <Button onClick={this.reAjaxMobileCode.bind(this)} size="small" inline>获取验证码</Button> : <Button size="small" disabled inline>{this.state.count}秒后重发</Button>;
+        
         let SwitchExample = (props) => {
           const { getFieldProps } = props.form;
           return (
@@ -324,7 +428,7 @@ class ZmitiCarorderApp extends React.Component {
                                   <List>
                                     <Item><div className="lv-pane-orderview-h2">{this.state.detial.carname}</div></Item>
                                     <Item
-                                      thumb="./assets/images/car-05.png"
+                                      thumb={WebSite+this.state.thumbImg}
                                     >
                                         <div className="lv-pane-orderview-arr">
                                             <div className="lv-pane-orderview-arritem">
@@ -391,14 +495,14 @@ class ZmitiCarorderApp extends React.Component {
                                               placeholder="请输入您的姓名"
                                           >姓名</InputItem>
                                           <InputItem                                        
-                                              onChange={(value)=>{this.state.contentphone=value;this.forceUpdate();}}
+                                              onChange={(value) => {this.state.contentphone=value;this.forceUpdate();}}
                                               value={this.state.contentphone}                                     
                                               placeholder="请输入11位手机号码"
                                               type={'phone'}
                                           >电话</InputItem>
                                           <TextareaItem
                                             title="备注"
-                                            onChange={(value)=>{this.state.content=value;this.forceUpdate();}}
+                                            onChange={(value) => {this.state.content=value;this.forceUpdate();}}
                                             value={this.state.content}
                                             autoHeight
                                             labelNumber={5}
@@ -412,8 +516,8 @@ class ZmitiCarorderApp extends React.Component {
                     </div>
                 </div>
                 <div className="lv-pane-orderview-submit">
-                    <div className="lv-pane-orderview-submit-l">确认信息无误后可提交订单</div>
-                    <div className="lv-pane-orderview-submit-r" onClick={this.onSubmit.bind(this)}>提交订单</div>
+                    <div className="lv-pane-orderview-submit-l">确认信息无误后可提交订单</div>                    
+                    {this.state.contentphone.length===13 && this.state.contentusername.length!="" ? <div className="lv-pane-orderview-submit-r"  onClick={this.opendialog.bind(this)}>提交订单</div> : <div className="lv-pane-orderview-submit-r">提交订单</div>}
                     <div className="clearfix"></div>
                 </div>
                 {/*<Modal
@@ -431,6 +535,38 @@ class ZmitiCarorderApp extends React.Component {
                     />
                   </div>
                 </Modal>*/}
+                <Modal
+                  visible={this.state.modal1}
+                  transparent
+                  maskClosable={false}
+                  onClose={this.onClose.bind(this)}
+                  title="- 输入验证码 -"
+                  footer={[
+                    { text: '关闭', onPress: () => { this.onClose.bind(this)(); } },
+                    { text: '确定', onPress: () => { this.onSubmit.bind(this)(); } }
+                  ]}
+                  wrapProps={{ onTouchStart: this.onWrapTouchStart }}
+                >
+                  <div className="lv-dialog-text">
+                    <div className="lv-dialog-text-tips">已向 <span>{this.state.contentphone} </span>发送验证码</div>
+                    <div className="lv-dialog-text-code">
+                      <List style={{ margin: '5px 0', backgroundColor: 'white' }}>
+                          <List.Item
+                            extra={<div onClick={this.recodeClick.bind(this)}>{reCodetext}</div>}
+                            multipleLine
+                          >
+                            <InputItem                                        
+                              onChange={(value) => {this.state.mobilecode=value;this.forceUpdate();}}
+                              value={this.state.mobilecode}                                       
+                              placeholder="请输入验证码"
+                              type={'number'}
+                              maxLength={6}
+                            />
+                          </List.Item>
+                      </List>
+                    </div>
+                  </div>
+                </Modal>
             </div>
         )
     }
@@ -452,7 +588,7 @@ class ZmitiCarorderApp extends React.Component {
             preventDefault:false,//允许默认点击事件
         });
 
-        setTimeout(()=>{
+        setTimeout(() => {
             this.scroll.refresh();
         },1000);
 

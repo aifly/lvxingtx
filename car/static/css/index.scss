@@ -236,6 +236,7 @@
   .lv-pane-orderview-column1{
     .lv-pane-orderview-h2{
       color: #5b6873;
+      font-size:15px;
     }
     .am-list-item{
       padding-right: 15px;
@@ -250,6 +251,9 @@
         width: 120px;
         height: 60px;
     }
+  }
+  .am-list-item .am-list-line .am-list-extra,.am-list-item .am-input-label,.lv-pane-list-item-only .am-textarea-label,.am-list-item .am-input-control input{
+    font-size: 15px;
   }
   
   .lv-pane-orderview-arritem{
@@ -318,7 +322,7 @@
   }
 }
 .lv-pane-orderview-column2{
-  .am-list-item .am-list-line .am-list-content{color: #5b6873;}
+  .am-list-item .am-list-line .am-list-content{color: #5b6873;font-size:15px;}
   .am-list-item .am-input-label{color: #5b6873;}
 }
 .lv-top-navbar .am-navbar-light{
