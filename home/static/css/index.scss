@@ -391,4 +391,15 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
 	.hr10{
 		height:5px;
 	}
+  .hr15{
+    height:5px;
+  }
+}
+@media(max-height: 520px){
+  .hr10{
+    height:8px;
+  }
+  .hr15{
+    height:5px;
+  }
 }

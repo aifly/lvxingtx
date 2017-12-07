@@ -1,15 +1,25 @@
 import 'antd-mobile/dist/antd-mobile.css';
 import './static/css/index.css';
 import React from 'react';
+import {Router,Route,hashHistory,Link,browserHistory} from 'react-router';
 import { createForm } from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
 import $ from 'jquery';
 import IScroll from 'iscroll';
-import {TabBar,Flex,InputItem,Radio,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace } from 'antd-mobile';
+import {TabBar,Flex,InputItem,Radio,Switch,Modal,Result, Stepper,TextareaItem, Range,NavBar, Icon,Button,Picker, List, WhiteSpace,Toast } from 'antd-mobile';
 const Item = List.Item;
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
 const RadioItem = Radio.RadioItem;
+function Trim(str,is_global){
+   var result;
+   result = str.replace(/(^\s+)|(\s+$)/g,"");
+   if(is_global.toLowerCase()=="g")
+    {
+      result = result.replace(/\s/g,"");
+    }
+   return result;
+}
 class ZmitiCarorderApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -128,8 +138,8 @@ class ZmitiCarorderApp extends React.Component {
       s.setState({
         modal1: false,
       });
-      s.forceUpdate();
-      window.location="./#/car/";
+      s.forceUpdate();      
+      //window.location="./#/car/";
     }
     //获取详情
     getDetail(){
@@ -239,35 +249,41 @@ class ZmitiCarorderApp extends React.Component {
       s.state.contentusername=val;
       s.forceUpdate();
     }
-    /*onChangeOrder(value){
-      console.log('checkbox');
-      this.setState({
-        value,
-      });
-    };*/
     //提交订单
     onSubmit(e){
         var s = this;
         e.preventDefault(); 
+        var contentphone=Trim(s.state.contentphone,'g');//手机号
         var params={
           carid:s.props.params.id,
           ordertype:s.state.ordertype,//订单类型
           getcarstoreid:s.state.getcarstoreid,//门店
           contentusername:s.state.contentusername,
-          contentphone:s.state.contentphone,
+          contentphone:contentphone,
           content:s.state.content,
         };
         console.log(params,'params');
-        $.ajax({
-          url:H5API+'h5/saveorder',
-          type:'post',
-          data:params,
-          success(result){
-            if(result.getmsg==='提交订单成功'){              
-              s.showModal();
+        if(contentphone.length==11){
+          $.ajax({
+            url:H5API+'h5/saveorder',
+            type:'post',
+            data:params,
+            success(result){
+              if(result.getmsg==='提交订单成功'){              
+                //s.showModal();//弹窗
+                Toast.info('提交订单成功', 1);
+                setTimeout(() => {
+                  window.location.hash="/car";  
+                },1000);
+              }else{
+                Toast.info(result.getmsg, 1);
+              }
             }
-          }
-        })
+          })
+        }else{
+          Toast.info('手机号码有误', 1);
+        }
+
     }
     render() {
 
@@ -376,8 +392,9 @@ class ZmitiCarorderApp extends React.Component {
                                           >姓名</InputItem>
                                           <InputItem                                        
                                               onChange={(value)=>{this.state.contentphone=value;this.forceUpdate();}}
-                                              value={this.state.contentphone}                                       
-                                              placeholder="请输入您的电话"
+                                              value={this.state.contentphone}                                     
+                                              placeholder="请输入11位手机号码"
+                                              type={'phone'}
                                           >电话</InputItem>
                                           <TextareaItem
                                             title="备注"
@@ -399,7 +416,7 @@ class ZmitiCarorderApp extends React.Component {
                     <div className="lv-pane-orderview-submit-r" onClick={this.onSubmit.bind(this)}>提交订单</div>
                     <div className="clearfix"></div>
                 </div>
-                <Modal
+                {/*<Modal
                   visible={this.state.modal1}
                   transparent
                   maskClosable={false}
@@ -413,7 +430,7 @@ class ZmitiCarorderApp extends React.Component {
                       message="所提交内容已成功完成验证"
                     />
                   </div>
-                </Modal>
+                </Modal>*/}
             </div>
         )
     }
@@ -425,15 +442,19 @@ class ZmitiCarorderApp extends React.Component {
 
     componentDidMount() {
       var s = this;
-      /*
-      this.scroll = new IScroll(this.refs['wrapper'],{
-        scrollbars:true
-      });
 
-      setTimeout(()=>{
-        this.scroll.refresh();
-      },1000)
-      */
+      this.scroll = new IScroll(this.refs['wrapper'],{
+            scrollbars:true,
+            mouseWheel: true,
+            interactiveScrollbars: true,
+            shrinkScrollbars: 'scale',
+            fadeScrollbars: true,
+            preventDefault:false,//允许默认点击事件
+        });
+
+        setTimeout(()=>{
+            this.scroll.refresh();
+        },1000);
 
       s.getDetail();
       s.getdatasource();

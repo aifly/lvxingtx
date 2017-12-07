@@ -188,10 +188,21 @@ html:not([data-scale]) .lv-pane-store-menu .am-list-body div:not(:last-child) .a
   .am-tabs-default-bar-tab{
     color: #1c242f;
     font-size: 14px;
+    border-bottom: 1px solid #d8dce2;
+  }
+  .am-tabs-default-bar-tab:last-child{
+    border-bottom: none;
   }
   .am-tabs-default-bar-tab-active{
     color: #1aad19;    
   }
+  .am-tabs-default-bar-left .am-tabs-default-bar-tab, .am-tabs-default-bar-right .am-tabs-default-bar-tab{
+    padding:0;
+    margin:0 8px;
+  }
+}
+html:not([data-scale]) .lv-page-store-tabs .am-tabs-default-bar-left .am-tabs-default-bar-tab::after{
+  width:0px;
 }
 .lv-store-tabs-left{
   width:61px;
