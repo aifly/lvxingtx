@@ -253,7 +253,7 @@ class ZmitiOrderApp extends React.Component {
                 <NavBar
                   mode="light"
                 >用车需求提交</NavBar>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-95}}>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-95,overflow:'auto'}}>
                     <div className="scroller">            
                         <div className="lv-pane">
                             <div className="lv-pane-order">
@@ -301,20 +301,17 @@ class ZmitiOrderApp extends React.Component {
                                       >
                                         <List.Item arrow="horizontal">用车地址</List.Item>
                                       </Picker>
-
-                                      
-                                      <List.Item data-seed="logId">需求内容</List.Item>
-                                      <TextareaItem                                        
+                                      <TextareaItem
+                                        title={'需求内容'}                                      
                                         onChange={(value) => {this.state.content=value;this.forceUpdate();}}
                                         value={this.state.content}
                                         placeholder="请输入需求内容..."
-                                        labelNumber={5}
+                                        autoHeight={true}
                                       />
                                     </List>
                                   </form>
                                   <div className="lv-order-btn"> 
                                     <div className="lv-pane-index-formitem">
-                                      {/*<div className="lv-pane-btn01" onClick={this.opendialog.bind(this)}>确认</div>*/}
                                       {this.state.usermobile.length===13 && this.state.username.length!="" ? <Button type="primary"  onClick={this.opendialog.bind(this)}>确认</Button> : <Button type="primary">确认</Button>}
                                     </div>
                                   </div>
@@ -374,7 +371,7 @@ class ZmitiOrderApp extends React.Component {
     }
 
     componentDidMount() {
-        this.scroll = new IScroll(this.refs['wrapper'],{
+        /*this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
@@ -385,7 +382,7 @@ class ZmitiOrderApp extends React.Component {
 
         setTimeout(()=>{
             this.scroll.refresh();
-        },1000);
+        },1000);*/
         this.getdatasource();
 
     }

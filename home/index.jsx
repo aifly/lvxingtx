@@ -251,7 +251,7 @@ class ZmitiHomeApp extends React.Component {
             //console.log(section[0].offsetHeight);//其它元素高度,60为底部高度
             this.state.columnHeight=clientHeight-section[0].offsetHeight-60;//关于我们高度
             this.forceUpdate();
-        },600);
+        },1000);
 
         s.getdatasource();
         s.forceUpdate();
