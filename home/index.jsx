@@ -49,6 +49,48 @@ class ZmitiHomeApp extends React.Component {
         let tabbarProps ={
             selectedTab: 'blueTab',
         }
+        const flexpaneA=<div className="flex-container">
+            <Flex>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t1.png"/></div>
+                <div>节能环保</div>
+              </Flex.Item>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t2.png"/></div>
+                <div>价格低廉</div>
+              </Flex.Item>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t3.png"/></div>
+                <div>服务高效</div>
+              </Flex.Item>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t4.png"/></div>
+                <div>快捷方便</div>
+              </Flex.Item>
+            </Flex>
+        </div>
+        const flexpaneB=<div className="flex-container2">
+            <Flex>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t1.png"/></div>
+                <div>节能环保</div>
+              </Flex.Item>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t2.png"/></div>
+                <div>价格低廉</div>
+              </Flex.Item>
+            </Flex>
+            <Flex>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t3.png"/></div>
+                <div>服务高效</div>
+              </Flex.Item>
+              <Flex.Item>
+                <div className="lv-item-icon"><img src="./assets/images/index-t4.png"/></div>
+                <div>快捷方便</div>
+              </Flex.Item>
+            </Flex>
+        </div>
         return (
             <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
                 <div className="Index-flex-wrap">
@@ -142,26 +184,7 @@ class ZmitiHomeApp extends React.Component {
                             <div className="lv-pane-index-column">
                                 <div className="lv-pndex-index-alignitem">
                                     <div className="lv-pane-index-column-icon">
-                                        <div className="flex-container">
-                                            <Flex>
-                                              <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-t1.png"/></div>
-                                                <div>节能环保</div>
-                                              </Flex.Item>
-                                              <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-t2.png"/></div>
-                                                <div>价格低廉</div>
-                                              </Flex.Item>
-                                              <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-t3.png"/></div>
-                                                <div>服务高效</div>
-                                              </Flex.Item>
-                                              <Flex.Item>
-                                                <div className="lv-item-icon"><img src="./assets/images/index-t4.png"/></div>
-                                                <div>快捷方便</div>
-                                              </Flex.Item>
-                                            </Flex>
-                                        </div>
+                                        {this.state.columnHeight<210 ? flexpaneA : flexpaneB}
                                     </div>
                                     <div className="hr15"></div>
                                     <div className="lv-pane-index-title">                                        
@@ -247,9 +270,11 @@ class ZmitiHomeApp extends React.Component {
         const section=document.getElementsByTagName('section');
         const icoPane=this.refs['Index-column-pane'];
         const clientHeight=document.documentElement.clientHeight;
+
         setTimeout(() => {
             //console.log(section[0].offsetHeight);//其它元素高度,60为底部高度
             this.state.columnHeight=clientHeight-section[0].offsetHeight-60;//关于我们高度
+            console.log(this.state.columnHeight,'关于我们高度');
             this.forceUpdate();
         },1000);
 

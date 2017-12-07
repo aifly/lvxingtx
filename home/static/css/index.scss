@@ -250,23 +250,46 @@ input, textarea {
   /* width: 100%;
   height: 100%; */
 }
+.lv-pndex-index-alignitem{
+  flex:1;
+}
 .lv-pane-index-column-icon{
   color: #666666;
+  @include disflex();
+  justify-content: center;
   .flex-container{
     .am-flexbox .am-flexbox-item{
       font-size: 12px;
       text-align: center;
     }
-  }
-  .lv-item-icon{
-    text-align: center;
-    img{
-      width: 50%;
-      height: auto;      
-      display: block;
-      margin: 0 auto;
+    .lv-item-icon{
+      text-align: center;
+      img{
+        width: 50%;
+        height: auto;      
+        display: block;
+        margin: 0 auto;
+      }
     }
   }
+  .flex-container2{
+    width:80%;
+    .am-flexbox .am-flexbox-item{
+      font-size: 14px;
+      text-align: center;
+      padding:0 0 5px 0;
+    }
+    .lv-item-icon{
+      text-align: center;
+      img{
+        width: 38%;
+        height: auto;      
+        display: block;
+        margin: 0 auto;
+      }
+    }
+  }
+
 }
 .lv-pane-index-title{
   text-align: center;
@@ -388,7 +411,7 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
 	.lv-pane-index-column-icon .flex-container .am-flexbox .am-flexbox-item{
 		font-size: 10px;
 	}
-	.lv-pane-index-column-icon .lv-item-icon img {
+	.lv-pane-index-column-icon .flex-container .lv-item-icon img {
     	width: 40%;
 	}
 	.hr10{
@@ -398,7 +421,15 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
     height:5px;
   }
 }
+@media(max-height: 568px){
+  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
+      width: 60%;
+  }
+}
 @media(max-height: 520px){
+  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
+      width: 40%;
+  }
   .hr10{
     height:8px;
   }
