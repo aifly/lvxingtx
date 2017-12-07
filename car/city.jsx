@@ -193,11 +193,8 @@ class ZmitiCarcityApp extends React.Component {
             //console.log(result.carlist,'getdata'); 
             s.setState({
               data:result.carlist,
-              //countPageNum:Math.ceil(result.totalnum/5),//共*页
-              //residueNum:result.totalnum % 5,//最后一页共*条
             })
-            //console.log('总共'+s.state.countPageNum+'页');
-            //console.log('最后一页有'+s.state.residueNum+'条');
+
           }else{
             s.setState({
               data:[],
