@@ -130,6 +130,9 @@ input, textarea {
       margin-right:15px;
     }
     .picker-list{
+      .am-list-item{
+        min-height: 1.41rem;
+      }
       .am-list-item .am-list-line .am-list-content{
         font-size: 15px;
       }
@@ -258,9 +261,12 @@ input, textarea {
   @include disflex();
   justify-content: center;
   .flex-container{
+    flex:1;
     .am-flexbox .am-flexbox-item{
-      font-size: 12px;
+      font-size: 0.35rem;
+      line-height: 0.85rem;
       text-align: center;
+      margin-left: 0;
     }
     .lv-item-icon{
       text-align: center;
@@ -327,6 +333,7 @@ html:not([data-scale]) .am-list-body::after{
   margin-top: -25px;
   .am-list-item{
     padding-left: 0;
+    min-height: 1.3rem;
     .am-list-line{
       padding-left: 15px;
     }
@@ -422,7 +429,34 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
 .lv-am-list-footer{
   text-align: center;
 }
+@media(max-width: 375px){
+  .lv-container .lv-pane-index .picker-list .am-list-item {
+    min-height: 44px;
+  }
+}
+@media(max-height: 736px){
+  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
+      width: 55%;
+  }
+}
+@media(max-width: 360px){
+  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
+    width: 40%;
+  }
+  .hr15{
+    height:5px;
+  }
+  .lv-pane-index-list-01 .am-list-item {
+    min-height: 1.25rem;
+  }
+  .lv-container .lv-pane-index .picker-list .am-list-item {
+    min-height: 1.25rem;
+  }
+}
 @media(max-width: 320px){
+  .lv-container .lv-pane-index .picker-list .am-list-item {
+    min-height: 1.25rem;
+  }
 	.lv-pane-index-column-icon .flex-container .am-flexbox .am-flexbox-item{
 		font-size: 10px;
 	}
@@ -436,17 +470,17 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
     height:5px;
   }
 }
-@media(max-height: 736px){
-  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
-      width: 60%;
-  }
-}
+
+
 @media(max-height: 568px){
-  .lv-pane-index-column-icon .flex-container .lv-item-icon img {
-      width: 60%;
+  .lv-container .lv-pane-index .picker-list .am-list-item {
+    min-height: 1.25rem;
   }
 }
 @media(max-height: 520px){
+  .lv-container .lv-pane-index .picker-list .am-list-item {
+    min-height: 1.1rem;
+  }
   .lv-pane-index-column-icon .flex-container .lv-item-icon img {
       width: 40%;
   }

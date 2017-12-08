@@ -1,5 +1,5 @@
 import 'antd-mobile/dist/antd-mobile.css';
-import './static/css/index.css';
+import './static/css/home.css';
 import React from 'react';
 import {createForm} from 'rc-form';
 import {ZmitiPubApp} from '../components/public/pub.jsx';
@@ -92,118 +92,127 @@ class ZmitiHomeApp extends React.Component {
             </Flex>
         </div>
         return (
-            <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
-                <div className="Index-flex-wrap">
-                    <div className="Index-flex-wrap-sub" ref="wrapper" style={{height:this.state.mainHeight-60}}>
-                        <section>
-                        <div className="lv-banner" ref="lv-banner">
-                            <Carousel
-                              className="my-carousel"
-                              autoplay={false}
-                              infinite
-                              selectedIndex={1}
-                              swipeSpeed={35}
-                              beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
-                              afterChange={index => console.log('slide to', index)}
-                            >
-                              {this.state.dataImgs.map((item,index) => (
-                                <a href="javascript:void(0)" key={index}>
-                                  <img
-                                    src={item}
-                                    alt={index}
-                                    onLoad={() => {
-                                      window.dispatchEvent(new Event('resize'));
-                                      this.setState({
-                                        initialHeight: null,
-                                      });
-                                    }}
-                                  />
-                                </a>
-                              ))}
-                            </Carousel>
-                        </div>
-                        
-                        {/*-banner-end-*/}
-                        <div className="lv-pane-index" ref="lv-pane-index">
-                            <div className="lv-pane-index-inner">
-                                <div className="lv-pane-index-form">                
-                                    
-                                    <div>                                           
-                                        <List style={{ backgroundColor: 'white' }} className="picker-list">
-                                            <Picker
-                                              data={this.state.citydata}
-                                              title="选择地区"
-                                              cascade={false}
-                                              extra="请选择"
-                                              value={this.state.sValue}
-                                              onChange={this.selectcity.bind(this)}
-                                              onOk={v => this.setState({ sValue: v })}
-                                            >
-                                              <List.Item arrow="horizontal">地区</List.Item>
-                                            </Picker>
+            <div className="lv-container Index-flex" style={{height:this.state.mainHeight,backgroundColor:'#ffffff'}}>
+            	<div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
+            		<div className="scroller">
+		                <div className="Index-flex-wrap">
+		                    <div className="Index-flex-wrap-sub">
+		                        <section>
+		                        <div className="lv-banner" ref="lv-banner">
+		                            <Carousel
+		                              className="my-carousel"
+		                              autoplay={false}
+		                              infinite
+		                              selectedIndex={1}
+		                              swipeSpeed={35}
+		                              beforeChange={(from, to) => console.log(`slide from ${from} to ${to}`)}
+		                              afterChange={index => console.log('slide to', index)}
+		                            >
+		                              {this.state.dataImgs.map((item,index) => (
+		                                <a href="javascript:void(0)" key={index}>
+		                                  <img
+		                                    src={item}
+		                                    alt={index}
+		                                    onLoad={() => {
+		                                      window.dispatchEvent(new Event('resize'));
+		                                      this.setState({
+		                                        initialHeight: null,
+		                                      });
+		                                    }}
+		                                  />
+		                                </a>
+		                              ))}
+		                            </Carousel>
+		                        </div>
+		                        
+		                        {/*-banner-end-*/}
+		                        <div className="lv-pane-index" ref="lv-pane-index">
+		                            <div className="lv-pane-index-inner">
+		                                <div className="lv-pane-index-form">                
+		                                    
+		                                    <div>                                           
+		                                        <List style={{ backgroundColor: 'white' }} className="picker-list">
+		                                            <Picker
+		                                              data={this.state.citydata}
+		                                              title="选择地区"
+		                                              cascade={false}
+		                                              extra="请选择"
+		                                              value={this.state.sValue}
+		                                              onChange={this.selectcity.bind(this)}
+		                                              onOk={v => this.setState({ sValue: v })}
+		                                            >
+		                                              <List.Item arrow="horizontal">地区</List.Item>
+		                                            </Picker>
 
-                                            <Picker
-                                              data={this.state.cartypedata}
-                                              cols={1}
-                                              title="选择车型"
-                                              cascade={false}
-                                              extra="请选择"
-                                              value={this.state.tValue}
-                                              onChange={this.selectcartype.bind(this)}
-                                              onOk={v => this.setState({ tValue: v })}
-                                            >
-                                              <List.Item arrow="horizontal">车型</List.Item>
-                                            </Picker>
-                                        </List>
-                                    </div>
-                                    <div className="lv-pane-index-formitem">
-                                        <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
-                                    </div>
-                                </div>
+		                                            <Picker
+		                                              data={this.state.cartypedata}
+		                                              cols={1}
+		                                              title="选择车型"
+		                                              cascade={false}
+		                                              extra="请选择"
+		                                              value={this.state.tValue}
+		                                              onChange={this.selectcartype.bind(this)}
+		                                              onOk={v => this.setState({ tValue: v })}
+		                                            >
+		                                              <List.Item arrow="horizontal">车型</List.Item>
+		                                            </Picker>
+		                                        </List>
+		                                    </div>
+		                                    <div className="lv-pane-index-formitem">
+		                                        <div className="lv-pane-btn01" onClick={this.gosearch.bind(this)}>去选车</div>
+		                                    </div>
+		                                </div>
 
-                                <div className="lv-pane-index-column">
-                                    <div className="lv-pane-index-list-01">
-                                        <List>
-                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/car/'}}><span className="lv-borderleft">车型浏览</span></List.Item>
-                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/store/'}}><span className="lv-borderleft">全国门店/充电桩</span></List.Item>
-                                        </List>
-                                    </div>
-                                </div>
-                                                                     
-                                
-                            </div>
-                            <div className="hr10"></div>
-
-
-                            
-
-                        </div>
-                        {/*-A-end-*/}
-                        </section>
-                        <div className="Index-column-pane" ref="Index-column-pane" style={{height:this.state.columnHeight}}>
-                            <div className="lv-pane-index-column">
-                                <div className="lv-pndex-index-alignitem">
-                                    <div className="lv-pane-index-column-icon">
-                                        {this.state.columnHeight<210 ? flexpaneA : flexpaneB}
-                                    </div>
-                                    <div className="hr15"></div>
-                                    <div className="lv-pane-index-title">                                        
-                                        <a href="./#/about/" className="antm-button-small" aria-disabled="false">
-                                            <span>关于我们</span>
-                                        </a>
-                                    </div>
-                                </div>
+		                                <div className="lv-pane-index-column">
+		                                    <div className="lv-pane-index-list-01">
+		                                        <List>
+		                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/car/'}}><span className="lv-borderleft">车型浏览</span></List.Item>
+		                                            <List.Item arrow="horizontal" onClick={() => {window.location='./#/store/'}}><span className="lv-borderleft">全国门店/充电桩</span></List.Item>
+		                                        </List>
+		                                    </div>
+		                                </div>
+		                                                                     
+		                                
+		                            </div>
 
 
+		                        </div>
+		                        {/*-A-end-*/}
+		                        </section>
+                                <div className="idx-hr10"></div>
+								{/*style={{height:this.state.columnHeight}}*/}
+		                        <div className="Index-column-pane" ref="Index-column-pane" >
+		                            <div className="lv-pane-index-column">
+		                                <div className="lv-pndex-index-alignitem">
+		                                	<div className="lv-pane-index-tit-a">
+					                        	<div className="hr15"></div>                          	
+					                    		<img src="./assets/images/lv-title.png"/>
+					                    		<div className="hr15"></div>
+					                    	</div>
+		                                    <div className="lv-pane-index-column-icon">
 
-                            </div>
-                            
-                        </div>
-                        
-                    </div>
+		                                        {/*{this.state.columnHeight<210 ? flexpaneA : flexpaneB}*/}
+		                                        {flexpaneA}
+		                                    </div>
+		                                    <div className="hr15"></div>
+		                                    <div className="lv-pane-index-title">                                        
+		                                        <a href="./#/about/" className="antm-button-small" aria-disabled="false">
+		                                            <span>关于我们</span>
+		                                        </a>
+		                                    </div>
+                                            <div className="hr15"></div>
+		                                </div>
+		                            </div>		                            
+		                        </div>
+
+		                        
+		                    </div>
+		                </div>
+
                 </div>
-                
-                <div className="lv-menu-bar" style={{marginTop:10}}>
+                </div>
+                <div className="idx-hr10"></div>
+                <div className="lv-menu-bar">
                     <Zmitimenubar {...tabbarProps} ></Zmitimenubar>
                 </div>            
                 
@@ -267,15 +276,25 @@ class ZmitiHomeApp extends React.Component {
 
     componentDidMount() {
     	var s = this;
+    	this.scroll = new IScroll(this.refs['wrapper'],{
+            scrollbars:true,
+            mouseWheel: true,
+            interactiveScrollbars: true,
+            shrinkScrollbars: 'scale',
+            fadeScrollbars: true,
+            preventDefault:false,//允许默认点击事件
+        });
         const section=document.getElementsByTagName('section');
         const icoPane=this.refs['Index-column-pane'];
         const clientHeight=document.documentElement.clientHeight;
 
         setTimeout(() => {
-            //console.log(section[0].offsetHeight);//其它元素高度,60为底部高度
-            this.state.columnHeight=clientHeight-section[0].offsetHeight-60;//关于我们高度
+            this.scroll.refresh();
+            //console.log(section[0].offsetHeight);//其它元素高度,50为底部高度
+            this.state.columnHeight=clientHeight-section[0].offsetHeight-50;//关于我们高度
             console.log(this.state.columnHeight,'关于我们高度');
             this.forceUpdate();
+
         },1000);
 
         s.getdatasource();
