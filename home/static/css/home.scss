@@ -131,7 +131,7 @@ input, textarea {
     }
     .picker-list{
       .am-list-item{
-        min-height: 1.41rem;
+        min-height: 1.35rem;
       }
       .am-list-item .am-list-line .am-list-content{
         font-size: 15px;
@@ -425,9 +425,15 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
 .lv-menu-bar{  
   width: 100%;
   height: 50px;
+  position: relative;
+  z-index: 2;
 }
 .lv-am-list-footer{
   text-align: center;
+}
+.lv-top-navbar{
+  position: relative;
+  z-index: 2;
 }
 @media(max-width: 375px){
   .lv-container .lv-pane-index .picker-list .am-list-item {
@@ -436,7 +442,7 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
 }
 @media(max-height: 736px){
   .lv-pane-index-column-icon .flex-container .lv-item-icon img {
-      width: 55%;
+      width: 53%;
   }
 }
 @media(max-width: 360px){
@@ -461,7 +467,7 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
 		font-size: 10px;
 	}
 	.lv-pane-index-column-icon .flex-container .lv-item-icon img {
-    	width: 40%;
+    	width: 42%;
 	}
 	.hr10,.idx-hr10{
 		height:5px;

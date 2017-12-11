@@ -33,13 +33,13 @@ class ZmitiOrderApp extends React.Component {
             cityname:'',
             content: '',
             mobilecode:'',
-            sValue: ['其他城市'],//地区
+            sValue: ['0'],//地区
             tValue: ['0'],//车型
             citydata:[
               [
                 {
-                  label: '城市',
-                  value: '其他城市',
+                  label: '其他',
+                  value: '0',
                 },
               ]
             ],

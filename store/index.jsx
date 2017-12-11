@@ -119,7 +119,7 @@ class ZmitiStoreApp extends React.Component {
                                   <div className="am-tabs-content-wrap am-tabs-content-wrap-animated">
 
                                       <div>
-                                        <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight}}>
+                                        <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight,overflow:'hidden'}}>
                                           <div className="scroller" ref="scroller">
                                             <div className="am-list">
                                               <div className="am-list-body">
@@ -163,8 +163,8 @@ class ZmitiStoreApp extends React.Component {
       }
     })
 
-    this.refs['scroller'].style.transform="translate(0px, 0px)";
-    //this.refs['scroller'].removeAttribute("style");
+    //this.refs['scroller'].style.transform="translate(0px, 0px)";
+    this.scroll.scrollTo(0, 0);    
     s.forceUpdate();
   }
 
@@ -210,13 +210,16 @@ class ZmitiStoreApp extends React.Component {
             s.setState({
               data:result.list,
             })
-            /*if(result.totalnum<3){
+            if(result.totalnum<3){
             	console.log("少于3个");
-            	s.tabscroll();
+            	//s.scroll.destroy();
+              s.scroll.disable();
+
             }else{
             	console.log("大于3个");
-            	s.tabscroll();
-            } */      
+              //s.scroll.refresh();
+              s.scroll.enable();
+            }      
           }else{
             s.setState({
               data:[],
@@ -258,10 +261,10 @@ class ZmitiStoreApp extends React.Component {
           resizePolling:300,
       });
 
-      setTimeout(()=>{
+      setTimeout(() => {
           this.scroll.refresh();
       },300);
-      this.scroll.scrollTo(0, 0, 300);
+
     }
     //clear-scroll
     clearscroll(){
@@ -272,9 +275,19 @@ class ZmitiStoreApp extends React.Component {
     }
 
     componentDidMount() {
+      this.scroll = new IScroll(this.refs['wrapper'],{
+          scrollbars:true,
+          mouseWheel: true,
+          interactiveScrollbars: true,
+          fadeScrollbars: true,//
+          resizePolling:60,
+      });
 
-        this.getcityListsource();
-        this.getdatasource(0);
+      setTimeout(() => {
+          this.scroll.refresh();
+      },300);
+      this.getcityListsource();
+      this.getdatasource(0);
 
     }
 

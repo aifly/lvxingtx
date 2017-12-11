@@ -105,7 +105,7 @@ class ZmitiCarcityApp extends React.Component {
                   <div className="Index-flex-wrap-sub" >
                     <div className="lv-car-pane-page2" >
 
-                      <div className="lv-pane-carlist" style={{height:this.state.mainHeight-95,padding:0,overflow:'auto'}}>
+                      <div className="lv-pane-carlist" ref='wrapper' style={{height:this.state.mainHeight-95,padding:0}}>
                         <div className="am-list">
                           <div className="am-list-body">
                             <div className="list-view-section-body">
@@ -211,6 +211,18 @@ class ZmitiCarcityApp extends React.Component {
     }
 
     componentDidMount() {
+      this.scroll = new IScroll(this.refs['wrapper'],{
+        scrollbars:true,
+        mouseWheel: true,
+        interactiveScrollbars: true,
+        shrinkScrollbars: 'scale',
+        fadeScrollbars: true,
+        preventDefault:false,//允许默认点击事件
+      });
+
+      setTimeout(() => {
+          this.scroll.refresh();
+      },1000);
 
       this.getdatasource();//默认获取第1页数据
       let typeid=this.props.params.id || 0;

@@ -24,7 +24,7 @@ class ZmitiHomeApp extends React.Component {
 		    citydata:[
 			  [
 			    {
-			      label: '全部',
+			      label: '其他',
 			      value: '0',
 			    },
 			  ]
@@ -69,31 +69,9 @@ class ZmitiHomeApp extends React.Component {
               </Flex.Item>
             </Flex>
         </div>
-        const flexpaneB=<div className="flex-container2">
-            <Flex>
-              <Flex.Item>
-                <div className="lv-item-icon"><img src="./assets/images/index-t1.png"/></div>
-                <div>节能环保</div>
-              </Flex.Item>
-              <Flex.Item>
-                <div className="lv-item-icon"><img src="./assets/images/index-t2.png"/></div>
-                <div>价格低廉</div>
-              </Flex.Item>
-            </Flex>
-            <Flex>
-              <Flex.Item>
-                <div className="lv-item-icon"><img src="./assets/images/index-t3.png"/></div>
-                <div>服务高效</div>
-              </Flex.Item>
-              <Flex.Item>
-                <div className="lv-item-icon"><img src="./assets/images/index-t4.png"/></div>
-                <div>快捷方便</div>
-              </Flex.Item>
-            </Flex>
-        </div>
         return (
             <div className="lv-container Index-flex" style={{height:this.state.mainHeight,backgroundColor:'#ffffff'}}>
-            	<div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50}}>
+            	<div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50,overflow:'auto'}}>
             		<div className="scroller">
 		                <div className="Index-flex-wrap">
 		                    <div className="Index-flex-wrap-sub">
@@ -276,20 +254,20 @@ class ZmitiHomeApp extends React.Component {
 
     componentDidMount() {
     	var s = this;
-    	this.scroll = new IScroll(this.refs['wrapper'],{
+    	/*this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
             shrinkScrollbars: 'scale',
             fadeScrollbars: true,
             preventDefault:false,//允许默认点击事件
-        });
+        });*/
         const section=document.getElementsByTagName('section');
         const icoPane=this.refs['Index-column-pane'];
         const clientHeight=document.documentElement.clientHeight;
 
         setTimeout(() => {
-            this.scroll.refresh();
+            //this.scroll.refresh();
             //console.log(section[0].offsetHeight);//其它元素高度,50为底部高度
             this.state.columnHeight=clientHeight-section[0].offsetHeight-50;//关于我们高度
             console.log(this.state.columnHeight,'关于我们高度');
