@@ -372,11 +372,6 @@ html:not([data-scale]) .lv-dialog-text .am-result::after{
     display: block;
     border-color: #38b44c;
 }
-.nodataTabs{
-  background-color: #ffffff;  
-  color: #999999;
-  @include disflex();
-}
 
 .Index-flex{
   @include disflex();
@@ -421,6 +416,11 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
 }
 .lv-am-list-footer{
   text-align: center;
+}
+.nodataTabs{
+  background-color: #ffffff;  
+  color: #999999;
+  @include disflex();  
 }
 @media(max-width: 320px){
 	.lv-pane-index-column-icon .flex-container .am-flexbox .am-flexbox-item{

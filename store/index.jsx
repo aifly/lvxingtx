@@ -51,9 +51,13 @@ class ZmitiStoreApp extends React.Component {
     render() {
         let tabbarProps ={
           selectedTab: 'greenTab',
-        }	    
+        }
+        let imgHeightAuto={
+          width:'40%',
+          height:'auto'
+        }   
         const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
+          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.tabconHeight }}><img src="./assets/images/lv-none.png" style={imgHeightAuto}/></div>
         </div>
         const tabListContent=<div>
           {
@@ -80,9 +84,9 @@ class ZmitiStoreApp extends React.Component {
         return (
             <div className="lv-container Index-flex" style={{height:this.state.mainHeight}}>
                 <div className="lv-store-header">
-              		<div className="lv-store-channel-title">
-              		附近<br/>门店/电桩
-              		</div>
+                  <div className="lv-store-channel-title">
+                  附近<br/>门店/电桩
+                  </div>
 
                       <div className="lv-pane-store-tabs">
                           <div className="lv-pane-store-tabs-inner">
@@ -168,24 +172,24 @@ class ZmitiStoreApp extends React.Component {
     s.forceUpdate();
   }
 
-	/*选择门店-充电桩*/
-	onstoreChange(e){
-    	if(e.nativeEvent.selectedSegmentIndex==0){
-    		this.state.valuetypea="curr";
-    		this.state.valuetypeb="";
-    		console.log(e.nativeEvent.selectedSegmentIndex,'门店');
-    	}else if(e.nativeEvent.selectedSegmentIndex==1){
-    		this.state.valuetypea="";
-    		this.state.valuetypeb="curr";
-    		console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
-    	}
-    	this.forceUpdate();
-	}
-	//回调
-	onstoreValueChange (value) {
-	    //console.log(value);
+  /*选择门店-充电桩*/
+  onstoreChange(e){
+      if(e.nativeEvent.selectedSegmentIndex==0){
+        this.state.valuetypea="curr";
+        this.state.valuetypeb="";
+        console.log(e.nativeEvent.selectedSegmentIndex,'门店');
+      }else if(e.nativeEvent.selectedSegmentIndex==1){
+        this.state.valuetypea="";
+        this.state.valuetypeb="curr";
+        console.log(e.nativeEvent.selectedSegmentIndex,'充电桩');
+      }
+      this.forceUpdate();
+  }
+  //回调
+  onstoreValueChange (value) {
+      //console.log(value);
         this.forceUpdate();
-	}
+  }
 
 
 
@@ -211,12 +215,12 @@ class ZmitiStoreApp extends React.Component {
               data:result.list,
             })
             if(result.totalnum<3){
-            	console.log("少于3个");
-            	//s.scroll.destroy();
+              console.log("少于3个");
+              //s.scroll.destroy();
               s.scroll.disable();
 
             }else{
-            	console.log("大于3个");
+              console.log("大于3个");
               //s.scroll.refresh();
               s.scroll.enable();
             }      

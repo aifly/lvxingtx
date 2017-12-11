@@ -38,7 +38,7 @@ class ZmitiOrderApp extends React.Component {
             citydata:[
               [
                 {
-                  label: '其他',
+                  label: '其它',
                   value: '0',
                 },
               ]
@@ -99,13 +99,12 @@ class ZmitiOrderApp extends React.Component {
         type:'post',
         success(data){
           //console.log(data,'getdata');               
-          $.each(data.cartypedata,function(index,item){
-              var ii=index+1;
-              s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
+          $.each(data.cartypedata,function(idx,ele){
+              var ii=idx+1;
+              s.state.cartypedata[0][ii]={'label':ele.label , 'value':String(ele.value)};
           })
           $.each(data.citydata,function(index,item){
-              var mm=index+1;
-              s.state.citydata[0][mm]={'label':item.label , 'value':String(item.label)};
+              s.state.citydata[0][index]={'label':item.label , 'value':String(item.value)};
           })
           s.forceUpdate();
         }
@@ -128,16 +127,17 @@ class ZmitiOrderApp extends React.Component {
         if(username!=''){
           $.ajax({
             type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            url:H5API+'user/send_mobilecode/',
             data:{
-              mobile:usermobile
+              setmobile:usermobile,
+              product:'需求提交',
             },
             dataType:'json',
             success:function(data){
               console.log(data);
-              if(data.code==0){ 
-                console.info("验证码发送success");
-              }
+              //if(data.code==0){ 
+                //console.info("验证码发送success");
+              //}
             }          
           });  
           s.showModal();//打开弹窗
@@ -156,9 +156,9 @@ class ZmitiOrderApp extends React.Component {
       var mobilecode=s.state.mobilecode;
       $.ajax({
         type:'post',
-        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/',
+        url:H5API+'user/check_mobilecode/',
         data:{
-          mobile:usermobile,
+          setmobile:usermobile,
           code:mobilecode,
         },
         dataType:'json',
@@ -209,9 +209,10 @@ class ZmitiOrderApp extends React.Component {
       var usermobile=Trim(s.state.usermobile,'g');
       $.ajax({
             type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            url:H5API+'user/send_mobilecode/',
             data:{
-              mobile:usermobile
+              setmobile:usermobile,
+              product:'需求提交',
             },
             dataType:'json',
             success:function(data){
@@ -254,7 +255,7 @@ class ZmitiOrderApp extends React.Component {
                 <NavBar
                   mode="light"
                 >用车需求提交</NavBar>
-                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-95,overflow:'auto'}}>
+                <div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-95,overflow:'hidden'}}>
                     <div className="scroller">            
                         <div className="lv-pane">
                             <div className="lv-pane-order">
@@ -372,7 +373,7 @@ class ZmitiOrderApp extends React.Component {
     }
 
     componentDidMount() {
-        /*this.scroll = new IScroll(this.refs['wrapper'],{
+        this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
@@ -381,9 +382,9 @@ class ZmitiOrderApp extends React.Component {
             preventDefault:false,//允许默认点击事件
         });
 
-        setTimeout(()=>{
+        setTimeout(() => {
             this.scroll.refresh();
-        },1000);*/
+        },1000);
         this.getdatasource();
 
     }

@@ -51,9 +51,13 @@ class ZmitiStoreChargingApp extends React.Component {
     render() {
         let tabbarProps ={
           selectedTab: 'greenTab',
-        }     
+        }
+        let imgHeightAuto={
+          width:'40%',
+          height:'auto'
+        } 
         const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.mainHeight-90 }}>...</div>
+          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:this.state.tabconHeight }}><img src="./assets/images/lv-none.png" style={imgHeightAuto}/></div>
         </div>
         const tabListContent=<div>
           {
@@ -124,7 +128,7 @@ class ZmitiStoreChargingApp extends React.Component {
                                   <div className="am-tabs-content-wrap am-tabs-content-wrap-animated">
 
                                       <div>
-                                        <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight}}>
+                                        <div className="lv-pane-store-listpane-inner" ref="wrapper" style={{height:this.state.tabconHeight,overflow:'hidden'}}>
                                           <div className="scroller">
                                             <div className="am-list">
                                               <div className="am-list-body">

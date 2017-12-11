@@ -24,7 +24,7 @@ class ZmitiHomeApp extends React.Component {
 		    citydata:[
 			  [
 			    {
-			      label: '其他',
+			      label: '其它',
 			      value: '0',
 			    },
 			  ]
@@ -219,15 +219,14 @@ class ZmitiHomeApp extends React.Component {
     		url:H5API+'h5/getcitylist',
     		type:'post',
     		success(data){
-    			//console.log(data,'getdata');               
+    			//console.log(data,'getcitylist');               
                 $.each(data.cartypedata,function(index,item){
                     var ii=index+1;
                     s.state.cartypedata[0][ii]={'label':item.label , 'value':String(item.value)};
                 })
                 
-                $.each(data.citydata,function(index,item){
-                    var mm=index+1;
-                    s.state.citydata[0][mm]={'label':item.label , 'value':String(item.value)};
+                $.each(data.citydata,function(index,item){                    
+                    s.state.citydata[0][index]={'label':item.label , 'value':String(item.value)};
                 })
                 //console.log(s.state.citydata,'s.state.citydata');
                 s.forceUpdate();
@@ -246,6 +245,17 @@ class ZmitiHomeApp extends React.Component {
         };
         window.location="./#/carcity/"+s.state.tValue.toString()+"/"+s.state.sValue.toString();
         console.log(params,'params');
+    }
+    //获取省市两级城市数据
+    getcitydata(){
+        var s =  this;
+        $.ajax({
+            url:H5API+"h5/get_citylist",
+            type:"post",
+            success(result){
+                console.log(result,'获取省市两级城市数据');
+            }
+        })
     }
 
     componentWillMount() {
@@ -276,6 +286,7 @@ class ZmitiHomeApp extends React.Component {
         },1000);
 
         s.getdatasource();
+        s.getcitydata();
         s.forceUpdate();
 
     }

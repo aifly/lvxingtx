@@ -48,8 +48,13 @@ class ZmitiCarcityApp extends React.Component {
             selectedTab: 'redTab',
         }
         var s = this;
+        let imgHeightAuto={
+            width:'40%',
+            height:'auto',
+            position:'static',
+        }
         const nodataTabs=<div>
-          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-95 }}>...</div>
+          <div className="nodataTabs" style={{ alignItems: 'center', justifyContent: 'center', height:s.state.mainHeight-95 }}><img src="./assets/images/lv-none.png" style={imgHeightAuto}/></div>
         </div>
         const tabListContent=<div>
           {
