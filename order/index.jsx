@@ -31,6 +31,7 @@ class ZmitiOrderApp extends React.Component {
             usermobile:'',
             typeid:0,
             cityname:'',
+            cityid:0,
             content: '',
             mobilecode:'',
             sValue: ['0'],//地区
@@ -54,16 +55,24 @@ class ZmitiOrderApp extends React.Component {
             fullScreen: true,
             count: 30,//默认倒计时为*秒
             liked: true,//倒计时显示
-        }
-
-        
+        }   
     }    
     pagelinks(pageText) {
-        window.location=pageText;
+      window.location=pageText;
     }
     selectcity(val){
-      console.log(val,'城市');
-      this.setState({
+      var s = this;
+      var citydata=s.state.citydata[0];
+      console.log(val,'城市id');
+      $.each(citydata,function(idx,ele){
+        if(val==ele.value){
+          console.log(ele.label,'城市名称');
+          s.setState({
+            cityname:ele.label,
+          })
+        }        
+      })
+      s.setState({
         sValue:val,
       })
     }
@@ -117,7 +126,7 @@ class ZmitiOrderApp extends React.Component {
       var usermobile=Trim(s.state.usermobile,'g');//手机号
       var usermobilelen=usermobile.length;//手机号长度
       var typeid=String(s.state.tValue);
-      var cityname=String(s.state.sValue);
+      var cityid=String(s.state.sValue);
       var content=s.state.content;
       if(!(/^1[3|5|7|8][0-9]\d{4,8}$/.test(usermobile))){ 
           console.log("不是完整的11位手机号或者正确的手机号前七位"); 
@@ -127,17 +136,17 @@ class ZmitiOrderApp extends React.Component {
         if(username!=''){
           $.ajax({
             type:'post',
-            url:H5API+'user/send_mobilecode/',
+            url:H5API+'h5/send_mobilecode/',
             data:{
               setmobile:usermobile,
-              product:'需求提交',
+              codetype:3,
             },
             dataType:'json',
             success:function(data){
               console.log(data);
-              //if(data.code==0){ 
-                //console.info("验证码发送success");
-              //}
+              if(data.getmsg==='发送成功'){
+                console.info("验证码发送success");
+              }
             }          
           });  
           s.showModal();//打开弹窗
@@ -156,16 +165,17 @@ class ZmitiOrderApp extends React.Component {
       var mobilecode=s.state.mobilecode;
       $.ajax({
         type:'post',
-        url:H5API+'user/check_mobilecode/',
+        url:H5API+'h5/check_mobilecode/',
         data:{
           setmobile:usermobile,
+          codetype:3,
           code:mobilecode,
         },
         dataType:'json',
         success:function(data){
 
           console.log(data);
-          if(data.code==0){
+          if(data.getmsg==='校验通过'){
             console.info("提交验证码success");
             //验证成功后提交表单
             $.ajax({
@@ -175,9 +185,10 @@ class ZmitiOrderApp extends React.Component {
                 username:s.state.username,
                 usermobile:Trim(s.state.usermobile,'g'),
                 typeid:String(s.state.tValue),
-                cityname:String(s.state.sValue),
+                cityid:String(s.state.sValue),
+                cityname:s.state.cityname,
+                storeid:'',
                 content: s.state.content,
-                mobilecode: s.state.mobilecode,
               },
               success(result){                
                 if(result.getmsg==='提交用车需求成功'){
@@ -209,15 +220,15 @@ class ZmitiOrderApp extends React.Component {
       var usermobile=Trim(s.state.usermobile,'g');
       $.ajax({
             type:'post',
-            url:H5API+'user/send_mobilecode/',
+            url:H5API+'h5/send_mobilecode/',
             data:{
               setmobile:usermobile,
-              product:'需求提交',
+              codetype:3,
             },
             dataType:'json',
             success:function(data){
               console.log(data);
-              if(data.code==0){ 
+              if(data.getmsg==='发送成功'){ 
                 console.info("验证码发送success");
               }
             }          

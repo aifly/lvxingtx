@@ -271,14 +271,15 @@ class ZmitiCarorderApp extends React.Component {
         if(contentusername!=''){
           $.ajax({
             type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            url:H5API+'h5/send_mobilecode/',
             data:{
-              mobile:contentphone
+              setmobile:contentphone,
+              codetype:0,
             },
             dataType:'json',
             success:function(data){
               console.log(data);
-              if(data.code==0){ 
+              if(data.getmsg==='发送成功'){ 
                 console.info("验证码发送success");
               }
             }          
@@ -299,16 +300,17 @@ class ZmitiCarorderApp extends React.Component {
       var mobilecode=s.state.mobilecode;
       $.ajax({
         type:'post',
-        url:'http://www.ev-bluesky.com/index.php/Home/Api/checkSmscode/',
+        url:H5API+'h5/check_mobilecode/',
         data:{
-          mobile:contentphone,
+          setmobile:contentphone,
+          codetype:0,
           code:mobilecode,
         },
         dataType:'json',
         success:function(data){
 
           console.log(data);
-          if(data.code==0){
+          if(data.getmsg==='校验通过'){
             console.info("提交验证码success");
             //验证成功后提交表单
             $.ajax({
@@ -321,7 +323,6 @@ class ZmitiCarorderApp extends React.Component {
                 contentusername:s.state.contentusername,
                 contentphone:contentphone,
                 content:s.state.content,
-                mobilecode: s.state.mobilecode,
               },
               success(result){                
                 if(result.getmsg==='提交订单成功'){
@@ -353,14 +354,15 @@ class ZmitiCarorderApp extends React.Component {
       var contentphone=Trim(s.state.contentphone,'g');
       $.ajax({
             type:'post',
-            url:'http://www.ev-bluesky.com/index.php/Home/Api/sendSms/',
+            url:H5API+'h5/send_mobilecode/',
             data:{
-              mobile:contentphone
+              setmobile:contentphone,
+              codetype:0,
             },
             dataType:'json',
             success:function(data){
               console.log(data);
-              if(data.code==0){ 
+              if(data.getmsg==='发送成功'){ 
                 console.info("验证码发送success");
               }
             }          
