@@ -10,7 +10,6 @@ import IScroll from 'iscroll';
 import {TabBar,Tabs,ListView, Button,Picker, List, Flex, WhiteSpace,SegmentedControl } from 'antd-mobile';
 const H5API='http://api.ev-bluesky.com/v2/';
 const WebSite='http://www.ev-bluesky.com/';
-
 class ZmitiCarlistApp extends React.Component {
     constructor(args) {
         super(...args);
@@ -52,6 +51,7 @@ class ZmitiCarlistApp extends React.Component {
                     swipeable={true}                  
                     prerenderingSiblingsNumber={true}
                     initialPage={0}
+                    useOnPan={false}
                     onChange={this.tabchange.bind(this)}
                     onTabClick={this.tabchange.bind(this)}
                   >
@@ -122,7 +122,7 @@ class ZmitiCarlistApp extends React.Component {
         }
       </div>
       return (
-        <div className="lv-pane-carlist" style={{height:this.state.mainHeight-90}}>
+        <div className="lv-pane-carlist" style={{height:this.state.mainHeight-90,padding:0,overflow:'hidden'}}>
           <div className="am-list">
             <div className="am-list-body">
               <div className="list-view-section-body">
@@ -197,17 +197,25 @@ class ZmitiCarlistApp extends React.Component {
         }
       })
     }
-    //滚动
-    getscrollpage(){
-      var s = this;
-      //console.log('scroll');
-    }
+
     componentWillMount() {
 
     }
 
     componentDidMount() {
-      //setTimeout(() => this.lv.scrollTo(0, 120), 800);
+
+      this.scroll = new IScroll($('.lv-pane-carlist')[0],{
+          scrollbars:true,
+          mouseWheel: true,
+          interactiveScrollbars: true,
+          shrinkScrollbars: 'scale',
+          fadeScrollbars: true,
+          preventDefault:false,//允许默认点击事件
+      });
+
+      setTimeout(() => {
+          this.scroll.refresh();
+      },1000);
 
       this.getdatasource();//默认获取第1页数据
       this.getcitydata(0);

@@ -1,5 +1,12 @@
 import 'antd-mobile/dist/antd-mobile.css';
 import React, {	Component} from 'react';
+import {
+	Router,
+	Route,
+	hashHistory,
+	Link,
+	browserHistory
+} from 'react-router';
 import {TabBar,Flex, Button,Picker, List, WhiteSpace } from 'antd-mobile';
 export default class Zmitimenubar extends Component {
 	constructor(props) {
