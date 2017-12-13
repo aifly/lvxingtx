@@ -41,7 +41,7 @@ class ZmitiCarorderApp extends React.Component {
                   label: '其它',
                   value: 0,
                   children:[{
-                      label: '全部',
+                      label: '其它',
                       value: 0,
                   }]
                 }
@@ -181,9 +181,9 @@ class ZmitiCarorderApp extends React.Component {
           $.each(data.citydata,function(index,item){
               s.state.citydata[0][index]={'label':item.label , 'value':item.value,'children':item.children};
           })
-          //console.log(s.state.citydata,'s.state.citydata');
+          
           s.forceUpdate();
-
+          console.log(s.state.citydata,'s.state.citydata');
         }
       })
     }
@@ -194,7 +194,7 @@ class ZmitiCarorderApp extends React.Component {
 
         this.setState({
             sValue:val,
-            tValue:0,//门店数值初始化
+            tValue:[0],//门店数值初始化
         })
         s.state.carstoredata[0][0]={label: '全部', value:0};
         $.each(citydata,function(index,item){
@@ -227,7 +227,7 @@ class ZmitiCarorderApp extends React.Component {
     //门店数值初始化
     openpicker(){
       this.setState({
-          tValue:0,
+          tValue:[0],
           carstoredata:[
             [
               {
