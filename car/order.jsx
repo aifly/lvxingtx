@@ -38,7 +38,7 @@ class ZmitiCarorderApp extends React.Component {
             citydata:[
               [
                 {
-                  label: '全部',
+                  label: '其它',
                   value: 0,
                   children:[{
                       label: '全部',
@@ -165,7 +165,7 @@ class ZmitiCarorderApp extends React.Component {
                 console.log(s.state.thumbImg,'s.state.thumbImg');
                 s.forceUpdate();
               }
-
+              s.scroll.refresh();
             }
         })
     }
@@ -179,8 +179,7 @@ class ZmitiCarorderApp extends React.Component {
         success(data){
           console.log(data,'getdata');               
           $.each(data.citydata,function(index,item){
-              var mm=index+1;
-              s.state.citydata[0][mm]={'label':item.label , 'value':item.value,'children':item.children};
+              s.state.citydata[0][index]={'label':item.label , 'value':item.value,'children':item.children};
           })
           //console.log(s.state.citydata,'s.state.citydata');
           s.forceUpdate();
@@ -522,21 +521,6 @@ class ZmitiCarorderApp extends React.Component {
                     {this.state.contentphone.length===13 && this.state.contentusername.length!="" ? <div className="lv-pane-orderview-submit-r"  onClick={this.opendialog.bind(this)}>提交订单</div> : <div className="lv-pane-orderview-submit-r">提交订单</div>}
                     <div className="clearfix"></div>
                 </div>
-                {/*<Modal
-                  visible={this.state.modal1}
-                  transparent
-                  maskClosable={false}
-                  onClose={this.onClose.bind(this)}
-                  title="提交成功"
-                  footer={[{ text: 'Ok', onPress: () => { console.log('ok'); this.onClose.bind(this)(); } }]}
-                  wrapProps={{ onTouchStart: this.onWrapTouchStart }}
-                >
-                  <div className="lv-dialog-text">
-                    <Result                      
-                      message="所提交内容已成功完成验证"
-                    />
-                  </div>
-                </Modal>*/}
                 <Modal
                   visible={this.state.modal1}
                   transparent
@@ -588,11 +572,9 @@ class ZmitiCarorderApp extends React.Component {
             shrinkScrollbars: 'scale',
             fadeScrollbars: true,
             preventDefault:false,//允许默认点击事件
-        });
+      });
 
-        setTimeout(() => {
-            this.scroll.refresh();
-        },1000);
+
 
       s.getDetail();
       s.getdatasource();
