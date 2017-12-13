@@ -192,6 +192,7 @@ class ZmitiCarlistApp extends React.Component {
               data:[],
             })            
           }
+          s.scroll.refresh();
           s.forceUpdate();
 
         }
@@ -203,7 +204,8 @@ class ZmitiCarlistApp extends React.Component {
     }
 
     componentDidMount() {
-
+      this.getdatasource();//默认获取第1页数据
+      this.getcitydata(0);
       this.scroll = new IScroll($('.lv-pane-carlist')[0],{
           scrollbars:true,
           mouseWheel: true,
@@ -212,13 +214,6 @@ class ZmitiCarlistApp extends React.Component {
           fadeScrollbars: true,
           preventDefault:false,//允许默认点击事件
       });
-
-      setTimeout(() => {
-          this.scroll.refresh();
-      },1000);
-
-      this.getdatasource();//默认获取第1页数据
-      this.getcitydata(0);
     }
 
 

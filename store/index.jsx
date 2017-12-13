@@ -242,14 +242,17 @@ class ZmitiStoreApp extends React.Component {
         url:H5API+'h5/getcitylist',
         type:'post',
         success(data){
-          //console.log(data,'getcitylist'); 
+          console.log(data,'getcitylist'); 
           s.setState({
             dataLeftMenu:data.citydata,
             citydata:data.citydata,
           })
           $.each(data.citydata,function(index,item){
-              var nn=index+1;
-              s.state.tabs[nn]={'title':item.label, 'value':String(item.value)};
+              if(item.label!='其它'){
+                var nn=index+1;           
+                s.state.tabs[nn]={'title':item.label, 'value':String(item.value)};
+              }
+              
           })
           s.forceUpdate();
         }

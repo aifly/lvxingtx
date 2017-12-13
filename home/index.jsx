@@ -71,7 +71,7 @@ class ZmitiHomeApp extends React.Component {
         </div>
         return (
             <div className="lv-container Index-flex" style={{height:this.state.mainHeight,backgroundColor:'#ffffff'}}>
-            	<div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50,overflow:'auto'}}>
+            	<div className="wrapper" ref="wrapper" style={{height:this.state.mainHeight-50,overflow:'hidden'}}>
             		<div className="scroller">
 		                <div className="Index-flex-wrap">
 		                    <div className="Index-flex-wrap-sub">
@@ -163,16 +163,16 @@ class ZmitiHomeApp extends React.Component {
 		                            <div className="lv-pane-index-column">
 		                                <div className="lv-pndex-index-alignitem">
 		                                	<div className="lv-pane-index-tit-a">
-					                        	<div className="hr15"></div>                          	
+					                        	<div className="hr5"></div>                          	
 					                    		<img src="./assets/images/lv-title.png"/>
-					                    		<div className="hr15"></div>
+					                    		<div className="hr5"></div>
 					                    	</div>
 		                                    <div className="lv-pane-index-column-icon">
 
 		                                        {/*{this.state.columnHeight<210 ? flexpaneA : flexpaneB}*/}
 		                                        {flexpaneA}
 		                                    </div>
-		                                    <div className="hr15"></div>
+		                                    <div className="hr10"></div>
 		                                    <div className="lv-pane-index-title">                                        
 		                                        <a href="./#/about/" className="antm-button-small" aria-disabled="false">
 		                                            <span>关于我们</span>
@@ -264,20 +264,20 @@ class ZmitiHomeApp extends React.Component {
 
     componentDidMount() {
     	var s = this;
-    	/*this.scroll = new IScroll(this.refs['wrapper'],{
+    	this.scroll = new IScroll(this.refs['wrapper'],{
             scrollbars:true,
             mouseWheel: true,
             interactiveScrollbars: true,
             shrinkScrollbars: 'scale',
             fadeScrollbars: true,
             preventDefault:false,//允许默认点击事件
-        });*/
+        });
         const section=document.getElementsByTagName('section');
         const icoPane=this.refs['Index-column-pane'];
         const clientHeight=document.documentElement.clientHeight;
 
         setTimeout(() => {
-            //this.scroll.refresh();
+            this.scroll.refresh();
             //console.log(section[0].offsetHeight);//其它元素高度,50为底部高度
             this.state.columnHeight=clientHeight-section[0].offsetHeight-50;//关于我们高度
             console.log(this.state.columnHeight,'关于我们高度');

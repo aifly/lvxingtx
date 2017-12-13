@@ -116,7 +116,7 @@ class ZmitiStoreChargingApp extends React.Component {
                             <div className="am-tabs-tab-bar-wrap" >
                               
                                 <Tabs.DefaultTabBar tabs={this.state.tabs}
-                                  page={8}
+                                  page={10}
                                   tabBarPosition="left"
                                   goToTab={this.tabchange.bind(this)}
                                   activeTab={this.state.activeTab}
@@ -239,8 +239,10 @@ class ZmitiStoreChargingApp extends React.Component {
             citydata:data.citydata,
           })
           $.each(data.citydata,function(index,item){
-              var nn=index+1;
-              s.state.tabs[nn]={'title':item.label, 'value':String(item.value)};
+              if(item.label!='其它'){
+                var nn=index+1;           
+                s.state.tabs[nn]={'title':item.label, 'value':String(item.value)};
+              }
           })
           s.forceUpdate();
         }

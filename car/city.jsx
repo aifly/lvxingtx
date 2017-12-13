@@ -205,6 +205,7 @@ class ZmitiCarcityApp extends React.Component {
               data:[],
             })            
           }
+          s.scroll.refresh();
           s.forceUpdate();
 
         }
@@ -224,10 +225,6 @@ class ZmitiCarcityApp extends React.Component {
         fadeScrollbars: true,
         preventDefault:false,//允许默认点击事件
       });
-
-      setTimeout(() => {
-          this.scroll.refresh();
-      },1000);
 
       this.getdatasource();//默认获取第1页数据
       let typeid=this.props.params.id || 0;

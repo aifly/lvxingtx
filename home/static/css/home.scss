@@ -72,11 +72,14 @@ input, textarea {
   height: 0;
   font-size: 0;
 }
-.hr10,.hr15{
+.hr5,.hr10,.hr15{
   line-height: 0;
   font-size: 0;
   overflow: hidden;
   clear: both;
+}
+.hr5{
+  height: 5px;  
 }
 .hr10{
   height: 10px;  
@@ -449,7 +452,10 @@ html:not([data-scale]) .lv-pane-index-column .am-list-body::after{
   .lv-pane-index-column-icon .flex-container .lv-item-icon img {
     width: 40%;
   }
-  .hr15{
+  .hr10,.idx-hr10{
+    height:5px;
+  }
+  .hr15,.idx-hr15{
     height:5px;
   }
   .lv-pane-index-list-01 .am-list-item {
